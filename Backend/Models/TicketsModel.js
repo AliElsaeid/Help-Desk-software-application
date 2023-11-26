@@ -1,19 +1,34 @@
 const mongoose = require('mongoose');
+const User = require('./UserModel');
 
 const ticketSchema = new mongoose.Schema({
-  UserID: { type: mongoose.Schema.Types.ObjectId, ref: 'Users' },
-  Category: { type: String, required: true },
-  SubCategory: { type: String, required: true },
-  Priority: { type: Number, required: true },
-  Status: { type: String, required: true },
-  AgentID: { type: mongoose.Schema.Types.ObjectId, ref: 'Users' },
-  Description: String,
-  Resolution: String,
-  CreatedAt: { type: Date, default: Date.now },
-  UpdatedAt: { type: Date, default: Date.now },
-  ClosedAt: Date,
+  user: {
+    type: User.schema,
+    required: true,
+  },
+  category: String,
+  subCategory: String,
+  priority: {
+    type: Number,
+    required: true,
+  },
+  status: String,
+  agent: {
+    type: User.schema,
+  },
+  description: String,
+  resolution: String,
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now,
+  },
+  closedAt: Date,
 });
 
-const TicketsModel = mongoose.model('Tickets', ticketSchema);
+const Ticket = mongoose.model('Ticket', ticketSchema);
 
-module.exports = TicketsModel;
+module.exports = Ticket;

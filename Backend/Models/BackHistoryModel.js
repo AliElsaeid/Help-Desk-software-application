@@ -1,12 +1,21 @@
 const mongoose = require('mongoose');
+const User = require('./UserModel');
 
 const backupHistorySchema = new mongoose.Schema({
-  UserID: { type: mongoose.Schema.Types.ObjectId, ref: 'Users' },
-  BackupDate: { type: Date, default: Date.now },
-  BackupLocation: { type: String, required: true },
-  Description: String,
+  user: {
+    type: User.schema,
+  },
+  backupDate: {
+    type: Date,
+    default: Date.now,
+  },
+  backupLocation: {
+    type: String,
+    required: true,
+  },
+  description: String,
 });
 
-const BackupHistoryModel = mongoose.model('BackupHistory', backupHistorySchema);
+const BackupHistory = mongoose.model('BackupHistory', backupHistorySchema);
 
-module.exports = BackupHistoryModel;
+module.exports = BackupHistory;
