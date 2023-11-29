@@ -3,6 +3,7 @@ const app = express();
 const mongoose = require("mongoose");
 require('dotenv').config();
 const url = require('url');
+const usersRoutes = require("./Routes/userRoutes");
 
 
 
@@ -16,7 +17,7 @@ app.use((req, res, next) => {
 
 
 
-
+app.use("/api/v1/users", usersRoutes);
 
 const db_name = "Help_Desk";
 
