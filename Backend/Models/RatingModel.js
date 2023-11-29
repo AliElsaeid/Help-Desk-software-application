@@ -1,12 +1,21 @@
 const mongoose = require('mongoose');
+const Ticket = require('./TicketModel');
+const User = require('./UserModel');
 
-const ratingSchema = new mongoose.Schema({
-  TicketID: { type: mongoose.Schema.Types.ObjectId, ref: 'Tickets' },
-  UserID: { type: mongoose.Schema.Types.ObjectId, ref: 'Users' },
-  Rating: { type: Number, required: true },
-  Comment: String,
+const ratingsSchema = new mongoose.Schema({
+  ticket: {
+    type: Ticket.schema,
+  },
+  user: {
+    type: User.schema,
+  },
+  rating: {
+    type: Number,
+    required: true,
+  },
+  comment: String,
 });
 
-const RatingsModel = mongoose.model('Ratings', ratingSchema);
+const Ratings = mongoose.model('Ratings', ratingsSchema);
 
-module.exports = RatingsModel;
+module.exports = Ratings;

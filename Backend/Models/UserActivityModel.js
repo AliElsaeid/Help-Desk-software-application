@@ -1,12 +1,24 @@
 const mongoose = require('mongoose');
+const User = require('./UserModel');
+const Sessions = require('./SessionsModel');
 
 const userActivityLogSchema = new mongoose.Schema({
-  UserID: { type: mongoose.Schema.Types.ObjectId, ref: 'Users' },
-  SessionID: { type: mongoose.Schema.Types.ObjectId, ref: 'Sessions' },
-  ActivityType: { type: String, required: true },
-  Timestamp: { type: Date, default: Date.now },
+  user: {
+    type: User.schema,
+  },
+  session: {
+    type: Sessions.schema,
+  },
+  activityType: {
+    type: String,
+    required: true,
+  },
+  timestamp: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
-const UserActivityLogModel = mongoose.model('UserActivityLog', userActivityLogSchema);
+const UserActivityLog = mongoose.model('UserActivityLog', userActivityLogSchema);
 
-module.exports = UserActivityLogModel;
+module.exports = UserActivityLog;

@@ -1,6 +1,10 @@
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
+require('dotenv').config();
+const url = require('url');
+
+
 
 
 app.use(express.json());
@@ -11,28 +15,26 @@ app.use((req, res, next) => {
 });
 
 
+
+
+
 const db_name = "Help_Desk";
-// * Cloud Connection
-// const db_url = `mongodb+srv://TestUser:TestPassword@cluster0.lfqod.mongodb.net/${db_name}?retryWrites=true&w=majority`;
-// * Local connection
-const db_url = `mongodb://127.0.0.1:27017/${db_name}`; // if it gives error try to change the localhost to 127.0.0.1
 
-// ! Mongoose Driver Connection
+const db_url = `mongodb://127.0.0.1:27017/${db_name}`;
 
-const connectionOptions = {
-  useUnifiedTopology: true,
+const dbOptions = {
   useNewUrlParser: true,
+  useUnifiedTopology: true,
 };
 
 mongoose
-  .connect(db_url, connectionOptions)
-  .then(() => console.log("mongoDB connected"))
+  .connect(db_url, dbOptions)
+  .then(() => console.log("MongoDB connected"))
   .catch((e) => {
-    console.log(e);
+    console.error("MongoDB connection error:", e.message);
   });
 
 app.use(function (req, res, next) {
   return res.status(404).send("404");
 });
 app.listen(3000, () => console.log("server started"));
-
