@@ -17,15 +17,18 @@ app.use((req, res, next) => {
 
 
 
-const mongoUrl = url.parse(process.env.MONGO_URI);
+
+const db_name = "Help_Desk";
+
+const db_url = `mongodb://127.0.0.1:27017/${db_name}`;
+
 const dbOptions = {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-  dbName: mongoUrl.pathname.replace(/^\//, ''), // Extracts the database name from the pathname
 };
 
 mongoose
-  .connect(process.env.MONGO_URI, dbOptions)
+  .connect(db_url, dbOptions)
   .then(() => console.log("MongoDB connected"))
   .catch((e) => {
     console.error("MongoDB connection error:", e.message);
