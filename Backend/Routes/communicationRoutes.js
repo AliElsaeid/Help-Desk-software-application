@@ -30,7 +30,7 @@ router.post('/createRoom', async (req, res) => {
     
       roomName: 'Real-Time Chat',
       description: existingTicket.description,
-      ticket: existingTicket,
+      ticket: ticket_id,
     });
 
     const savedRoom = await newRoom.save();
@@ -55,19 +55,25 @@ router.post('/createRoom', async (req, res) => {
       }
   
       
-      const userRole = user.role ? user.role.roleName : 'user';
+      const userRole = user.role 
   
-   
+      console.log({userRole});
       let chatRooms;
       if (userRole === 'admin') {
         
         chatRooms = await Room.find();
       } else if (userRole === 'agent') {
-        
-        chatRooms = await Room.find({ 'ticket.agent._id': userId });
+        const existingTicket = await Tickets.find({'agent': userId})
+       const ticket_id=existingTicket._id
+        chatRooms = await Room.find({ 'ticket': ticket_id });
       } else {
-      
-        chatRooms = await Room.find({ 'ticket.user._id': userId });
+        const existingTicket = await Tickets.find({'user': userId})
+        console.log({existingTicket});
+       
+       
+    
+        chatRooms = await Room.find({ 'ticket': existingTicket});
+        
       }
   
       res.status(200).json(chatRooms);
@@ -85,25 +91,22 @@ router.post('/createRoom', async (req, res) => {
   router.post('/sendMessage', async (req, res) => {
     try {
       const { roomID, senderID, content } = req.body;
-     //const user = await User.findById(senderID);
-     // const rooms= await Room.findById(roomID);
-      //if (!user) {
-        //return res.status(400).json({ error: 'Invalid user' });
-      // //}
-      // if (!rooms) {
-      //   return res.status(400).json({ error: 'Invalid room' });
-      // }
-
-     
-
+  
       const newChatMessage = new ChatMessage({
-        
-        room: roomID, 
-        sender_id:senderID , 
+        room: roomID,
+        sender: senderID,
         content,
-       
       });
+  
+  
       const savedMessage = await newChatMessage.save();
+  
+      await Room.findByIdAndUpdate(
+        roomID,
+        { $push: { messages: savedMessage._id } },
+        { new: true }
+      );
+  
       res.status(201).json(savedMessage);
     } catch (error) {
       console.error(error);
@@ -111,9 +114,11 @@ router.post('/createRoom', async (req, res) => {
     }
   });
   
+  
   router.get('/getChatMessages', async (req, res) => {
     try {
-      const chatMessages = await ChatMessage.find().populate('');
+      const { roomID } = req.body;
+      const chatMessages = await ChatMessage.find({'room': roomID});
       res.status(200).json(chatMessages);
     } catch (error) {
       console.error(error);
@@ -123,10 +128,13 @@ router.post('/createRoom', async (req, res) => {
 
 
   const transporter = nodemailer.createTransport({
-    service: 'gmail',
+  
+    host: 'smtp.zoho.eu',
+    port: 465,
+    secure: true,
     auth: {
       user: 'uni.help.desk23@gmail.com', 
-      pass: 'Giu123uni45',
+      pass: 'Giu123Team45',
     },
   });
   

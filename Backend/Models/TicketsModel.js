@@ -14,7 +14,7 @@ const ticketSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
   closedAt: Date,
-  ratings: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Rating' }]
+  ratings: { type: mongoose.Schema.Types.ObjectId, ref: 'Rating' }
 });
 
 const Ticket = mongoose.model('Ticket', ticketSchema);
