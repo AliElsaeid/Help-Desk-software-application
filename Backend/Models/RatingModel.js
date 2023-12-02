@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Ticket = require('./TicketModel');
+const Ticket = require('./TicketsModel');
 const User = require('./UserModel');
 
 const ratingsSchema = new mongoose.Schema({

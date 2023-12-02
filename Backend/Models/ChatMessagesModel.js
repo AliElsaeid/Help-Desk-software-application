@@ -1,13 +1,17 @@
 const mongoose = require('mongoose');
-const Room = require('./RoomModel');
 const User = require('./UserModel');
+const Ticket = require('./TicketsModel'); // Assuming you have a Ticket model
 
 const chatMessageSchema = new mongoose.Schema({
   room: {
-    type: Room.schema,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Room',
+    required: true,
   },
   sender: {
-    type: User.schema,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
   },
   content: {
     type: String,
