@@ -7,13 +7,16 @@ app.use(express.json());
 
 
 
-const communicationRoutes = require('./Routes/communicationRoutes');
+// const communicationRoutes = require('./Routes/communicationRoutes');
+const user= require('./Routes/articleRoutes');
+// app.use("/api/v1/articles",articleRoutes);
 
 
 
-app.use("/api/v1/communication", communicationRoutes);
 
-const user= require('./Routes/userRoutes');
+// app.use("/api/v1/communication", communicationRoutes);
+
+// const user= require('./Routes/userRoutes');
 
 
 
