@@ -3,6 +3,7 @@ const express = require("express");
 const router = express.Router();
 const authorizationMiddleware = require('../Middleware/authorizationMiddleware');
 const userModel = require("../Models/UserModel");
+const RoleModel = require("../Models/RoleModel");
 const sessionsModel = require("../Models/SessionsModel");
 const jwt = require("jsonwebtoken");
 require('dotenv').config();
@@ -39,7 +40,9 @@ router.post("/login", async (req, res) => {
                 userId: user._id, // Change to userId
                 username: user.username,
                 password: user.password,
-                email: user.email            },
+                email: user.email,
+                role: user.role        
+            },
             token,
             expiryTime: expiresAt,
         });
@@ -64,8 +67,10 @@ router.post("/login", async (req, res) => {
 // * register
 router.post("/register", async (req, res) => {
     try {
-        const { username, email, password, firstName, lastName, role } = req.body;
+        const { username, email, password, firstName, lastName } = req.body;
         const existingUser = await userModel.findOne({ email });
+        const roleidd="656b4144baa4d6ac99dffb20";
+        const rolling = await RoleModel.findById(roleidd);
 
         if (existingUser) {
             return res.status(409).json({ message: "User already exists" });
@@ -79,8 +84,10 @@ router.post("/register", async (req, res) => {
             username,
             firstName,
             lastName,
-            role,
+            role:rolling
+            
         });
+     
 
         await newUser.save();
 
@@ -112,7 +119,7 @@ router.get("/:id", authorizationMiddleware(['admin', 'customer']), async (req, r
 });
 
 // * Update one user
-router.put("/:id", authorizationMiddleware(['admin', 'customer']), async (req, res) => {
+router.put("/:id", authorizationMiddleware(['admin', 'customer','agent']), async (req, res) => {
     try {
         const user = await userModel.findByIdAndUpdate(
             req.params.id,
