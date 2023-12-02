@@ -3,7 +3,9 @@ const User = require('./UserModel');
 
 const sessionsSchema = new mongoose.Schema({
   user: {
-    type: User.schema,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
   },
   token: {
     type: String,

@@ -3,8 +3,21 @@ const app = express();
 const mongoose = require("mongoose");
 require('dotenv').config();
 const url = require('url');
+app.use(express.json());
 
 
+
+const communicationRoutes = require('./Routes/communicationRoutes');
+
+
+
+app.use("/api/v1/communication", communicationRoutes);
+
+const user= require('./Routes/userRoutes');
+
+
+
+app.use("/api/v1/user", user);
 
 
 app.use(express.json());

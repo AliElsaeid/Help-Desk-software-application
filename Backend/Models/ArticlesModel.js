@@ -17,9 +17,8 @@ const ArticleSchema = new mongoose.Schema({
     required: true,
   },
   category: String,
-  administrator: {
-    type: User.schema,
-  },
+
+
 });
 
 const ArticleModel = mongoose.model('Article', ArticleSchema);

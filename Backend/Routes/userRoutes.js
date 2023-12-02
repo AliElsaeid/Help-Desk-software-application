@@ -3,7 +3,6 @@ const express = require("express");
 const router = express.Router();
 const authorizationMiddleware = require('../Middleware/authorizationMiddleware');
 const userModel = require("../Models/UserModel");
-const RoleModel = require("../Models/RoleModel");
 const sessionsModel = require("../Models/SessionsModel");
 const jwt = require("jsonwebtoken");
 require('dotenv').config();
@@ -68,9 +67,9 @@ router.post("/login", async (req, res) => {
 router.post("/register", async (req, res) => {
     try {
         const { username, email, password, firstName, lastName } = req.body;
-        const existingUser = await userModel.findOne({ email });
-        const roleidd="656b4144baa4d6ac99dffb20";
-        const rolling = await RoleModel.findById(roleidd);
+        const existingUser = await userModel.findOne({email});
+      
+        
 
         if (existingUser) {
             return res.status(409).json({ message: "User already exists" });
@@ -84,7 +83,7 @@ router.post("/register", async (req, res) => {
             username,
             firstName,
             lastName,
-            role:rolling
+            role:"user"
             
         });
      
