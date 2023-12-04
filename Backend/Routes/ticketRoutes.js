@@ -102,6 +102,41 @@ router.put('/:id', async (req, res) => {
   }
 });
 
+
+
+
+
+// Delete Ticket
+router.delete('/:id', async (req, res) => {
+  try {
+    const ticketId = req.params.id;
+
+    // Find the ticket by ID
+    const ticket = await Ticket.findById(ticketId);
+
+    if (!ticket) {
+      return res.status(404).json({ message: 'Ticket not found' });
+    }
+
+    // Remove the ticket ID from the user's tickets array
+    await User.findByIdAndUpdate(ticket.user, { $pull: { tickets: ticketId } });
+
+    // Delete the ticket
+    await Ticket.findByIdAndDelete(ticketId);
+
+    return res.status(200).json({ message: 'Ticket deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting ticket:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+
+
+
+
+
+
 // ... (other routes)
 
 module.exports = router;
