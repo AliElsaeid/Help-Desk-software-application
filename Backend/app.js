@@ -19,6 +19,12 @@ const user= require('./Routes/userRoutes');
 
 app.use("/api/v1/user", user);
 
+const tickets= require('./Routes/ticketRoutes');
+
+
+
+app.use("/api/v1/ticket", tickets);
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
