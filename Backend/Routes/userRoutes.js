@@ -28,20 +28,14 @@ router.post("/login", async (req, res) => {
 
         // Generate a JWT token
         const token = jwt.sign(
-            { userId: user._id, role: user.role }, // Change 'user' to 'userId'
+            { userId: user._id, role: user.role },
             secretKey,
             { expiresIn: 3 * 60 * 60 } // in seconds
         );
 
         // Save session
-        let newSession = new sessionsModel({
-            user: {
-                userId: user._id, // Change to userId
-                username: user.username,
-                password: user.password,
-                email: user.email,
-                role: user.role        
-            },
+        const newSession = new sessionsModel({
+            user: user._id, // Change to user._id
             token,
             expiryTime: expiresAt,
         });
@@ -53,7 +47,7 @@ router.post("/login", async (req, res) => {
                 expires: expiresAt,
                 withCredentials: true,
                 httpOnly: false,
-                sameSite: 'none' // Change 'SameSite' to 'sameSite'
+                sameSite: 'none',
             })
             .status(200)
             .json({ message: "Login successful", user });
@@ -108,7 +102,7 @@ router.get("/", authorizationMiddleware(['admin']), async (req, res) => {
 });
 
 // * Get one user
-router.get("/:id", authorizationMiddleware(['admin', 'customer']), async (req, res) => {
+router.get("/:id", authorizationMiddleware('admin'), async (req, res) => {
     try {
         const user = await userModel.findById(req.params.id);
         return res.status(200).json(user);
@@ -118,7 +112,7 @@ router.get("/:id", authorizationMiddleware(['admin', 'customer']), async (req, r
 });
 
 // * Update one user
-router.put("/:id", authorizationMiddleware(['admin', 'customer','agent']), async (req, res) => {
+router.put("/:id", authorizationMiddleware(['user','admin']), async (req, res) => {
     try {
         const user = await userModel.findByIdAndUpdate(
             req.params.id,
@@ -138,9 +132,26 @@ router.put("/:id", authorizationMiddleware(['admin', 'customer','agent']), async
         return res.status(500).json({ message: error.message });
     }
 });
+//update user role
+router.put("/role/:id", authorizationMiddleware(['admin']), async (req, res) => {
+    try {
+        const user = await userModel.findByIdAndUpdate(
+            req.params.id,
+            {
+                role :req.body.role
+            },
+            {
+                new: true,
+            }
+        );
+        return res.status(200).json({ user, msg: "User role  updated successfully" });
+    } catch (error) {
+        return res.status(500).json({ message: error.message });
+    }
+});
 
 // * Delete one user
-router.delete("/:id", authorizationMiddleware(['admin']), async (req, res) => {
+router.delete("/:id", authorizationMiddleware(['admin','user']), async (req, res) => {
     try {
         const user = await userModel.findByIdAndDelete(req.params.id);
         return res.status(200).json({ user, msg: "User deleted successfully" });
