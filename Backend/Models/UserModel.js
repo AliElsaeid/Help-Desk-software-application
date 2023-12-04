@@ -1,29 +1,17 @@
 const mongoose = require('mongoose');
-const Role = require('./RoleModel.js');
+
 
 const userSchema = new mongoose.Schema({
-  username: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-  password: {
-    type: String,
-    required: true,
-  },
-  role: {
-    type: Role.schema,
-    
-  },
+  username: { type: String, unique: true, required: true },
+  password: { type: String, required: true },
+  role: { type: String, required: true },
   firstName: String,
   lastName: String,
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-  },
+  email: { type: String, unique: true },
+  tickets: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Ticket' }],
+  sessions: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Session' }]
 });
 
-module.exports  = mongoose.model('User', userSchema);
+const User = mongoose.model('User', userSchema);
 
-module.exports.Schema = userSchema;
+module.exports = User;
