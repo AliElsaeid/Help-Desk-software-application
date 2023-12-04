@@ -14,7 +14,8 @@ const communicationRoutes = require('./Routes/communicationRoutes');
 app.use("/api/v1/communication", communicationRoutes);
 
 const user= require('./Routes/userRoutes');
-
+const appearance=require('./Routes/AppearanceRoutes');
+app.use("/api/v1/appearance", appearance);
 
 
 app.use("/api/v1/user", user);
