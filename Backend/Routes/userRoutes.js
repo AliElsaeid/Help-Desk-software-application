@@ -132,6 +132,23 @@ router.put("/:id", authorizationMiddleware(['user','admin']), async (req, res) =
         return res.status(500).json({ message: error.message });
     }
 });
+//update user role
+router.put("/role/:id", authorizationMiddleware(['admin']), async (req, res) => {
+    try {
+        const user = await userModel.findByIdAndUpdate(
+            req.params.id,
+            {
+                role :req.body.role
+            },
+            {
+                new: true,
+            }
+        );
+        return res.status(200).json({ user, msg: "User role  updated successfully" });
+    } catch (error) {
+        return res.status(500).json({ message: error.message });
+    }
+});
 
 // * Delete one user
 router.delete("/:id", authorizationMiddleware(['admin','user']), async (req, res) => {
