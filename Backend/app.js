@@ -3,11 +3,7 @@ const app = express();
 const mongoose = require("mongoose");
 require('dotenv').config();
 const url = require('url');
-<<<<<<< HEAD
-const usersRoutes = require("./Routes/userRoutes");
-=======
 app.use(express.json());
->>>>>>> dd225bf1e00ed9a6e47093f7f6ea12555549b507
 
 
 
