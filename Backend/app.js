@@ -29,7 +29,6 @@ app.use((req, res, next) => {
 
 
 
-app.use("/api/v1/users", usersRoutes);
 
 const db_name = "Help_Desk";
 
