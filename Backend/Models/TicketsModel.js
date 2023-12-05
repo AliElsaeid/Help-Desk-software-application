@@ -6,7 +6,7 @@ const ticketSchema = new mongoose.Schema({
   user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   category: String,
   subCategory: String,
-  priority: Number,
+  priority: String,
   status: String,
   agent: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   description: String,
