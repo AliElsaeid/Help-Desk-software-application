@@ -102,6 +102,77 @@ router.put('/:id', async (req, res) => {
   }
 });
 
+// Get Ticket by ID
+
+router.get('/getTickets', async (req, res) => {
+  try {
+    const { userId } = req.body;
+
+
+    // Check if the user making the request exists
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    const userRole = user.role;
+    console.log(userRole);
+
+    let result;
+
+    if (userRole === 'admin') {
+      // Admin has access to all tickets
+      result = await Ticket.find(); // Corrected from Issues.find() to Ticket.find()
+    } else if (userRole === 'agent') {
+      // Agent has access to tickets assigned to them
+      result = await Ticket.find({ 'agent': userId });
+    } else {
+      // Customer has access to their own tickets
+      result = await Ticket.find({ user: userId });
+    }
+
+    if (!result || result.length === 0) {
+      return res.status(403).json({ error: 'Unauthorized. You do not have access to any tickets.' });
+    }
+
+    return res.status(200).json(result);
+  } catch (error) {
+    console.error('Error getting tickets:', error);
+    res.status(500).json({ error: 'Server error', details: error.message });
+  }
+});
+
+
+
+// Delete Ticket
+router.delete('/:id', async (req, res) => {
+  try {
+    const ticketId = req.params.id;
+
+    // Find the ticket by ID
+    const ticket = await Ticket.findById(ticketId);
+
+    if (!ticket) {
+      return res.status(404).json({ message: 'Ticket not found' });
+    }
+
+    // Remove the ticket ID from the user's tickets array
+    await User.findByIdAndUpdate(ticket.user, { $pull: { tickets: ticketId } });
+
+    // Delete the ticket
+    await Ticket.findByIdAndDelete(ticketId);
+
+    return res.status(200).json({ message: 'Ticket deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting ticket:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+
+
+
+
 
 
 // ... (other routes)
