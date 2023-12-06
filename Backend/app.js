@@ -2,16 +2,15 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 require('dotenv').config();
-const url = require('url');
+const urlModule = require('url');
 app.use(express.json());
 
 
 
 const communicationRoutes = require('./Routes/communicationRoutes');
 
-// const tickets= require('./Routes/ticketRoutes');
-
-// app.use("/api/v1/ticket", tickets);
+const ticketsRoutes = require('./Routes/ticketRoutes');
+app.use("/api/v1/ticket", ticketsRoutes);
 
 
 app.use("/api/v1/communication", communicationRoutes);

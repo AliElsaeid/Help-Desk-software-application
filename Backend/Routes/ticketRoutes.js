@@ -1,27 +1,43 @@
 const express = require('express');
 const router = express.Router();
-// const authorizationMiddleware = require('../Middleware/authorizationMiddleware');
+
 const Ticket = require('../Models/TicketsModel');
 const User = require('../Models/UserModel');
 
 
+const axios = require('axios');
+const fetchDataFromFastAPI = async (ticketId) => {
+  try {
+    const response = await axios.post('http://127.0.0.1:8000/predict_assignment', {
+      ticket_id: ticketId,
+    });
 
-// Create Ticket
+    const predictionResult = response.data;
+    console.log('Prediction Result:', predictionResult);
+  } catch (error) {
+    console.error('Error fetching data from FastAPI:', error.message);
+  }
+};
+
+
+
+
+
+
 router.post('/create', async (req, res) => {
   try {
     const { userId, category, subCategory ,description} = req.body;
 
-    // Check if the category and subCategory are valid
-    const validCategories = ['Hardware', 'Software', 'Network'];
+    const validCategories = ['hardware', 'software', 'network'];
     const validSubCategories = {
       Hardware: ['Desktops', 'Laptops', 'Printers', 'Servers', 'Networking equipment'],
       Software: ['Operating system', 'Application software', 'Custom software', 'Integration issues'],
       Network: ['Email issues', 'Internet connection problems', 'Website errors'],
     };
 
-    if (!validCategories.includes(category) || !validSubCategories[category].includes(subCategory)) {
-      return res.status(400).json({ message: 'Invalid category or subcategory' });
-    }
+
+
+   
 
    
 
@@ -30,16 +46,21 @@ router.post('/create', async (req, res) => {
       user: userId,
       category,
       subCategory,
-      priority:"High",
+      priority:"high",
       description,
-      status:"Pending",
+      status:"open",
       createdAt: new Date(),
     });
 
-    // Update the user's tickets array
-    await User.findByIdAndUpdate(userId, { $push: { tickets: newTicket._id } });
 
+
+
+
+    await User.findByIdAndUpdate(userId, { $push: { tickets: newTicket._id } });
     await newTicket.save();
+
+   fetchDataFromFastAPI(newTicket._id);
+
 
     return res.status(201).json({ message: 'Ticket created successfully', ticket: newTicket });
   } catch (error) {
@@ -47,3 +68,5 @@ router.post('/create', async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 });
+
+module.exports = router;
