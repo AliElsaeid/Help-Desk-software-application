@@ -146,29 +146,13 @@ router.get('/getTickets', async (req, res) => {
 // Get Ticket by ID
 router.get('/:id', async (req, res) => {
   try {
-    const { userId } = req.body;
-
-    // Check if the user making the request exists
-    const user = await User.findById(userId);
-    if (!user) {
-      return res.status(404).json({ error: 'User not found' });
-    }
-
-    const userRole = user.role;
-    console.log(userRole);
+  
 
     let result;
 
-    if (userRole === 'admin') {
-      // Admin has access to all tickets
-      result = await Ticket.find();
-    } else if (userRole === 'agent') {
-      // Agent has access to tickets assigned to them
-      result = await Ticket.find({ 'agent': userId });
-    } else {
-      // Customer has access to their own tickets
-      result = await Ticket.find({ _id: req.params.id, user: userId });
-    }
+
+    result = await Ticket.find({ _id: req.params.id});
+  
 
     if (!result || result.length === 0) {
       return res.status(403).json({ error: 'Unauthorized. You do not have access to this ticket.' });
