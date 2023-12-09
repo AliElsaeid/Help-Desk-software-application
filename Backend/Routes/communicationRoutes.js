@@ -7,6 +7,9 @@ const User = require('../Models/UserModel');
 const { v4: uuidv4 } = require('uuid');
 
 const Tickets = require('../Models/TicketsModel');
+var crypto = require('crypto');
+
+var cypherKey = "mySecretKey";
 
 
 
@@ -84,20 +87,38 @@ router.post('/createRoom', async (req, res) => {
   });
 
 
+ 
 
 
+  const key = 'password';
+  function encrypt(text, key) {
+    const cipher = crypto.createCipher('aes256', key);
+    let encrypted = cipher.update(text, 'utf8', 'hex') + cipher.final('hex');
+    return encrypted;
+  }
+  
+  // Decryption function
+  function decrypt(text, key) {
+    const decipher = crypto.createDecipher('aes256', key);
+    let decrypted = decipher.update(text, 'hex', 'utf8') + decipher.final('utf8');
+    return decrypted;
+  }
   
 
   router.post('/sendMessage', async (req, res) => {
     try {
       const { roomID, senderID, content } = req.body;
+
+      const encryptedContent = encrypt(content, key);
+
   
       const newChatMessage = new ChatMessage({
         room: roomID,
         sender: senderID,
-        content,
+        content:encryptedContent,
       });
   
+
   
       const savedMessage = await newChatMessage.save();
   
@@ -118,8 +139,18 @@ router.post('/createRoom', async (req, res) => {
   router.get('/getChatMessages', async (req, res) => {
     try {
       const { roomID } = req.body;
-      const chatMessages = await ChatMessage.find({'room': roomID});
-      res.status(200).json(chatMessages);
+
+
+      const chatMessages = await ChatMessage.find({ 'room': roomID });
+      
+      const decryptedMessages = chatMessages.map(message => ({
+        ...message._doc,
+        content: decrypt(message.content, key),
+      }));
+
+  
+  
+      res.status(200).json(decryptedMessages);
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: 'Internal Server Error' });
@@ -128,13 +159,15 @@ router.post('/createRoom', async (req, res) => {
 
 
   const transporter = nodemailer.createTransport({
-  
-    host: 'smtp.zoho.eu',
-    port: 465,
-    secure: true,
+    service: 'gmail',
+    host:"stmp.gmail.com",
+    port:587,
+    secure:false,
+
+
     auth: {
-      user: 'uni.help.desk23@gmail.com', 
-      pass: 'Giu123Team45',
+      user: 'uni.help.desk23@gmail.com',
+      pass: 'eoaf iwuh zmvi wccr',
     },
   });
   
@@ -149,7 +182,10 @@ router.post('/createRoom', async (req, res) => {
       }
   
       const mailOptions = {
-        from: 'uni.help.desk23@gmail.com', 
+        from: {
+          name:"Uni Help_Desk",
+         address: 'uni.help.desk23@gmail.com'
+      }, 
         to: user.email,
         subject,
         text: message,
@@ -165,4 +201,4 @@ router.post('/createRoom', async (req, res) => {
     }
   });
   
-  module.exports = router;
+ module.exports = router;
