@@ -2,12 +2,15 @@
 const express = require("express");
 const router = express.Router();
 const authorizationMiddleware = require('../Middleware/authorizationMiddleware');
+const authenticationMiddleware = require('../Middleware/authenticationMiddleware');
+
 const userModel = require("../Models/UserModel");
 const sessionsModel = require("../Models/SessionsModel");
 const jwt = require("jsonwebtoken");
 require('dotenv').config();
 const secretKey = process.env.SECRET_KEY;
 const bcrypt = require("bcrypt");
+
 
 router.post("/login", async (req, res) => {
     try {
@@ -20,7 +23,7 @@ router.post("/login", async (req, res) => {
 
         const passwordMatch = await bcrypt.compare(password, user.password);
         if (!passwordMatch) {
-            return res.status(405).json({ message: "Incorrect password" });
+            return res.status(401).json({ message: "Incorrect password" });
         }
 
         const currentDateTime = new Date();
@@ -35,7 +38,7 @@ router.post("/login", async (req, res) => {
 
         // Save session
         const newSession = new sessionsModel({
-            user: user._id, // Change to user._id
+            user: user._id,
             token,
             expiryTime: expiresAt,
         });
@@ -47,7 +50,7 @@ router.post("/login", async (req, res) => {
                 expires: expiresAt,
                 withCredentials: true,
                 httpOnly: false,
-                sameSite: 'none',
+                sameSite: 'strict', // or 'lax' based on your requirements
             })
             .status(200)
             .json({ message: "Login successful", user });

@@ -4,6 +4,8 @@ const router = express.Router();
 const Ticket = require('../Models/TicketsModel');
 const User = require('../Models/UserModel');
 
+const authorize  = require('../Middleware/authorizationMiddleware');
+const authenticationMiddleware = require('../Middleware/authenticationMiddleware');
 
 const axios = require('axios');
 const fetchDataFromFastAPI = async (ticketId) => {
@@ -24,9 +26,9 @@ const fetchDataFromFastAPI = async (ticketId) => {
 
 
 
-router.post('/create', async (req, res) => {
+router.post('/create',authenticationMiddleware, async (req, res) => {
   try {
-    const { userId, category, subCategory ,description} = req.body;
+    const { userId, category,priority, subCategory ,description} = req.body;
 
     const validCategories = ['hardware', 'software', 'network'];
     const validSubCategories = {
@@ -46,7 +48,7 @@ router.post('/create', async (req, res) => {
       user: userId,
       category,
       subCategory,
-      priority:"high",
+      priority:priority,
       description,
       status:"open",
       createdAt: new Date(),

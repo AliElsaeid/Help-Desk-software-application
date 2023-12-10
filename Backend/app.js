@@ -4,7 +4,20 @@ const mongoose = require("mongoose");
 require('dotenv').config();
 const urlModule = require('url');
 app.use(express.json());
+const authorize  = require('./Middleware/authorizationMiddleware');
 
+
+const cookieParser = require('cookie-parser');
+const authenticationMiddleware = require('./Middleware/authenticationMiddleware');
+
+
+const user= require('./Routes/userRoutes');
+app.use("/api/v1/user", user);
+
+app.use(cookieParser());
+
+
+app.use(authenticationMiddleware);
 
 
 const communicationRoutes = require('./Routes/communicationRoutes');
@@ -15,12 +28,10 @@ app.use("/api/v1/ticket", ticketsRoutes);
 
 app.use("/api/v1/communication", communicationRoutes);
 
-const user= require('./Routes/userRoutes');
+
 const appearance=require('./Routes/AppearanceRoutes');
 app.use("/api/v1/appearance", appearance);
 
-
-app.use("/api/v1/user", user);
 
 
 app.use(express.json());

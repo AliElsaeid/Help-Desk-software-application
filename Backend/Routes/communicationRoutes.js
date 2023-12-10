@@ -8,8 +8,13 @@ const { v4: uuidv4 } = require('uuid');
 
 const Tickets = require('../Models/TicketsModel');
 var crypto = require('crypto');
-
 var cypherKey = "mySecretKey";
+
+
+
+const authorize  = require('../Middleware/authorizationMiddleware');
+const authenticationMiddleware = require('../Middleware/authenticationMiddleware');
+
 
 
 
@@ -46,10 +51,13 @@ router.post('/createRoom', async (req, res) => {
 });
 
   
- 
-  router.get('/getChatRooms', async (req, res) => {
+
+
+
+  router.get('/getChatRooms', authenticationMiddleware,async (req, res) => {
     try {
-      const { userId } = req.body;
+      const { userId } = req;
+    
   
      
       const user = await User.findById(userId);
@@ -105,16 +113,21 @@ router.post('/createRoom', async (req, res) => {
   }
   
 
-  router.post('/sendMessage', async (req, res) => {
+  router.post('/sendMessage', authenticationMiddleware,async (req, res) => {
     try {
-      const { roomID, senderID, content } = req.body;
+     
+      const { roomID, content } = req.body;
+       const {userId } = req;
+      
+      
+
 
       const encryptedContent = encrypt(content, key);
 
   
       const newChatMessage = new ChatMessage({
         room: roomID,
-        sender: senderID,
+        sender: userId,
         content:encryptedContent,
       });
   
@@ -136,7 +149,7 @@ router.post('/createRoom', async (req, res) => {
   });
   
   
-  router.get('/getChatMessages', async (req, res) => {
+  router.get('/getChatMessages', authenticationMiddleware,async (req, res) => {
     try {
       const { roomID } = req.body;
 
@@ -171,7 +184,7 @@ router.post('/createRoom', async (req, res) => {
     },
   });
   
-  router.post('/sendEmail', async (req, res) => {
+  router.post('/sendEmail',authenticationMiddleware,authorize(['admin', 'agent']),async (req, res) => {
     try {
       const { userId, subject, message } = req.body;
   

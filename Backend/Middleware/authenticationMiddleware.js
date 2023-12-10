@@ -1,28 +1,25 @@
-const jwt = require("jsonwebtoken");
-const secretKey = "s1234rf,.lp";
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
-module.exports = function authenticationMiddleware(req, res, next) {
-  const cookie = req.cookies;
-  
-  // console.log(req.headers);
+const secretKey = process.env.SECRET_KEY;
 
-  if (!cookie) {
-    return res.status(401).json({ message: "No Cookie provided" });
-  }
-  const token = cookie.token;
-  if (!token) {
-    return res.status(405).json({ message: "No token provided" });
-  }
+function authenticationMiddleware(req, res, next) {
+    // Get the token from the request headers or cookies
+    const token = req.headers.authorization || req.cookies.token;
 
-  jwt.verify(token, secretKey, (error, decoded) => {
-    if (error) {
-      return res.status(403).json({ message: "Invalid token" });
+    if (!token) {
+        return res.status(401).json({ message: 'Unauthorized: Missing token' });
     }
 
-    // Attach the decoded user ID to the request object for further use
-    // console.log(decoded.user)
-    
-    req.User = decoded.User;
-    next();
-  });
-};
+    try {
+        // Verify the token
+        const decoded = jwt.verify(token, secretKey);
+        req.userId = decoded.userId; 
+        next(); 
+    } catch (error) {
+        console.error('Error verifying token:', error);
+        return res.status(401).json({ message: 'Unauthorized: Invalid token' });
+    }
+}
+
+module.exports = authenticationMiddleware;
