@@ -72,7 +72,7 @@ router.post('/create',authenticationMiddleware, async (req, res) => {
 });
 
 // Update Ticket by Support Agent
-router.put('/:id', async (req, res) => {
+router.put('/:id', authenticationMiddleware,authorize(['agent','admin']),async (req, res) => {
   try {
     const { status, resolution } = req.body;
 
@@ -115,7 +115,7 @@ router.put('/:id', async (req, res) => {
 
 // Get Ticket by ID
 
-router.get('/getTickets', async (req, res) => {
+router.get('/getTickets',authenticationMiddleware, async (req, res) => {
   try {
     const { userId } = req.body;
 
@@ -155,7 +155,7 @@ router.get('/getTickets', async (req, res) => {
 
 
 // Get Ticket by ID
-router.get('/:id', async (req, res) => {
+router.get('/:id',authenticationMiddleware, async (req, res) => {
   try {
   
 
@@ -183,7 +183,7 @@ router.get('/:id', async (req, res) => {
 
 
 // Delete Ticket
-router.delete('/:id', async (req, res) => {
+router.delete('/:id',authenticationMiddleware,authorize(['admin']), async (req, res) => {
   try {
     const ticketId = req.params.id;
 
