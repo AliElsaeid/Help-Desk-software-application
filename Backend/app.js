@@ -2,15 +2,30 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 require('dotenv').config();
-const url = require('url');
+const urlModule = require('url');
 app.use(express.json());
+const authorize  = require('./Middleware/authorizationMiddleware');
 
+
+const cookieParser = require('cookie-parser');
+const authenticationMiddleware = require('./Middleware/authenticationMiddleware');
+
+
+const user= require('./Routes/userRoutes');
+app.use("/api/v1/user", user);
+
+app.use(cookieParser());
+
+
+app.use(authenticationMiddleware);
 
 
 // const communicationRoutes = require('./Routes/communicationRoutes');
 const user= require('./Routes/articleRoutes');
 // app.use("/api/v1/articles",articleRoutes);
 
+const ticketsRoutes = require('./Routes/ticketRoutes');
+app.use("/api/v1/ticket", ticketsRoutes);
 
 
 
@@ -18,9 +33,9 @@ const user= require('./Routes/articleRoutes');
 
 // const user= require('./Routes/userRoutes');
 
+const appearance=require('./Routes/AppearanceRoutes');
+app.use("/api/v1/appearance", appearance);
 
-
-app.use("/api/v1/user", user);
 
 
 app.use(express.json());
@@ -29,7 +44,6 @@ app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   next()
 });
-
 
 
 
