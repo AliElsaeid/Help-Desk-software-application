@@ -1,3 +1,4 @@
+import "../stylesheets/Agentprofile.css";
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
@@ -18,10 +19,10 @@ const Profile = () => {
   // If you need to use the value
 
 
+ 
   useEffect(() => {
+    axios.defaults.withCredentials = true;
 
-    console.log("cookies", cookies,"token",cookies.token);
-    
     // Fetch user details using the user ID from useParams
     axios.get(`${userbackend}/${id}`, { withCredentials: true })
       .then(response => setUser(response.data))
@@ -30,39 +31,49 @@ const Profile = () => {
         toast.error("Error fetching user details.");
       });
 
-      axios.get(`${ticketbackend}/getTickets/${id}`, {
-        withCredentials: true,
-        headers: {
-          'Authorization': `Bearer ${cookies.token}` // Token needs to be the actual token value
-        }
-      })
-      .then(response => setTickets(response.data))
-      .catch(error => {
-        console.error('Error fetching tickets:', error);
-        toast.error("Error fetching tickets.");
-      });
-  }, [id]);
+    // Fetch tickets with the Authorization header
+    axios.get(`${ticketbackend}/getTickets/${id}`, {
+      withCredentials: true,
+      headers: {
+        'Authorization': `Bearer ${cookies.token}`
+      }
+    })
+    .then(response => setTickets(response.data))
+    .catch(error => {
+      console.error('Error fetching tickets:', error);
+      toast.error("Error fetching tickets.");
+    });
+  }, [id, cookies.token]);
 
   return (
     <div>
       <ToastContainer />
-      <div>
-        {user && (
-          <div>
-            <h1>{user.username}</h1>
-            <p>{user.email}</p>
-          </div>
-        )}
-      </div>
 
-      <div>
-        <h1>Ticket List</h1>
-        <ul>
-          {tickets.map(ticket => (
-            <li key={ticket._id}>{ticket.title}</li>
-          ))}
-        </ul>
-      </div>
+      <div className="user-info-container">
+  {user && (
+    <div>
+      <h1>{user.username}</h1>
+      <p>{user.email}</p>
+    </div>
+  )}
+</div>
+
+<div className="ticket-list-container">
+  <h1>Ticket List</h1>
+  <ul>
+    {tickets.map((ticket) => (
+      <li key={ticket._id}>
+        <span>Category: {ticket.category}</span>
+        <span>SubCategory: {ticket.subCategory}</span>
+        <span>Description: {ticket.description}</span>
+        <span>Created At: {ticket.createdAt}</span>
+        <span>Updated At: {ticket.updatedAt}</span>
+        <span>Closed At: {ticket.closedAt}</span>
+        <span>Status: {ticket.status}</span>
+      </li>
+    ))}
+  </ul>
+</div>
     </div>
   );
 };

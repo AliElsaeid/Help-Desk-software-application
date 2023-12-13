@@ -6,7 +6,7 @@ const User = require('../Models/UserModel');
 const Room = require('../Models/RoomsModel');
 
 const authorize  = require('../Middleware/authorizationMiddleware');
-
+const authenticationMiddleware = require('../Middleware/authenticationMiddleware');
 const axios = require('axios');
 const fetchDataFromFastAPI = async (ticketId) => {
   try {
