@@ -56,7 +56,7 @@ router.post("/login", async (req, res) => {
                 expires: expiresAt,
                 withCredentials: true,
                 httpOnly: false,
-                sameSite: 'none', // or 'lax' based on your requirements
+                sameSite: 'none', 
             })
             .status(200)
             .json({ message: "Login successful", user });

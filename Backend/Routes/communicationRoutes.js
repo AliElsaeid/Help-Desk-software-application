@@ -58,7 +58,7 @@ router.post('/createRoom', authenticationMiddleware,authorize('user'),async (req
 
   router.get('/getChatRooms', authenticationMiddleware,async (req, res) => {
     try {
-      const { userId } = req;
+      const { userId } = req.body;
     
   
      
@@ -118,8 +118,8 @@ router.post('/createRoom', authenticationMiddleware,authorize('user'),async (req
   router.post('/sendMessage', authenticationMiddleware,async (req, res) => {
     try {
      
-      const { roomID, content } = req.body;
-       const {userId } = req;
+      const { roomID,userId, content } = req.body;
+      
       
       
 
