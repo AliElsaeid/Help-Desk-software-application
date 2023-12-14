@@ -1,13 +1,17 @@
 // usersRoutes.js
 const express = require("express");
 const router = express.Router();
-const authorizationMiddleware = require('../Middleware/authorizationMiddleware');
+
+const authorize  = require('../Middleware/authorizationMiddleware');
+const authenticationMiddleware = require('../Middleware/authenticationMiddleware');
+
 const userModel = require("../Models/UserModel");
 const sessionsModel = require("../Models/SessionsModel");
 const jwt = require("jsonwebtoken");
 require('dotenv').config();
 const secretKey = process.env.SECRET_KEY;
 const bcrypt = require("bcrypt");
+
 
 router.post("/login", async (req, res) => {
     try {
@@ -20,7 +24,7 @@ router.post("/login", async (req, res) => {
 
         const passwordMatch = await bcrypt.compare(password, user.password);
         if (!passwordMatch) {
-            return res.status(405).json({ message: "Incorrect password" });
+            return res.status(401).json({ message: "Incorrect password" });
         }
 
         const currentDateTime = new Date();
@@ -28,20 +32,19 @@ router.post("/login", async (req, res) => {
 
         // Generate a JWT token
         const token = jwt.sign(
-            { userId: user._id, role: user.role }, // Change 'user' to 'userId'
+            { user: { userId: user._id, role: user.role } },
             secretKey,
-            { expiresIn: 3 * 60 * 60 } // in seconds
-        );
+            {
+              expiresIn: 3 * 60 * 60,
+            }
+          );
+
+        console.log(token);
+        
 
         // Save session
-        let newSession = new sessionsModel({
-            user: {
-                userId: user._id, // Change to userId
-                username: user.username,
-                password: user.password,
-                email: user.email,
-                role: user.role        
-            },
+        const newSession = new sessionsModel({
+            user: user._id,
             token,
             expiryTime: expiresAt,
         });
@@ -53,7 +56,7 @@ router.post("/login", async (req, res) => {
                 expires: expiresAt,
                 withCredentials: true,
                 httpOnly: false,
-                sameSite: 'none' // Change 'SameSite' to 'sameSite'
+                sameSite: 'none', // or 'lax' based on your requirements
             })
             .status(200)
             .json({ message: "Login successful", user });
@@ -98,7 +101,7 @@ router.post("/register", async (req, res) => {
 });
 
 // * Get all users
-router.get("/", authorizationMiddleware(['admin']), async (req, res) => {
+router.get("/", authenticationMiddleware, async (req, res) => {
     try {
         const users = await userModel.find();
         return res.status(200).json(users);
@@ -108,7 +111,7 @@ router.get("/", authorizationMiddleware(['admin']), async (req, res) => {
 });
 
 // * Get one user
-router.get("/:id", authorizationMiddleware(['admin', 'customer']), async (req, res) => {
+router.get("/:id" , async (req, res) => {
     try {
         const user = await userModel.findById(req.params.id);
         return res.status(200).json(user);
@@ -118,7 +121,7 @@ router.get("/:id", authorizationMiddleware(['admin', 'customer']), async (req, r
 });
 
 // * Update one user
-router.put("/:id", authorizationMiddleware(['admin', 'customer','agent']), async (req, res) => {
+router.put("/:id", authorize(['user','admin']), async (req, res) => {
     try {
         const user = await userModel.findByIdAndUpdate(
             req.params.id,
@@ -138,9 +141,26 @@ router.put("/:id", authorizationMiddleware(['admin', 'customer','agent']), async
         return res.status(500).json({ message: error.message });
     }
 });
+//update user role
+router.put("/role/:id", authorize(['admin']), async (req, res) => {
+    try {
+        const user = await userModel.findByIdAndUpdate(
+            req.params.id,
+            {
+                role :req.body.role
+            },
+            {
+                new: true,
+            }
+        );
+        return res.status(200).json({ user, msg: "User role  updated successfully" });
+    } catch (error) {
+        return res.status(500).json({ message: error.message });
+    }
+});
 
 // * Delete one user
-router.delete("/:id", authorizationMiddleware(['admin']), async (req, res) => {
+router.delete("/:id", authorize(['admin','user']), async (req, res) => {
     try {
         const user = await userModel.findByIdAndDelete(req.params.id);
         return res.status(200).json({ user, msg: "User deleted successfully" });
