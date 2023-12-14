@@ -29,9 +29,9 @@ const fetchDataFromFastAPI = async (ticketId) => {
 router.post('/create', async (req, res) => {
   try {
 
-   const{userId}=req;
+  //  const{userId}=req;
 
-    const {category,priority, subCategory ,description} = req.body;
+    const {userId,category,priority, subCategory ,description} = req.body;
 
     const opened_tickets = await Ticket.find({ user: userId, status: 'open' });
 
