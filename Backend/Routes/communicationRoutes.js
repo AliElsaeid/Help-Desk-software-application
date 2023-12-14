@@ -19,9 +19,11 @@ const authenticationMiddleware = require('../Middleware/authenticationMiddleware
 
 
 
-router.post('/createRoom', async (req, res) => {
+router.post('/createRoom', authenticationMiddleware,authorize('user'),async (req, res) => {
   try {
     const { ticket_id } = req.body;
+
+    
 
     if (!ticket_id) {
       return res.status(400).json({ error: 'Missing ticket_id in the request body' });
