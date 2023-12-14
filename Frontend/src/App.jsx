@@ -4,9 +4,10 @@ import viteLogo from "/vite.svg";
 import "./App.css";
 
 // import '../public/styles/bootstrap.min.css'
-import 'bootstrap/dist/css/bootstrap.min.css';
+// import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import AgentProfile from "./pages/AgentProfile";
+import AdminProfile from "./pages/AdminProfile";
 import Login from "./pages/Login";
 
 function App() {
@@ -16,6 +17,8 @@ function App() {
         <Route path="/login" element={<Login />} />
 
         <Route path="/profile/:id" element={<AgentProfile />} />
+        <Route path="/Adminprofile/:id" element={<AdminProfile />} />
+
 
       
 

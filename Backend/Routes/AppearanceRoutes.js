@@ -4,7 +4,7 @@ const AppearanceSetting = require('../Models/AppearanceSetting'); // Adjust the 
 const authorizationMiddleware = require('../Middleware/authorizationMiddleware');
 
 // API endpoint for updating appearance settings
-router.put('/appearance', authorizationMiddleware(['admin']), async (req, res) => {
+router.put('/appearance',  async (req, res) => {
     try {
         // Check if the appearance settings record exists, if not, create a new one
         let appearanceSettings = await AppearanceSetting.findOne();
@@ -27,7 +27,7 @@ router.put('/appearance', authorizationMiddleware(['admin']), async (req, res) =
 });
 
 // API endpoint for retrieving current appearance settings
-router.get('/appearance', authorizationMiddleware(['admin']), async (req, res) => {
+router.get('/appearance',  async (req, res) => {
     try {
         // Retrieve the appearance settings record
         const appearanceSettings = await AppearanceSetting.findOne();
