@@ -136,7 +136,7 @@ router.put('/:id',async (req, res) => {
   try {
     const { status, resolution } = req.body;
 
-    const validStatuses = ['Pending', 'InProgress', 'Closed'];
+    const validStatuses = ['open', 'pending', 'closed'];
     if (!validStatuses.includes(status)) {
       return res.status(400).json({ message: 'Invalid status' });
     }
