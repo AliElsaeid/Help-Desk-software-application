@@ -1,0 +1,32 @@
+/* ProfileUser.css */
+
+.user-info-container {
+    text-align: center;
+  }
+  
+  .avatar-container {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover; /* Ensure the image covers the entire circle */
+  }
+  
+  .user-details {
+    margin-top: 10px;
+  }
+  
+  .user-details h1 {
+    font-size: 18px;
+    margin-bottom: 5px;
+  }
+  
+  .user-details p {
+    font-size: 16px;
+    color: #666;
+  }
+  
