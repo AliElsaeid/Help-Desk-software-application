@@ -8,6 +8,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import AgentProfile from "./pages/AgentProfile";
 import Login from "./pages/Login";
+import AgentChatRooms from "./pages/AgentChatRooms";
 
 function App() {
   return (
@@ -16,7 +17,7 @@ function App() {
         <Route path="/login" element={<Login />} />
 
         <Route path="/profile" element={<AgentProfile />} />
-
+        <Route path="/profile/chatRooms" element={<AgentChatRooms />} />
       
 
 
