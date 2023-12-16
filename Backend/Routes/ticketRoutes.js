@@ -43,20 +43,6 @@ router.post('/create', async (req, res) => {
     }
 
 
-
-
-   
-
- 
-
-
-
-    
-
-
-
-
-
     const validCategories = ['hardware', 'software', 'network'];
     const validSubCategories = {
       Hardware: ['Desktops', 'Laptops', 'Printers', 'Servers', 'Networking equipment'],
@@ -64,13 +50,6 @@ router.post('/create', async (req, res) => {
       Network: ['Email issues', 'Internet connection problems', 'Website errors'],
     };
 
-
-
-   
-
-   
-
-    
     const newTicket = new Ticket({
       user: userId,
       category,
