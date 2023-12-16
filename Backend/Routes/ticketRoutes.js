@@ -113,13 +113,11 @@ router.get('/getTickets/:id',async (req, res) => {
     let result;
 
     if (userRole === 'admin') {
-      // Admin has access to all tickets
-      result = await Ticket.find(); // Corrected from Issues.find() to Ticket.find()
+      result = await Ticket.find();
     } else if (userRole === 'agent') {
-      // Agent has access to tickets assigned to them
+   
       result = await Ticket.find({ 'agent': userId });
     } else {
-      // Customer has access to their own tickets
       result = await Ticket.find({ user: userId });
     }
 
@@ -134,29 +132,23 @@ router.get('/getTickets/:id',async (req, res) => {
   }
 });
 
-router.put('/:id', authorize(['agent','admin']),async (req, res) => {
+router.put('/:id',async (req, res) => {
   try {
     const { status, resolution } = req.body;
 
-    // Check if status is valid
-    const validStatuses = ['Pending', 'InProgress', 'Closed'];
+    const validStatuses = ['open', 'pending', 'closed'];
     if (!validStatuses.includes(status)) {
       return res.status(400).json({ message: 'Invalid status' });
     }
 
-    // Find the ticket by ID
+ 
     const ticket = await Ticket.findById(req.params.id);
 
     if (!ticket) {
       return res.status(404).json({ message: 'Ticket not found' });
     }
 
-    // Check if the user making the request is a support agent
-    const user = await User.findById(ticket.user); // Assuming userId is included in the request, adjust it based on your actual setup
-
-    if (user.role === 'user') {
-      return res.status(403).json({ message: 'Unauthorized. Only support agents can update tickets.' });
-    }
+   
 
     ticket.status = status;
     ticket.resolution = resolution;

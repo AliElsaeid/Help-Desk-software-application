@@ -26,7 +26,7 @@ const Login = () => {
         setMessage("Login successful!");
         localStorage.setItem("userId", data.user._id);
         localStorage.setItem("role", data.user.role);
-        navigate(`/profile/${data.user._id}`);
+        navigate(`/profile`);
       }
     } catch (error) {
       setMessage(`Login failed: ${error.response?.data?.message }`);
