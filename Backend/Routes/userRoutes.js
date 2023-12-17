@@ -121,7 +121,7 @@ router.get("/:id" , async (req, res) => {
 });
 
 // * Update one user
-router.put("/:id", authorize(['user','admin']), async (req, res) => {
+router.put("/:id",async (req, res) => {
     try {
         const user = await userModel.findByIdAndUpdate(
             req.params.id,
