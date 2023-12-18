@@ -77,11 +77,11 @@ router.post('/create', async (req, res) => {
   }
 });
 
-router.get('/getTickets/:id',async (req, res) => {
+router.get('/getTickets',async (req, res) => {
   try {
-    //  const userId  = req.user.userId;
-     const userId=req.params.id;
-    const user = await User.findById(userId);
+    const userId  = req.user;
+    console.log(userId);
+    const user = await User.findById(userId.userId);
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
     }
