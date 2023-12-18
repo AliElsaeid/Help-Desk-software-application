@@ -20,14 +20,8 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(backendUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json', // Adjust the content type based on your backend requirements
-        },
-        body: JSON.stringify({ data: inputValue }), // Adjust the payload based on your backend requirements
-        credentials: 'include', // Include credentials (cookies) in the request
-      });  
+      const response = await axios.post(backendUrl, { data: inputValue }, { withCredentials: true });
+ 
       console.log(response);
       const data = response.data;
       if (response.status === 200)  {
