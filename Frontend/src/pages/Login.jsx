@@ -20,9 +20,17 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(backendUrl, inputValue);
+      const response = await fetch(backendUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json', // Adjust the content type based on your backend requirements
+        },
+        body: JSON.stringify({ data: inputValue }), // Adjust the payload based on your backend requirements
+        credentials: 'include', // Include credentials (cookies) in the request
+      });  
+      console.log(response);
       const data = response.data;
-      if (response.status === 200) {
+      if (response.status === 200)  {
         setMessage("Login successful!");
         localStorage.setItem("userId", data.user._id);
         localStorage.setItem("role", data.user.role);
