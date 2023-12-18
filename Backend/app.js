@@ -8,7 +8,7 @@ const authenticationMiddleware = require('./Middleware/authenticationMiddleware'
 
 
 
-
+console.log(process.env.ORIGIN);
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -17,7 +17,6 @@ app.use(cookieParser());
 app.use(
   cors({
     origin: process.env.ORIGIN, // Ensure the ORIGIN environment variable is set in your .env file
-    methods: ["GET", "POST", "DELETE", "PUT"],
     credentials: true, // This is important for cookies or auth headers
   })
 );
