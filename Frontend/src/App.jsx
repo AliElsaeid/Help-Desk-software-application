@@ -9,17 +9,25 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import AgentProfile from "./pages/AgentProfile";
 import AdminProfile from "./pages/AdminProfile";
 import Login from "./pages/Login";
+import AgentChatRooms from "./pages/AgentChatRooms";
+import Register from "./pages/Register";
+import UserProfile from "./pages/ProfileUser";
 
 function App() {
   return (
     <>
         <Routes>
+        
+        <Route path="/user" element={<UserProfile />} />
+        <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
 
         <Route path="/profile/:id" element={<AgentProfile />} />
         <Route path="/Adminprofile/:id" element={<AdminProfile />} />
 
 
+        <Route path="/profile" element={<AgentProfile />} />
+        <Route path="/profile/chatRooms" element={<AgentChatRooms />} />
       
 
 

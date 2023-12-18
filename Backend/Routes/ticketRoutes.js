@@ -43,20 +43,6 @@ router.post('/create', async (req, res) => {
     }
 
 
-
-
-   
-
- 
-
-
-
-    
-
-
-
-
-
     const validCategories = ['hardware', 'software', 'network'];
     const validSubCategories = {
       Hardware: ['Desktops', 'Laptops', 'Printers', 'Servers', 'Networking equipment'],
@@ -64,13 +50,6 @@ router.post('/create', async (req, res) => {
       Network: ['Email issues', 'Internet connection problems', 'Website errors'],
     };
 
-
-
-   
-
-   
-
-    
     const newTicket = new Ticket({
       user: userId,
       category,
@@ -136,7 +115,7 @@ router.put('/:id',async (req, res) => {
   try {
     const { status, resolution } = req.body;
 
-    const validStatuses = ['Pending', 'InProgress', 'Closed'];
+    const validStatuses = ['open', 'pending', 'closed'];
     if (!validStatuses.includes(status)) {
       return res.status(400).json({ message: 'Invalid status' });
     }

@@ -28,6 +28,24 @@ const Login = () => {
         localStorage.setItem("role", data.user.role);
         navigate(`/AdminProfile/${data.user._id}`);
       }
+        
+        const role = data.user.role.toLowerCase(); // Convert the role to lowercase for consistency
+
+        switch (role) {
+            case 'user':
+                navigate(`/user`);
+                break;
+            case 'admin':
+                navigate(`/admin`);
+                break;
+            case 'agent':
+                navigate(`/profile`);
+                break;
+            default:
+                // Handle other roles or cases as needed
+                break;
+        }
+    }
     } catch (error) {
       setMessage(`Login failed: ${error.response?.data?.message }`);
     }

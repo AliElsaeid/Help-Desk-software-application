@@ -1,0 +1,81 @@
+/* AgentChatRooms.css */
+
+
+  
+ 
+  
+  /* Room List Column styling */
+  .list-group {
+    position: fixed;
+    top: 200px; /* Adjust based on the height of your navigation bar */
+    left: 0;
+    width: 320px;
+    padding: 15px;
+    overflow-y: auto;
+    max-height: calc(90vh - 60px);
+    font-family: Arial, sans-serif;
+    z-index: 1000;
+    background: #f9f9f9;
+  }
+  
+  /* Room item styling */
+  .list-group-item {
+    background: #fff;
+    margin-bottom: 10px;
+    padding: 10px;
+    font-size: 0.8rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .list-group-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+  .messages-column {
+    flex: 1;
+    margin-left: 160px;
+    width: 800px;
+    margin-top: 100px;
+    overflow: hidden; /* Hide horizontal overflow */
+  }
+  .chat-message {
+    margin-bottom: 15px;
+  }
+  
+  .chat-message-container {
+    background:rgb(174, 170, 170);
+    padding: 10px;
+    border-radius: 8px;
+ 
+    height:80px ;
+    width: 100%; /* Stretch horizontally */
+  }
+  
+  /* Message header styling */
+  .message-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 5px;
+  }
+  
+  /* User name styling */
+  .username {
+    font-size: 0.8rem;
+    color: #007bff;
+  }
+  
+  /* Message content styling */
+  .message-content {
+    font-size: 0.9rem;
+    color: #fff;
+  }
+  
+  /* Timestamp styling */
+  .timestamp {
+    font-size: 0.8rem;
+    color: #333;
+    margin-top: 5px;
+  }

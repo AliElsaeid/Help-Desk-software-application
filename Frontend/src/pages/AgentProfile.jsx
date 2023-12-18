@@ -13,7 +13,7 @@ const Profile = () => {
   const { id } = useParams();
   const [user, setUser] = useState(null);
   const [tickets, setTickets] = useState([]);
-  const [cookie] = useCookies([]);
+  const [cookies] = useCookies(['token']);
 
 
   // If you need to use the value
@@ -22,7 +22,7 @@ const Profile = () => {
  
   useEffect(() => {
     axios.defaults.withCredentials = true;
-    console.log(cookie.token);
+
     // Fetch user details using the user ID from useParams
     axios.get(`${userbackend}/${id}`, { withCredentials: true })
       .then(response => setUser(response.data))
@@ -30,13 +30,12 @@ const Profile = () => {
         console.error('Error fetching user:', error);
         toast.error("Error fetching user details.");
       });
-      const uid = localStorage.getItem("userId");
-      
+
     // Fetch tickets with the Authorization header
     axios.get(`${ticketbackend}/getTickets/${id}`, {
       withCredentials: true,
       headers: {
-        'Authorization': `Bearer ${cookie.token}`
+        'Authorization': `Bearer ${cookies.token}`
       }
     })
     .then(response => setTickets(response.data))
@@ -44,7 +43,7 @@ const Profile = () => {
       console.error('Error fetching tickets:', error);
       toast.error("Error fetching tickets.");
     });
-  }, [id, cookie.token]);
+  }, [id, cookies.token]);
 
   return (
     <div>
