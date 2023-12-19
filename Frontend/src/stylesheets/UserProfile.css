@@ -1,50 +1,50 @@
-/* Custom styles for the Navbar */
+/* Styles for the black-themed navigation bar */
 .navbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 1000; /* Set a higher z-index to ensure it is above other elements */
-    background-color: #000; /* Set the background color */
-    border-bottom: 2px solid #000000;
+    background-color: #ffffff; /* Black background color */
   }
-  
-  .navbar-brand {
-    font-size: 1.5rem;
-  }
-  
-  .navbar-toggler-icon {
-    background-color: #ffffff;
-  }
-  
+
   .nav-link {
-    padding: 0.5rem 1rem;
-    font-size: 1rem;
-    color: #ffffff;
+    color: #ffffff !important; /* Set text color to white */
   }
   
   .nav-link:hover {
-    color: #ffffff;
+    background-color:rgba(0, 0, 0, 0.4); /* Darken the background on hover */
   }
   
-  /* Customize the Offcanvas */
+  /* Styles for offcanvas header and title */
   .offcanvas-header {
-    background-color: #000000;
-    color: #000000;
-    border-bottom: 1px solid #000000;
+    background-color: #000;
+    border-bottom: 1px solid #ffffff58; /* Darker border for the header */
   }
   
   .offcanvas-title {
-    font-size: 1.5rem;
+    color: #ffffff !important; /* Set title text color to white */
   }
   
+  /* Styles for close button in offcanvas header */
+  .offcanvas-header button.close {
+    color: #fff; /* Set close button color to white */
+  }
+  
+  /* Styles for offcanvas body */
   .offcanvas-body {
-    background-color: #000000;
-    padding: 1rem;
+    background-color: #111; /* Dark background color for offcanvas body */
   }
   
-  /* Add margin to the top of the Navbar */
-  .mb-3 {
-    margin-top: 0;
+  /* Additional styles for the Navbar.Toggle button */
+
+  
+  /* Additional styles for the Wisdom section */
+.wisdom-section {
+    margin-top: 0px; /* Adjust the top margin for spacing */
+    padding: 10px;
+  }
+ 
+  .wisdom-section p {
+    margin: 5px 0;
+    font-size: 20px;
+    font-style: bolder;
+    font-family: "lato";
+    color: #fff;
   }
   

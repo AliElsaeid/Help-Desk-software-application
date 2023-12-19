@@ -9,6 +9,8 @@ import "../stylesheets/ProfileUser.css";
 import "../stylesheets/UserProfile.css";
 import img from '../assets/avatara1.jpg';
 import edit from '../assets/edit.png';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 const ticketbackend = "http://localhost:3000/api/v1/ticket";
 const userbackend = 'http://localhost:3000/api/v1/user';
@@ -27,10 +29,9 @@ const UserProfile = () => {
   const [cookies] = useCookies([]);
   const [tickets, setTickets] = useState([]);
   const [selectedTicketId, setSelectedTicketId] = useState(null);
-
+  const uid = localStorage.getItem("userId");
   useEffect(() => {
     axios.defaults.withCredentials = true;
-    const uid = localStorage.getItem("userId");
 
     axios
       .get(`${userbackend}/${uid}`, { withCredentials: true })
@@ -40,6 +41,7 @@ const UserProfile = () => {
         toast.error('Error fetching user details.');
       });
 
+      
     axios.get(`${ticketbackend}/getTickets/${uid}`, {
       withCredentials: true,
       headers: {
@@ -51,7 +53,7 @@ const UserProfile = () => {
         console.error('Error fetching tickets:', error);
         toast.error("Error fetching tickets.");
       });
-  }, [id, cookies.token]);
+  }, [uid, cookies.token]);
 
   const handleEditClick = () => {
     setEditing(true);
@@ -79,7 +81,7 @@ const UserProfile = () => {
       headers: { 'Authorization': `Bearer ${cookies.token}` }
     };
 
-    axios.put(`${userbackend}/${id}`, dataToSend, config)
+    axios.put(`${userbackend}/${uid}`, dataToSend, config)
       .then(response => {
         setUser(response.data.user);
         toast.success("User details updated successfully");
@@ -105,35 +107,60 @@ const UserProfile = () => {
         <img src={img} alt="img" />
       </div>
            
-            {editing ? (
+      {editing ? (
               <>
-                <input
-                  type="text"
-                  value={editedUser.username}
-                  onChange={(e) => setEditedUser({ ...editedUser, username: e.target.value })}
-                />
-                <input
-                  type="text"
-                  value={editedUser.email}
-                  onChange={(e) => setEditedUser({ ...editedUser, email: e.target.value })}
-                />
-                <input
-                  type="text"
-                  value={editedUser.firstName}
-                  onChange={(e) => setEditedUser({ ...editedUser, firstName: e.target.value })}
-                />
-                <input
-                  type="text"
-                  value={editedUser.lastName}
-                  onChange={(e) => setEditedUser({ ...editedUser, lastName: e.target.value })}
-                />
-                <div className="button-container">
-               <button className="save-button" onClick={updateUser}>
-      Save
-    </button>
-    <button className="cancel-button" onClick={handleCancelEdit}>
-      Cancel
-    </button>
+               <div class="h4 pb-2 mb-4 text-white border-bottom border-white">
+  <label htmlFor="username">Username</label>
+  <input
+    type="text"
+    id="username"
+    value={editedUser.username}
+    onChange={(e) => setEditedUser({ ...editedUser, username: e.target.value })}
+    className="form-control"
+  />
+</div>
+
+<div class="h4 pb-2 mb-4 text-white border-bottom border-white">
+  <label htmlFor="email">Email</label>
+  <input
+    type="text"
+    id="email"
+    value={editedUser.email}
+    onChange={(e) => setEditedUser({ ...editedUser, email: e.target.value })}
+    className="form-control"
+  />
+</div>
+
+<div class="h4 pb-2 mb-4 text-white border-bottom border-white">
+  <label htmlFor="firstName">First Name</label>
+  <input
+    type="text"
+    id="firstName"
+    value={editedUser.firstName}
+    onChange={(e) => setEditedUser({ ...editedUser, firstName: e.target.value })}
+    className="form-control"
+  />
+</div>
+
+<div class="h4 pb-2 mb-4 text-white border-bottom border-white">
+  <label htmlFor="lastName">Last Name</label>
+  <input
+    type="text"
+    id="lastName"
+    value={editedUser.lastName}
+    onChange={(e) => setEditedUser({ ...editedUser, lastName: e.target.value })}
+    className="form-control"
+  />
+</div>
+
+     <div className="button-container">
+     <button type="button" className="btn btn-secondary" onClick={handleCancelEdit}>
+                    Cancel
+                  </button>
+                  <button type="button" className="btn btn-success" onClick={updateUser}>
+                    Save
+                  </button>
+             
     </div>
   </>
 ) : (
@@ -152,7 +179,7 @@ const UserProfile = () => {
           </div>
         )}
       </div>
-
+{/* 
       <div className="ticket-list-container">
         <h1>Ticket List</h1>
         <ul>
@@ -169,7 +196,7 @@ const UserProfile = () => {
             </li>
           ))}
         </ul>
-      </div>
+      </div> */}
 
       <div className="ticket-detail-view">
         {selectedTicketId && <TicketDetails ticketId={selectedTicketId} />}

@@ -143,6 +143,23 @@ router.put("/:id",async (req, res) => {
         return res.status(500).json({ message: error.message });
     }
 });
+// * Update  user pass
+router.put("/password/:id",async (req, res) => {
+    try {
+        const user = await userModel.findByIdAndUpdate(
+            req.params.id,
+            {
+                password: req.body.password
+            },
+            {
+                new: true,
+            }
+        );
+        return res.status(200).json({ user, msg: "password reseted successfully" });
+    } catch (error) {
+        return res.status(500).json({ message: error.message });
+    }
+});
 //update user role
 router.put("/role/:id", authorize(['admin']), async (req, res) => {
     try {

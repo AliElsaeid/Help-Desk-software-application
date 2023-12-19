@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import "../stylesheets/login.css";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const backendUrl = "http://localhost:3000/api/v1/user/login";
 
@@ -52,11 +54,15 @@ const Login = () => {
   };
 
   return (
+    <div className="welcome-container">
+    <h2 className="welcome-back">Welcome Back</h2>
     <div className="form_container">
-      <h2>Login Account</h2>
+      <h2 >Login To Your Account</h2>
       <form onSubmit={handleSubmit}>
         {/* Email input */}
         <div>
+        <div class="h4 pb-2 mb-4 text-white border-bottom border-white">
+  
           <label htmlFor="email">Email</label>
           <input
             type="email"
@@ -65,9 +71,12 @@ const Login = () => {
             placeholder="Enter your email"
             onChange={handleOnChange}
           />
+</div>
         </div>
         {/* Password input */}
         <div>
+        <div class="h4 pb-2 mb-4 text-white border-bottom border-white">
+
           <label htmlFor="password">Password</label>
           <input
             type="password"
@@ -76,16 +85,30 @@ const Login = () => {
             placeholder="Enter your password"
             onChange={handleOnChange}
           />
+</div>
+
         </div>
         {/* Submit button */}
+       
         <button type="submit">Submit</button>
         {/* Message display */}
         {message && <p>{message}</p>}
         {/* Link to sign up */}
+        
         <p>
-          Don't have an account? <Link to="/signup">Sign up</Link>
+        <br/>
+          Don't have an account? <Link to="/register">Sign up</Link>           Forgot your Password? <Link to="/reset">Reset Password</Link>
+
         </p>
       </form>
+      <br/>
+      
+      <p className="text-white">About Us</p>
+      <h7 className="about">ECS Help Desk, founded in 2018, is a reliable support partner for individuals and businesses. Committed to excellence,
+       ECS provides timely and innovative solutions,
+       earning trust for streamlined processes and enhanced user experiences.
+        The commitment to guiding success remains central as ECS evolves.</h7>
+    </div>
     </div>
   );
 };
