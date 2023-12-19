@@ -5,7 +5,6 @@ import Navbar from 'react-bootstrap/Navbar';
 import Container from 'react-bootstrap/Container';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import logo from '../assets/dsasd.jpg';
-import "../stylesheets/AppNavBar.css";
 
 export default function AppNavBar() {
   return (
