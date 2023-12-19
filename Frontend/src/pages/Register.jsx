@@ -69,9 +69,10 @@ const Signup = () => {
   <h2>Create Account</h2>
   <form onSubmit={handleSubmit}>
     <div className="form-group">
-    <div class="h4 pb-2 mb-4 text-white border-bottom border-white">
+    <div className="h4 pb-2 mb-4 text-white border-bottom border-white">
 
       <label htmlFor="email">Email</label>
+      <br/>
       <input
         type="email"
         name="email"
@@ -82,7 +83,7 @@ const Signup = () => {
     </div>
     </div>
     <div className="form-group">
-    <div class="h4 pb-2 mb-4 text-white border-bottom border-white">
+    <div className="h4 pb-2 mb-4 text-white border-bottom border-white">
 
       <label htmlFor="username">Username</label>
       <input
@@ -95,7 +96,7 @@ const Signup = () => {
     </div>
     </div>
     <div className="form-group">
-    <div class="h4 pb-2 mb-4 text-white border-bottom border-white">
+    <div className="h4 pb-2 mb-4 text-white border-bottom border-white">
 
       <label htmlFor="firstName">First Name</label>
       <input
@@ -108,7 +109,7 @@ const Signup = () => {
     </div>
     </div>
     <div className="form-group">
-    <div class="h4 pb-2 mb-4 text-white border-bottom border-white">
+    <div className="h4 pb-2 mb-4 text-white border-bottom border-white">
       <label htmlFor="lastName">Last Name</label>
       <input
         type="text"
@@ -121,7 +122,7 @@ const Signup = () => {
 
     </div>
     <div className="form-group">
-    <div class="h4 pb-2 mb-4 text-white border-bottom border-white">
+    <div className="h4 pb-2 mb-4 text-white border-bottom border-white">
 
       <label htmlFor="password">Password</label>
       <input
@@ -144,10 +145,10 @@ const Signup = () => {
   </form>
   
   <p className="text-white">About Us</p>
-      <h7 className="about">ECS Help Desk, founded in 2018, is a reliable support partner for individuals and businesses. Committed to excellence,
+      <h6 className="about">ECS Help Desk, founded in 2018, is a reliable support partner for individuals and businesses. Committed to excellence,
        ECS provides timely and innovative solutions,
        earning trust for streamlined processes and enhanced user experiences.
-        The commitment to guiding success remains central as ECS evolves.</h7>
+        The commitment to guiding success remains central as ECS evolves.</h6>
 </div>
 
   );

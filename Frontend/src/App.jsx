@@ -7,12 +7,12 @@ import AgentProfile from "./pages/AgentProfile";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import UserProfile from "./pages/ProfileUser";
-import resetPasswordd from "./pages/resetPassword"
+import ResetPassword from './pages/ResetPassword';
 function App() {
   return (
     <>
         <Routes>
-          <Route path="/reset" element={<resetPasswordd/>}/>
+          <Route path="/reset" element={<ResetPassword/>}/>
         <Route path="/user" element={<UserProfile />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />

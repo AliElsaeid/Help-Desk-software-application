@@ -32,6 +32,19 @@ const UserProfile = () => {
   const uid = localStorage.getItem("userId");
   useEffect(() => {
     axios.defaults.withCredentials = true;
+    
+    // axios.get(`${ticketbackend}/getTickets/${uid}`, {
+    //   withCredentials: true,
+    //   headers: {
+    //     'Authorization': `Bearer ${cookies.token}`
+    //   }
+    // })
+    // .then(response => setTickets(response.data))
+    // .catch(error => {
+    //   console.error('Error fetching tickets:', error);
+    //   toast.error("Error fetching tickets.");
+    // });
+
 
     axios
       .get(`${userbackend}/${uid}`, { withCredentials: true })
@@ -109,7 +122,7 @@ const UserProfile = () => {
            
       {editing ? (
               <>
-               <div class="h4 pb-2 mb-4 text-white border-bottom border-white">
+               <div className="h4 pb-2 mb-4 text-white border-bottom border-white">
   <label htmlFor="username">Username</label>
   <input
     type="text"
@@ -120,7 +133,7 @@ const UserProfile = () => {
   />
 </div>
 
-<div class="h4 pb-2 mb-4 text-white border-bottom border-white">
+<div className="h4 pb-2 mb-4 text-white border-bottom border-white">
   <label htmlFor="email">Email</label>
   <input
     type="text"
@@ -131,7 +144,7 @@ const UserProfile = () => {
   />
 </div>
 
-<div class="h4 pb-2 mb-4 text-white border-bottom border-white">
+<div className="h4 pb-2 mb-4 text-white border-bottom border-white">
   <label htmlFor="firstName">First Name</label>
   <input
     type="text"
@@ -142,7 +155,7 @@ const UserProfile = () => {
   />
 </div>
 
-<div class="h4 pb-2 mb-4 text-white border-bottom border-white">
+<div className="h4 pb-2 mb-4 text-white border-bottom border-white">
   <label htmlFor="lastName">Last Name</label>
   <input
     type="text"
