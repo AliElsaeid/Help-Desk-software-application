@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import { useCookies } from "react-cookie";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css'; // Don't forget to import css
+import Adminnavbar from '../components/Adminnavbar';
 
 const userbackend = "http://localhost:3000/api/v1/user";
 const ticketbackend = "http://localhost:3000/api/v1/ticket";
@@ -137,9 +138,12 @@ const AdminProfile = () => {
 
   return (
     <div>
+
       
+      <div className="navbar-top">
+      <Adminnavbar/>
+    </div>
       
-     
 
       <div className="user-inf-container">
   {user && (

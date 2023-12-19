@@ -57,3 +57,13 @@
     display: flex; /* Flexible box layout model */
     flex-direction: column; /* Arrange children in a column */
   }
+
+
+  .navbar-top {
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 1030; /* Z-index of typical Bootstrap navbar */
+    width: 100%;
+    font-weight: bold;
+  }
