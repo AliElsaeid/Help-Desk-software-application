@@ -1,10 +1,9 @@
 // usersRoutes.js
 const express = require("express");
 const router = express.Router();
-
+const nodemailer = require('nodemailer');
 const authorize  = require('../Middleware/authorizationMiddleware');
 const authenticationMiddleware = require('../Middleware/authenticationMiddleware');
-
 const userModel = require("../Models/UserModel");
 const sessionsModel = require("../Models/SessionsModel");
 const jwt = require("jsonwebtoken");
@@ -144,22 +143,77 @@ router.put("/:id",async (req, res) => {
     }
 });
 // * Update  user pass
-router.put("/password/:id",async (req, res) => {
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    host:"stmp.gmail.com",
+    port:587,
+    secure:false,
+
+
+    auth: {
+      user: 'uni.help.desk23@gmail.com',
+      pass: 'eoaf iwuh zmvi wccr',
+    },
+  });
+  let resetCode = Math.floor(1000 + Math.random() * 9000);
+
+router.post('/resetPassword', async (req, res) => {
     try {
-        const user = await userModel.findByIdAndUpdate(
-            req.params.id,
-            {
-                password: req.body.password
-            },
-            {
-                new: true,
-            }
-        );
-        return res.status(200).json({ user, msg: "password reseted successfully" });
+      const { email } = req.body;
+      const user = await userModel.findOne({ email });
+
+      if (!user) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+  
+  
+      const mailOptions = {
+        from: {
+          name:"Uni Help_Desk",
+         address: 'uni.help.desk23@gmail.com'
+      }, 
+        to: user.email,
+        subject :"Reseting Password Code",
+        text: `Your verification code is: ${resetCode}`,
+      };
+      await transporter.sendMail(mailOptions);
+        
+      res.status(200).json({ success: 'Reset code sent successfully' });
     } catch (error) {
-        return res.status(500).json({ message: error.message });
+      console.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
     }
-});
+  });
+  console.log(resetCode);
+  
+  router.post('/verifyResetCode', async (req, res) => {
+    try {
+      const  resetingCode = req.body.resetingCode;
+      if (resetingCode !== resetCode) {
+        return res.status(400).json({ error: 'Invalid reset code' });
+      }
+
+      // Hash the new password
+
+      const hashedPassword = await bcrypt.hash(req.body.newpassword, 10);
+      const newUser = await userModel.findOneAndUpdate(
+        req.body.email,
+        {
+          password: hashedPassword,
+      },
+      {
+      new:true
+      });
+      resetCode = undefined;
+      
+      res.status(200).json({ newUser,success: 'Password reset successfully' });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
+  
+  module.exports = router;
 //update user role
 router.put("/role/:id", authorize(['admin']), async (req, res) => {
     try {
