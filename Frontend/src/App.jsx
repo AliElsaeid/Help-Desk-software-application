@@ -8,6 +8,8 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import UserProfile from "./pages/ProfileUser";
 import resetPasswordd from "./pages/resetPassword"
+
+import ArticlesList from './pages/knowledgebase';
 function App() {
   return (
     <>
@@ -18,6 +20,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/" element={<Login />} />
         <Route path="/profile" element={<AgentProfile />} />
+        <Route path="/knowledgebase" element={<ArticlesList />} />
         </Routes>
     </>
   );

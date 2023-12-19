@@ -7,8 +7,6 @@ const cookieParser = require('cookie-parser');
 const authenticationMiddleware = require('./Middleware/authenticationMiddleware');
 
 
-const user= require('./Routes/userRoutes');
-app.use("/api/v1/user", user);
 
 app.use(cookieParser());
 
@@ -16,21 +14,10 @@ app.use(cookieParser());
 app.use(authenticationMiddleware);
 
 
-// const communicationRoutes = require('./Routes/communicationRoutes');
-const user= require('./Routes/articleRoutes');
-// app.use("/api/v1/articles",articleRoutes);
-
-const ticketsRoutes = require('./Routes/ticketRoutes');
-app.use("/api/v1/ticket", ticketsRoutes);
 
 
 
-// app.use("/api/v1/communication", communicationRoutes);
 
-// const user= require('./Routes/userRoutes');
-
-const appearance=require('./Routes/AppearanceRoutes');
-app.use("/api/v1/appearance", appearance);
 
 
 
@@ -53,6 +40,8 @@ const user = require('./Routes/userRoutes');
 const ticketsRoutes = require('./Routes/ticketRoutes');
 const communicationRoutes = require('./Routes/communicationRoutes');
 const appearance = require('./Routes/AppearanceRoutes');
+const articleRoutes= require('./Routes/articleRoutes');
+
 
 // Use routers
 app.use("/api/v1/user", user);
@@ -60,6 +49,7 @@ app.use(authenticationMiddleware);
 app.use("/api/v1/ticket",ticketsRoutes);
 app.use("/api/v1/communication", communicationRoutes);
 app.use("/api/v1/appearance", appearance);
+app.use("/api/v1/articles",articleRoutes);
 
 // DB connection
 const db_name = "Help_Desk";
