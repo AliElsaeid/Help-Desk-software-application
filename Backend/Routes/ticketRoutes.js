@@ -8,11 +8,9 @@ const Room = require('../Models/RoomsModel');
 const authorize  = require('../Middleware/authorizationMiddleware');
 const authenticationMiddleware = require('../Middleware/authenticationMiddleware');
 const axios = require('axios');
-const fetchDataFromFastAPI = async (ticketId) => {
+const fetchDataFromFastAPI = async () => {
   try {
-    const response = await axios.post('http://127.0.0.1:8000/predict_assignment', {
-      ticket_id: ticketId,
-    });
+    const response = await axios.post('http://127.0.0.1:8000/predict_assignment');
 
     const predictionResult = response.data;
     console.log('Prediction Result:', predictionResult);
@@ -29,18 +27,16 @@ const fetchDataFromFastAPI = async (ticketId) => {
 router.post('/create', async (req, res) => {
   try {
 
-   const{userId}=req;
+    const userId  = req.user.userId;
+    console.log(userId);
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
 
     const {category,priority, subCategory ,description} = req.body;
 
-    const opened_tickets = await Ticket.find({ user: userId, status: 'open' });
-
-
-    if(opened_tickets){
-
-      return res.status(400).json({ error: 'cannot open ticket' });
-
-    }
+    
 
 
     const validCategories = ['hardware', 'software', 'network'];
@@ -51,7 +47,7 @@ router.post('/create', async (req, res) => {
     };
 
     const newTicket = new Ticket({
-      user: userId,
+      user: user._id,
       category,
       subCategory,
       priority:priority,
@@ -67,7 +63,7 @@ router.post('/create', async (req, res) => {
     await User.findByIdAndUpdate(userId, { $push: { tickets: newTicket._id } });
     await newTicket.save();
 
-   fetchDataFromFastAPI(newTicket._id);
+   fetchDataFromFastAPI();
 
 
     return res.status(201).json({ message: 'Ticket created successfully', ticket: newTicket });
@@ -138,6 +134,8 @@ router.put('/:id',async (req, res) => {
     }
 
     await ticket.save();
+    await axios.post('http://127.0.0.1:8000/predict_assignment', {});
+
 
     return res.status(200).json({ ticket, message: 'Ticket updated successfully' });
   } catch (error) {
