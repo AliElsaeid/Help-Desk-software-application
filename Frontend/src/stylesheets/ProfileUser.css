@@ -1,0 +1,99 @@
+/* Styles for the user info container */
+.user-info-container {
+    position: relative; /* Fixed positioning relative to the viewport */
+    top: 150px; /* Aligns to the top of the viewport */
+    left: -130%; /* Use relative positioning */
+    width: 500px;
+    height: 500px;
+    max-width: 400px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid rgba(255, 255, 255, 0);
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 100);
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0);
+    z-index: 1001;
+  }
+ 
+  .user-info-container img {
+    width: 300px;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 20px;
+  }
+  
+  .user-info-container h1 {
+    color: #000000;
+    margin-bottom: 5px;
+  }
+  
+  .user-info-container p {
+    color: #666;
+    font-size: 14px;
+    margin: 0;
+  }
+  
+  /* Styles for the edit button */
+  .user-info-container .edit-button {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: 2px;
+    right: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 0%;
+  }
+  
+  .button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+  }
+  
+  .save-button,
+  .cancel-button {
+    width: 48%;
+  }
+  
+  /* Styles for the ticket list container */
+  .ticket-list-container {
+    position: relative;
+    top: 250px; /* Start below the user info container - adjust based on actual height of user info */
+    left: -550px; /* Add the unit (e.g., pixels) */
+    width: 320px; /* adjust as needed */
+    padding: 15px;
+    overflow-y: auto; /* scroll for overflowing content */
+    max-height: calc(90vh - 60px); /* adjust height based on user info size */
+    font-family: Arial, sans-serif; /* default font */
+    z-index: 1000; /* Ensure it is under the user-info-container */
+    background: #f9f9f9;
+}
+
+  /* Ticket list styling */
+  .ticket-list-container ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  /* Each ticket's list item styling in ticket list container */
+  .ticket-list-container li {
+    background: #fff;
+    margin-bottom: 10px;
+    padding: 20px;
+    border: 1px solid #eee;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .ticket-list-container li:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  }
+  
