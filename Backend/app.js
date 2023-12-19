@@ -27,6 +27,7 @@ const user = require('./Routes/userRoutes');
 const ticketsRoutes = require('./Routes/ticketRoutes');
 const communicationRoutes = require('./Routes/communicationRoutes');
 const appearance = require('./Routes/AppearanceRoutes');
+const articles =require('./Routes/articleRoutes')
 
 // Use routers
 app.use("/api/v1/user", user);
@@ -34,6 +35,7 @@ app.use(authenticationMiddleware);
 app.use("/api/v1/ticket",ticketsRoutes);
 app.use("/api/v1/communication", communicationRoutes);
 app.use("/api/v1/appearance", appearance);
+app.use("/api/v1/article",articles);
 
 // DB connection
 const db_name = "Help_Desk";
@@ -57,3 +59,4 @@ app.use(function (req, res, next) {
 
 // Start server
 app.listen(3000, () => console.log("Server started on port 3000"));
+
