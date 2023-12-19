@@ -2,39 +2,39 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 require('dotenv').config();
-const urlModule = require('url');
-app.use(express.json());
-const authorize  = require('./Middleware/authorizationMiddleware');
-
-
+const cors = require("cors");
 const cookieParser = require('cookie-parser');
 const authenticationMiddleware = require('./Middleware/authenticationMiddleware');
 
 
-const user= require('./Routes/userRoutes');
-app.use("/api/v1/user", user);
 
+console.log(process.env.ORIGIN);
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+// Configure CORS
+app.use(
+  cors({
+    origin: process.env.ORIGIN, // Ensure the ORIGIN environment variable is set in your .env file
+    credentials: true, // This is important for cookies or auth headers
+  })
+);
 
-app.use(authenticationMiddleware);
-
-
-const communicationRoutes = require('./Routes/communicationRoutes');
+// Router setup
+const user = require('./Routes/userRoutes');
 
 const ticketsRoutes = require('./Routes/ticketRoutes');
-app.use("/api/v1/ticket", ticketsRoutes);
+const communicationRoutes = require('./Routes/communicationRoutes');
+const appearance = require('./Routes/AppearanceRoutes');
 
-
+// Use routers
+app.use("/api/v1/user", user);
+app.use(authenticationMiddleware);
+app.use("/api/v1/ticket",ticketsRoutes);
 app.use("/api/v1/communication", communicationRoutes);
-
-
-const appearance=require('./Routes/AppearanceRoutes');
 app.use("/api/v1/appearance", appearance);
 
-
-
-app.use("/api/v1/user", user);
 
 
 app.use(express.json());
@@ -48,9 +48,7 @@ app.use((req, res, next) => {
 
 
 const db_name = "Help_Desk";
-
 const db_url = `mongodb://127.0.0.1:27017/${db_name}`;
-
 const dbOptions = {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -63,7 +61,10 @@ mongoose
     console.error("MongoDB connection error:", e.message);
   });
 
+// Handle 404
 app.use(function (req, res, next) {
-  return res.status(404).send("404");
+  return res.status(404).send("404 - Not Found");
 });
-app.listen(3000, () => console.log("server started"));
+
+// Start server
+app.listen(3000, () => console.log("Server started on port 3000"));
