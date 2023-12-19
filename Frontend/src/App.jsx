@@ -23,7 +23,7 @@ function App() {
         <Route path="/login" element={<Login />} />
 
         <Route path="/profile/:id" element={<AgentProfile />} />
-        <Route path="/Adminprofile/:id" element={<AdminProfile />} />
+        <Route path="/admin" element={<AdminProfile />} />
 
 
         <Route path="/profile" element={<AgentProfile />} />

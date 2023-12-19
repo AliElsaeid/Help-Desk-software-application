@@ -35,7 +35,7 @@ const Login = () => {
                 navigate(`/user`);
                 break;
             case 'admin':
-                navigate(`/profile`);
+                navigate(`/admin`);
                 break;
             case 'agent':
                 navigate(`/profile`);
