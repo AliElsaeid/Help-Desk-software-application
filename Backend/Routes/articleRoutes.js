@@ -5,7 +5,7 @@ const ArticleModel = require('../Models/ArticlesModel');
 // const authenticationMiddleware = require("../Middleware/authenticationMiddleware");
 
 // Get all articles
-router.get('/articles',authenticationMiddleware, async (req, res) => {
+router.get('/articles', async (req, res) => {
   try {
     const articles = await ArticleModel.find();
     res.json(articles);
