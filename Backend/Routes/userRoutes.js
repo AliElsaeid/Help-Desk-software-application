@@ -1,9 +1,9 @@
 // usersRoutes.js
 const express = require("express");
 const router = express.Router();
-const authorizationMiddleware = require('../Middleware/authorizationMiddleware');
+const nodemailer = require('nodemailer');
+const authorize  = require('../Middleware/authorizationMiddleware');
 const authenticationMiddleware = require('../Middleware/authenticationMiddleware');
-
 const userModel = require("../Models/UserModel");
 const sessionsModel = require("../Models/SessionsModel");
 const jwt = require("jsonwebtoken");
@@ -13,10 +13,11 @@ const bcrypt = require("bcrypt");
 
 
 router.post("/login", async (req, res) => {
+    console.log(req.body);
     try {
-        const { email, password } = req.body;
+        const { email, password } = req.body.data;
         const user = await userModel.findOne({ email });
-
+        console.log(user );
         if (!user) {
             return res.status(404).json({ message: "Email not found" });
         }
@@ -31,10 +32,15 @@ router.post("/login", async (req, res) => {
 
         // Generate a JWT token
         const token = jwt.sign(
-            { userId: user._id, role: user.role },
+            { user: { userId: user._id, role: user.role } },
             secretKey,
-            { expiresIn: 3 * 60 * 60 } // in seconds
-        );
+            {
+              expiresIn: 3 * 60 * 60,
+            }
+          );
+
+        console.log(token);
+        
 
         // Save session
         const newSession = new sessionsModel({
@@ -43,14 +49,15 @@ router.post("/login", async (req, res) => {
             expiryTime: expiresAt,
         });
         await newSession.save();
-
+        console.log("lol");
         // Set token in the response cookie
         return res
             .cookie("token", token, {
                 expires: expiresAt,
                 withCredentials: true,
-                httpOnly: false,
-                sameSite: 'strict', // or 'lax' based on your requirements
+                httpOnly: true,
+                secure: true,
+                sameSite: 'none', 
             })
             .status(200)
             .json({ message: "Login successful", user });
@@ -95,7 +102,7 @@ router.post("/register", async (req, res) => {
 });
 
 // * Get all users
-router.get("/", authorizationMiddleware(['admin']), async (req, res) => {
+router.get("/", authenticationMiddleware, async (req, res) => {
     try {
         const users = await userModel.find();
         return res.status(200).json(users);
@@ -105,7 +112,7 @@ router.get("/", authorizationMiddleware(['admin']), async (req, res) => {
 });
 
 // * Get one user
-router.get("/:id", authorizationMiddleware('admin'), async (req, res) => {
+router.get("/:id" , async (req, res) => {
     try {
         const user = await userModel.findById(req.params.id);
         return res.status(200).json(user);
@@ -115,7 +122,7 @@ router.get("/:id", authorizationMiddleware('admin'), async (req, res) => {
 });
 
 // * Update one user
-router.put("/:id", authorizationMiddleware(['user','admin']), async (req, res) => {
+router.put("/:id",async (req, res) => {
     try {
         const user = await userModel.findByIdAndUpdate(
             req.params.id,
@@ -135,8 +142,80 @@ router.put("/:id", authorizationMiddleware(['user','admin']), async (req, res) =
         return res.status(500).json({ message: error.message });
     }
 });
+// * Update  user pass
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    host:"stmp.gmail.com",
+    port:587,
+    secure:false,
+
+
+    auth: {
+      user: 'uni.help.desk23@gmail.com',
+      pass: 'eoaf iwuh zmvi wccr',
+    },
+  });
+  let resetCode = Math.floor(1000 + Math.random() * 9000);
+
+router.post('/resetPassword', async (req, res) => {
+    try {
+      const { email } = req.body;
+      const user = await userModel.findOne({ email });
+
+      if (!user) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+  
+  
+      const mailOptions = {
+        from: {
+          name:"Uni Help_Desk",
+         address: 'uni.help.desk23@gmail.com'
+      }, 
+        to: user.email,
+        subject :"Reseting Password Code",
+        text: `Your verification code is: ${resetCode}`,
+      };
+      await transporter.sendMail(mailOptions);
+        
+      res.status(200).json({ success: 'Reset code sent successfully' });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
+  console.log(resetCode);
+  
+  router.post('/verifyResetCode', async (req, res) => {
+    try {
+      const  resetingCode = req.body.resetingCode;
+      if (resetingCode !== resetCode) {
+        return res.status(400).json({ error: 'Invalid reset code' });
+      }
+
+      // Hash the new password
+
+      const hashedPassword = await bcrypt.hash(req.body.newpassword, 10);
+      const newUser = await userModel.findOneAndUpdate(
+        req.body.email,
+        {
+          password: hashedPassword,
+      },
+      {
+      new:true
+      });
+      resetCode = undefined;
+      
+      res.status(200).json({ newUser,success: 'Password reset successfully' });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
+  
+  module.exports = router;
 //update user role
-router.put("/role/:id", authorizationMiddleware(['admin']), async (req, res) => {
+router.put("/role/:id", authorize(['admin']), async (req, res) => {
     try {
         const user = await userModel.findByIdAndUpdate(
             req.params.id,
@@ -154,7 +233,7 @@ router.put("/role/:id", authorizationMiddleware(['admin']), async (req, res) => 
 });
 
 // * Delete one user
-router.delete("/:id", authorizationMiddleware(['admin','user']), async (req, res) => {
+router.delete("/:id", authorize(['admin','user']), async (req, res) => {
     try {
         const user = await userModel.findByIdAndDelete(req.params.id);
         return res.status(200).json({ user, msg: "User deleted successfully" });

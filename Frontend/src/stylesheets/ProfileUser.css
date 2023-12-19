@@ -1,0 +1,71 @@
+/* Styles for the user info container */
+.user-info-container {
+    background-color: rgba(255, 255, 255, 0);
+    border-radius: 10px;
+    padding: 20px;
+    width: 700px;
+    height: 400px;
+    margin: auto; /* Center horizontally */
+    position: absolute;
+    top: 15%;
+    left: -9%;
+    transform: translate(-50%, -50%); /* Center vertically and horizontally */
+    border: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0);
+    transform: scale(0.6);
+    transform-origin: top;
+}
+@media (max-width: 768px) {
+    .user-info-container {
+        width: 80%; /* Adjust width for smaller screens */
+        top: 180px;
+        transform: scale(0.5);
+
+    }
+}
+.user-info-container img {
+    width: 300px;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 20px;
+}
+
+.user-info-container h1,
+.user-info-container p {
+    color: #fff; /* White text color */
+}
+
+/* Styles for the edit button */
+.user-info-container .edit-button {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: 2px;
+    right: 70px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 0%;
+    filter: invert(100%);
+}
+
+/* Additional styles for text inputs */
+.user-info-container input {
+    background-color: transparent; /* No background color */
+    border: none; /* No borders */
+    color: #fff; /* White text color */
+    margin-bottom: 10px;
+}
+
+/* Additional styles for buttons */
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* Center vertically */
+    margin-top: 10px;
+}
+
+.button-container button {
+    color: #fff; /* White text color */
+    margin-right: 10px; /* Space between buttons */
+}
