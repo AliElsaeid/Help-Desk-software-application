@@ -5,7 +5,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useCookies } from "react-cookie";
 import "../stylesheets/Adminaddar.css";
 
-
 const arbackend = "http://localhost:3000/api/v1/article";
 
 const AddWork = () => {
@@ -13,6 +12,8 @@ const AddWork = () => {
   const [cookies] = useCookies(['token']);
   const [isUpdateMode, setIsUpdateMode] = useState(false);
   const [currentArticleId, setCurrentArticleId] = useState(null);
+  const [search, setSearch] = useState('');
+  const [filterType, setFilterType] = useState('type');
   const initialArticleState = {
     title: '',
     content: '',
@@ -33,14 +34,25 @@ const AddWork = () => {
           'Authorization': `Bearer ${cookies.token}`
         }
       });
-      setArticles(response.data);
+      const filteredArticles = response.data.filter(article =>
+        article[filterType].toLowerCase().includes(search.toLowerCase())
+      );
+      setArticles(filteredArticles);
     } catch (error) {
-      toast.error('Failed to retrieve articles. ' + error.response.data.message);
+      toast.error('Failed to retrieve articles. ' + (error.response ? error.response.data.message : error.message));
     }
   };
 
   const handleChange = (e) => {
     setArticle({ ...article, [e.target.name]: e.target.value });
+  };
+
+  const handleSearchChange = (e) => {
+    setSearch(e.target.value);
+  };
+
+  const handleFilterChange = (e) => {
+    setFilterType(e.target.value);
   };
 
   const handleSubmit = async (event) => {
@@ -117,71 +129,125 @@ const AddWork = () => {
     }
   };
 
+  const handleSearch = (e) => {
+    e.preventDefault();
+    fetchArticles();
+  };
+
+ 
   return (
-    <div>
+    <div className="article-management-container">
       <ToastContainer />
+
+      {/* Header */}
       <h1>{isUpdateMode ? 'Update' : 'Add'} an Article</h1>
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <div style={{ width: '50%' }}>
+      
+      {/* Search and Filter */}
+      <div className="filter-search-section">
+        <form onSubmit={handleSearch} className="search-form">
+          <input
+            type="text"
+            value={search}
+            onChange={handleSearchChange}
+            placeholder="Search articles..."
+            className="search-input"
+          />
+          <select
+            value={filterType}
+            onChange={handleFilterChange}
+            className="filter-select"
+          >
+            <option value="type">Type</option>
+            <option value="category">Category</option>
+          </select>
+          <button type="submit" className="search-button">Search</button>
+        </form>
+      </div>
+      
+      {/* Articles Listing */}
+      <div className="articles-section">
+        <div className="articles-list">
           {articles.map((articleItem) => (
-            <div key={articleItem._id} style={{ marginBottom: '10px'}}>
-              <h3>{articleItem.title}</h3>
-              <p>{articleItem.content}</p>
-              <p>Type: {articleItem.type}</p>
-              <p>Category: {articleItem.category}</p>
-              <button onClick={() => startUpdate(articleItem)}>Update</button>
-              <button onClick={() => deleteArticle(articleItem._id)}>Delete</button>
+            <div key={articleItem._id} className="article-item">
+              <div className="article-content">
+                <h3>{articleItem.title}</h3>
+                <p>{articleItem.content}</p>
+                <p>Type: {articleItem.type}</p>
+                <p>Category: {articleItem.category}</p>
+              </div>
+              <div className="article-actions">
+                <button onClick={() => startUpdate(articleItem)} className="article-update-button">Update</button>
+                <button onClick={() => deleteArticle(articleItem._id)} className="article-delete-button">Delete</button>
+              </div>
+              <div className="article-separator"></div>
             </div>
           ))}
         </div>
-        
-        <div style={{ width: '50%' }}>
-          <form onSubmit={handleSubmit}>
-            <div>
-              <label>Title:</label>
-              <input
-                type="text"
-                name="title"
-                value={article.title}
-                onChange={handleChange}
-                required
-              />
-            </div>
-            <div>
-              <label>Content:</label>
-              <textarea
-                name="content"
-                value={article.content}
-                onChange={handleChange}
-                required
-              />
-            </div>
-            <div>
-              <label>Type:</label>
-              <select name="type" value={article.type} onChange={handleChange}>
-                <option value="Workflow">Workflow</option>
-                <option value="KnowledgeBase">KnowledgeBase</option>
-              </select>
-            </div>
-            <div>
-              <label>Category:</label>
-              <input
-                type="text"
-                name="category"
-                value={article.category}
-                onChange={handleChange}
-              />
-            </div>
-            <button type="submit">{isUpdateMode ? 'Update' : 'Add'} Article</button>
-            {isUpdateMode && (
-              <button type="button" onClick={() => {
+      </div>
+
+      {/* Article Form */}
+      <div className="article-form-section">
+        <form onSubmit={handleSubmit} className="article-form">
+          {/* Title */}
+          <label>Title:</label>
+          <input
+            type="text"
+            name="title"
+            value={article.title}
+            onChange={handleChange}
+            required
+          />
+          
+          {/* Content */}
+          <label>Content:</label>
+          <textarea
+            name="content"
+            value={article.content}
+            onChange={handleChange}
+            required
+          />
+          
+          {/* Type */}
+          <label>Type:</label>
+          <select name="type" value={article.type} onChange={handleChange}>
+            <option value="Workflow">Workflow</option>
+            <option value="KnowledgeBase">KnowledgeBase</option>
+          </select>
+          
+          {/* Category */}
+          <label>Category:</label>
+          <select
+            name="category"
+            className="select-category"
+            value={article.category}
+            onChange={handleChange}
+          >
+            <option value="">Select Category</option>
+            <option value="Software">Software</option>
+            <option value="Hardware">Hardware</option>
+            <option value="Network">Network</option>
+          </select>
+          
+          {/* Submit Button */}
+          <button type="submit" className="submit-button">
+            {isUpdateMode ? 'Update' : 'Add'} Article
+          </button>
+          
+          {/* Cancel Button */}
+          {isUpdateMode && (
+            <button
+              type="button"
+              className="cancel-button"
+              onClick={() => {
                 setIsUpdateMode(false);
                 setArticle(initialArticleState);
                 setCurrentArticleId(null);
-              }}>Cancel</button>
-            )}
-          </form>
-        </div>
+              }}
+            >
+              Cancel
+            </button>
+          )}
+        </form>
       </div>
     </div>
   );

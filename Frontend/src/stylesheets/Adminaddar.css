@@ -1,0 +1,145 @@
+/* Add import at the top of your CSS file for google fonts or include in your HTML */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+/* Base Styles */
+.article-management-container {
+  font-family: 'Poppins', sans-serif;
+  padding: 20px;
+}
+
+h1 {
+  text-align: center;
+  font-weight: 600;
+}
+
+/* Search and Filter Styles */
+.filter-search-section {
+  max-width: 500px;
+  margin: 0 auto 20px;
+}
+
+.search-form {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+}
+
+.search-input,
+.filter-select {
+  padding: 10px;
+  border-radius: 20px;
+  border: 1px solid #dddddd;
+}
+
+.search-button {
+  background-color: #5469d4;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 20px;
+  border: none;
+}
+
+.search-button:hover {
+  background-color: #4254a3;
+}
+
+/* Articles List Styles */
+.articles-section {
+  overflow-y: auto; /* enables scrolling */
+  max-height: 600px;
+  margin-bottom: 20px;
+}
+
+.articles-list {
+  padding: 10px;
+}
+
+.article-item {
+  background: #ffffff;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  position: relative;
+  padding: 20px;
+}
+
+.article-content h3 {
+  margin-top: 0;
+}
+
+.article-actions {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  text-align: right;
+}
+
+.article-update-button,
+.article-delete-button {
+  display: block;
+  background-color: #5469d4;
+  color: white;
+  padding: 10px 20px;
+  margin-bottom: 10px;
+  border-radius: 20px;
+  border: none;
+}
+
+.article-delete-button {
+  background-color: #dc3545;
+}
+
+.article-separator {
+  background: linear-gradient(to right, #cccccc, #333333, #cccccc);
+  height: 3px;
+  margin-top: 20px;
+}
+
+/* Add Article Form Styles */
+.article-form-section {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.article-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.select-category,
+.submit-button,
+.cancel-button {
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 20px;
+}
+
+.submit-button {
+  background-color: #28a745;
+  color: white;
+  margin-top: 20px;
+}
+
+.submit-button:hover {
+  background-color: #218838;
+}
+
+.cancel-button {
+  background-color: #777;
+  color: white;
+}
+
+.cancel-button:hover {
+  background-color: #555;
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 768px) {
+  .filter-search-section {
+    max-width: 100%;
+  }
+
+  .article-form-section {
+    max-width: 100%;
+  }
+}
