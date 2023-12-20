@@ -9,6 +9,8 @@ import "../stylesheets/ProfileUser.css";
 import "../stylesheets/UserProfile.css";
 import img from '../assets/avatara1.jpg';
 import edit from '../assets/edit.png';
+import AgentChatRooms from "../components/UserChatRooms";
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const chatbackend = "http://localhost:3000/api/v1/communication";
@@ -98,6 +100,10 @@ const UserProfile = () => {
 
   return (
     <div>
+      <div className="randommm-top-right">
+        <AgentChatRooms />
+      </div>
+      <ToastContainer />
       <div className="navbar-top-right">
         <UserNavbBar />
       </div>
@@ -204,6 +210,7 @@ const UserProfile = () => {
       <div className="ticket-detail-view">
         {selectedTicketId && <TicketDetails ticketId={selectedTicketId} />}
       </div>
+      
     </div>
   );
 };
