@@ -1,53 +1,155 @@
+/* knowledgebasestyle.css */
 
+/* General Body Style */
 body {
-    font-family: 'Arial', sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #000000;
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(to left, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 1)),
+    url("../assets/wallpaper.jpg") fixed center;
+  background-size: cover;
+  color: white; /* Common text color */
+}
+.title-container {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.title-container h1 {
+  font-size: 3em; /* Adjust the title font size */
+  font-family: 'Segoe Print', sans-serif;
+
+  font-weight: bold;
+  color: #ffffff; /* Title color */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Add a subtle text shadow */
+}
+/* Common Card Style */
+.card-container {
+  background-color: rgba(255, 255, 255, 0.2); /* Semi-transparent white */
+  border-radius: 10px;
+  margin-bottom: 20px;
+  padding: 20px;
+  border: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0);
+}
+
+/* Headers inside containers */
+.card-container h1,
+.card-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 2em;
+  font-weight: bold;
+}
+
+/* Common Input Style */
+input[type="search"] {
+  background-color: transparent;
+  border: none;
+  border-radius: 0;
+  border-bottom: 1px solid #ffffff;
+  padding: 10px;
+  width: calc(100% - 22px);
+  margin-top: 8px;
+  margin-bottom: 16px;
+  font-size: 0.9em;
+  font-family: 'Arial', sans-serif;
+  color: white;
+  outline: none; /* Remove the default input focus outline */
+}
+
+/* Placeholder Style */
+input::placeholder {
+  color: #ffffff;
+  font-size: 0.9em;
+}
+
+/* Remove the border from the button */
+.search-button {
+  border: none;
+}
+/* Common Button Style */
+button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 1em;
+  font-family: 'Arial', sans-serif;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+/* Anchor Link Style */
+a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Error Message Style */
+.error-message {
+  color: #d9534f;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+/* Loading Spinner Style */
+.loading-spinner {
+  margin-top: 20px;
+  text-align: center;
+}
+
+/* Article Card Specific Style */
+.article-card {
+  background-color: #4855816c;
+  color: rgb(255, 255, 255);
+  margin: 10px 0;
+  padding: 15px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  transform: scale(0.9);
+  animation: fadeIn 3s forwards, scaleUp 3s forwards;
+  transition: all 0.3s ease;
+}
+
+.article-card:hover {
+  background-color: #485581; /* Change the background color on hover */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  transform: scale(1.05);
+}
+
+/* Keyframes */
+@keyframes fadeIn {
+  to {
+    opacity: 1;
   }
-  
-  .articles-list {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
+}
+
+@keyframes scaleUp {
+  to {
+    transform: scale(1);
   }
-  
-  h1 {
-    color: #333;
+}
+
+/* Responsive Design - you can add breakpoints if necessary */
+@media (max-width: 768px) {
+  .card-container,
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="search"] {
+    width: 90%; /* Smaller devices width */
+    margin-left: auto;
+    margin-right: auto;
   }
-  
-  ul {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  .article {
-    background-color: #fff;
-    margin: 10px 0;
-    padding: 15px;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(192, 22, 22, 0.1);
-  }
-  
-  .article h2 {
-    color: #007bff;
-  }
-  
-  .article p {
-    color: #555;
-  }
-  
-  .load-more-button {
-    background-color: #007bff;
-    color: #fff;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .error-message {
-    color: #ff0000;
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
+}

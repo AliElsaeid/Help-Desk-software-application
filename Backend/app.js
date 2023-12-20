@@ -11,7 +11,6 @@ const authenticationMiddleware = require('./Middleware/authenticationMiddleware'
 app.use(cookieParser());
 
 
-app.use(authenticationMiddleware);
 
 
 
@@ -45,11 +44,11 @@ const articleRoutes= require('./Routes/articleRoutes');
 
 // Use routers
 app.use("/api/v1/user", user);
-app.use(authenticationMiddleware);
+// app.use(authenticationMiddleware);
 app.use("/api/v1/ticket",ticketsRoutes);
 app.use("/api/v1/communication", communicationRoutes);
 app.use("/api/v1/appearance", appearance);
-app.use("/api/v1/articles",articleRoutes);
+app.use("/api/v1/users",articleRoutes);
 
 // DB connection
 const db_name = "Help_Desk";

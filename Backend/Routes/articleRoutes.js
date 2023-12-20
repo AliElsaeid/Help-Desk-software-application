@@ -13,6 +13,23 @@ router.get('/articles', async (req, res) => {
   }
 });
 
+// routes.js
+router.post('/articlesss', async (req, res) => {
+  try {
+    const searchTerm = req.body.searchTerm; // Extract searchTerm from req.body
+
+    let articles;
+    if (!searchTerm) {
+      articles = await ArticleModel.find({ type: 'KnowledgeBase' });
+    } else {
+      articles = await ArticleModel.find({ type: 'KnowledgeBase', category: searchTerm });
+    }
+
+    res.json(articles);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
 // Create a new article
 router.post('/articles', async (req, res) => {
   const article = new ArticleModel({
