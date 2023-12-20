@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../stylesheets/knowledgebasestyle.css';
-import Nav from 'react-bootstrap/Nav';
-
 
 const ArticlesList = () => {
   const [articles, setArticles] = useState([]);
