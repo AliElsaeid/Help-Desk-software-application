@@ -4,6 +4,8 @@ import axios from 'axios';
 import AgentNavbar from '../components/AgentNavbar';
 import "../stylesheets/AgentChats.css";
 import 'bootstrap/dist/css/bootstrap.min.css'; 
+import { useCookies } from "react-cookie";
+
 
 
 const AgentChatRooms = () => {
@@ -14,6 +16,7 @@ const AgentChatRooms = () => {
   const chatbackend = "http://localhost:3000/api/v1/communication";
   const uid = localStorage.getItem("userId");
   const userbackend = "http://localhost:3000/api/v1/user";
+  const [cookies] = useCookies(['token']);
 
   useEffect(() => {
     // Fetch chat rooms when the component mounts
@@ -23,7 +26,12 @@ const AgentChatRooms = () => {
 
   const getChatRooms = async () => {
     try {
-      const response = await axios.get(`${chatbackend}/getChatRooms/${uid}`);
+      const response = await axios.get(`${chatbackend}/getChatRooms/${uid}`, {
+        withCredentials: true,
+        headers: {
+          'Authorization': `Bearer ${cookies.token}`
+        }
+      });
       setChatRooms(response.data);
     } catch (error) {
       console.log(error);
@@ -32,7 +40,12 @@ const AgentChatRooms = () => {
 
   const loadMessages = useCallback(async (roomId) => {
     try {
-      const messagesResponse = await axios.get(`${chatbackend}/getChatMessages/${roomId}`);
+      const messagesResponse = await axios.get(`${chatbackend}/getChatMessages/${roomId}`, {
+        withCredentials: true,
+        headers: {
+          'Authorization': `Bearer ${cookies.token}`
+        }
+      });
       const messagesWithUsernamesPromises = messagesResponse.data.map(async (message) => {
         const userResponse = await axios.get(`${userbackend}/${message.sender}`);
         return { ...message, username: userResponse.data.username };
@@ -43,7 +56,7 @@ const AgentChatRooms = () => {
     } catch (error) {
       console.log(error);
     }
-  }, []);
+  }, [cookies.token]);
 
   const handleRoomClick = (roomId) => {
     setSelectedRoomId(roomId);
@@ -59,6 +72,11 @@ const AgentChatRooms = () => {
         roomID: selectedRoomId,
         userId: uid,
         content: newMessage,
+      }, {
+        withCredentials: true,
+        headers: {
+          'Authorization': `Bearer ${cookies.token}`
+        }
       });
       setNewMessage('');
       loadMessages(selectedRoomId); // Refresh messages after sending
@@ -73,7 +91,7 @@ const AgentChatRooms = () => {
         <AgentNavbar />
       </div>
       <div className="container-fluid mt-4">
-        <div className="row">
+       
           {/* Room List Column */}
           <div className="list-group">
             <h2>Rooms</h2>
@@ -131,7 +149,7 @@ const AgentChatRooms = () => {
               </div>
             </div>
           )}
-        </div>
+        
       </div>
     </div>
   );
