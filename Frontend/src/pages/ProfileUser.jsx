@@ -55,17 +55,17 @@ const UserProfile = () => {
       });
 
       
-    axios.get(`${ticketbackend}/getTickets/${uid}`, {
+    axios.get(`${ticketbackend}/getTickets`, {
       withCredentials: true,
       headers: {
         'Authorization': `Bearer ${cookies.token}`
       }
     })
-      .then(response => setTickets(response.data))
-      .catch(error => {
-        console.error('Error fetching tickets:', error);
-        toast.error("Error fetching tickets.");
-      });
+    .then(response => setTickets(response.data))
+    .catch(error => {
+      console.error('Error fetching tickets:', error);
+      toast.error("Error fetching tickets.");
+    });
   }, [uid, cookies.token]);
 
   const handleEditClick = () => {

@@ -23,17 +23,13 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
-        backendUrl,
-        { ...inputValue },
-        { withCredentials: true }
-      );
+      const response = await axios.post(backendUrl, { ...inputValue }, { withCredentials: true });
       const { status, data } = response;
-
-      if (status === 200) {
-        setSuccessMessage("Login successful!");
-        localStorage.setItem("userId", data.user._id);
-        localStorage.setItem("role", data.user.role);
+      console.log('data',data)
+      if (response.status === 200)  {
+        setMessage("Login successful!");
+        localStorage.setItem("userId",response.data.user._id)
+        localStorage.setItem("role",response.data.user.role)
 
         const role = data.user.role.toLowerCase();
 
