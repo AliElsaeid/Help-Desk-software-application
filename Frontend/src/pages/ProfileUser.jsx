@@ -11,7 +11,7 @@ import img from '../assets/avatara1.jpg';
 import edit from '../assets/edit.png';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-
+const chatbackend = "http://localhost:3000/api/v1/communication";
 const ticketbackend = "http://localhost:3000/api/v1/ticket";
 const userbackend = 'http://localhost:3000/api/v1/user';
 
@@ -33,17 +33,7 @@ const UserProfile = () => {
   useEffect(() => {
     axios.defaults.withCredentials = true;
     
-    // axios.get(`${ticketbackend}/getTickets/${uid}`, {
-    //   withCredentials: true,
-    //   headers: {
-    //     'Authorization': `Bearer ${cookies.token}`
-    //   }
-    // })
-    // .then(response => setTickets(response.data))
-    // .catch(error => {
-    //   console.error('Error fetching tickets:', error);
-    //   toast.error("Error fetching tickets.");
-    // });
+    
 
 
     axios
@@ -192,7 +182,7 @@ const UserProfile = () => {
           </div>
         )}
       </div>
-{/* 
+ 
       <div className="ticket-list-container">
         <h1>Ticket List</h1>
         <ul>
@@ -209,7 +199,7 @@ const UserProfile = () => {
             </li>
           ))}
         </ul>
-      </div> */}
+      </div> 
 
       <div className="ticket-detail-view">
         {selectedTicketId && <TicketDetails ticketId={selectedTicketId} />}

@@ -69,3 +69,59 @@
     color: #fff; /* White text color */
     margin-right: 10px; /* Space between buttons */
 }
+.ticket-list-container {
+    background-color: rgba(255, 255, 255, 1);
+    border-radius: 10px;
+    padding: 20px;
+    width: 1000px;
+    height: 300px;
+    margin: auto; /* Center horizontally */
+    position: absolute;
+    top: 25%;
+    left:37%;
+    transform: translate(-50%, -50%); /* Center vertically and horizontally */
+    border: none;
+    box-shadow: rgb(37, 12, 200,1);
+    transform: scale(0.6);
+    transform-origin: top;
+  }
+  
+  @media (max-width: 768px) {
+    .ticket-list-container {
+      width: 80%; /* Adjust width for smaller screens */
+      top: 180px;
+      transform: scale(0.4);
+    }
+  }
+  
+  .ticket-list-container h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .ticket-list-container ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .ticket-list-container li {
+    cursor: pointer;
+    padding: 15px;
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .ticket-list-container li:hover {
+    background-color: #e0e0e0;
+  }
+  
+  .ticket-list-container span {
+    display: block;
+    margin-bottom: 8px;
+  }
+  
+  /* Additional styles as needed for your design */
+  

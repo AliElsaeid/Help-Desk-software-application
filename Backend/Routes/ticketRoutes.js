@@ -75,9 +75,9 @@ router.post('/create', async (req, res) => {
 
 router.get('/getTickets',async (req, res) => {
   try {
-    const userId  = req.user;
+    const userId  = req.user.userId;
     console.log(userId);
-    const user = await User.findById(userId.userId);
+    const user = await User.findById(userId);
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
     }
@@ -96,9 +96,9 @@ router.get('/getTickets',async (req, res) => {
       result = await Ticket.find({ user: userId });
     }
 
-    if (!result || result.length === 0) {
-      return res.status(403).json({ error: 'Unauthorized. You do not have access to any tickets.' });
-    }
+    // if (!result || result.length === 0) {
+    //   return res.status(403).json({ error: 'Unauthorized. You do not have access to any tickets.' });
+    // }
 
     return res.status(200).json(result);
   } catch (error) {

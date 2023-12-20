@@ -19,7 +19,6 @@ const Login = () => {
       [name]: value,
     }));
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -27,19 +26,15 @@ const Login = () => {
       const { status, data } = response;
       console.log('data',data)
       if (response.status === 200)  {
-        setMessage("Login successful!");
-        localStorage.setItem("userId",response.data.user._id)
-        localStorage.setItem("role",response.data.user.role)
-
-        const role = data.user.role.toLowerCase();
-
-        switch (role) {
+        setSuccessMessage("Login successful!");
+        localStorage.setItem("userId", data.user._id);
+        localStorage.setItem("role", data.user.role);
+  
+        switch (data.user.role.toLowerCase()) {
           case "user":
             navigate(`/user`);
             break;
           case "admin":
-            navigate(`/profile`);
-            break;
           case "agent":
             navigate(`/profile`);
             break;
@@ -52,7 +47,6 @@ const Login = () => {
       setErrorMessage(`Login failed: ${error.response?.data?.message}`);
     }
   };
-
   return (
     <div className="welcome-container">
       <h2 className="welcome-back">Welcome Back</h2>
