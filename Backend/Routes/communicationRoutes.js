@@ -56,13 +56,13 @@ router.post('/createRoom', authenticationMiddleware,authorize('user'),async (req
 
 
 
-  router.get('/getChatRooms', authenticationMiddleware,async (req, res) => {
+  router.get('/getChatRooms/:id',async (req, res) => {
     try {
-      const { userId } = req.body;
+     
     
   
      
-      const user = await User.findById(userId);
+      const user = await User.findById(req.params.id);
       if (!user) {
         return res.status(404).json({ error: 'User not found' });
       }
@@ -98,26 +98,17 @@ router.post('/createRoom', authenticationMiddleware,authorize('user'),async (req
 
 
  
+  
 
-
-  const key = 'password';
+  router.post('/sendMessage',async (req, res) => {
+    try {
+     
+      const key = 'password';
   function encrypt(text, key) {
     const cipher = crypto.createCipher('aes256', key);
     let encrypted = cipher.update(text, 'utf8', 'hex') + cipher.final('hex');
     return encrypted;
   }
-  
-  // Decryption function
-  function decrypt(text, key) {
-    const decipher = crypto.createDecipher('aes256', key);
-    let decrypted = decipher.update(text, 'hex', 'utf8') + decipher.final('utf8');
-    return decrypted;
-  }
-  
-
-  router.post('/sendMessage', authenticationMiddleware,async (req, res) => {
-    try {
-     
       const { roomID,userId, content } = req.body;
       
       
@@ -151,12 +142,17 @@ router.post('/createRoom', authenticationMiddleware,authorize('user'),async (req
   });
   
   
-  router.get('/getChatMessages', authenticationMiddleware,async (req, res) => {
+  router.get('/getChatMessages/:id',async (req, res) => {
     try {
-      const { roomID } = req.body;
 
+      const key = 'password';
+      function decrypt(text, key) {
+        const decipher = crypto.createDecipher('aes256', key);
+        let decrypted = decipher.update(text, 'hex', 'utf8') + decipher.final('utf8');
+        return decrypted;
+      }
 
-      const chatMessages = await ChatMessage.find({ 'room': roomID });
+      const chatMessages = await ChatMessage.find({ 'room': req.params.id });
       
       const decryptedMessages = chatMessages.map(message => ({
         ...message._doc,

@@ -16,9 +16,9 @@ const bcrypt = require("bcrypt");
 router.post("/login", async (req, res) => {
     console.log(req.body);
     try {
-        const { email, password } = req.body.data;
+        const { email, password } = req.body;
         const user = await userModel.findOne({ email });
-        console.log(user );
+        console.log(user);
         if (!user) {
             return res.status(404).json({ message: "Email not found" });
         }

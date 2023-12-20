@@ -76,9 +76,11 @@ classifier, encoder = train_classifier(df)
 import traceback  # Import the traceback module
 
 @app.post("/predict_assignment")
-async def predict_assignment(ticket_data: TicketData):
+async def predict_assignment():
     try:
-        ticket_data_mongo = get_ticket_data(ticket_id=ticket_data.ticket_id)
+        
+       
+         
 
         agents = ["Agent 1", "Agent 2", "Agent 3"]
 
@@ -89,7 +91,8 @@ async def predict_assignment(ticket_data: TicketData):
         for open_ticket in open_tickets:
             big_queue.put(open_ticket.get("_id"))
 
-        big_queue.put(ticket_data_mongo["_id"])
+
+      
 
         pending_tickets = tickets_collection.find({"status": "pending"})
 

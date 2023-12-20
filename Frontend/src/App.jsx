@@ -8,6 +8,7 @@ import "./App.css";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import AgentProfile from "./pages/AgentProfile";
 import Login from "./pages/Login";
+import AgentChatRooms from "./pages/AgentChatRooms";
 import Register from "./pages/Register";
 import UserProfile from "./pages/ProfileUser";
 
@@ -23,6 +24,10 @@ function App() {
         <Route path="/reset" element={<Login />} />
 
         <Route path="/profile" element={<AgentProfile />} />
+        <Route path="/profile/chatRooms" element={<AgentChatRooms />} />
+      
+
+
 
 
         </Routes>

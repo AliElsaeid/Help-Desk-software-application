@@ -22,14 +22,13 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(backendUrl, { data: inputValue }, { withCredentials: true });
- 
-      console.log(response);
-      const data = response.data;
+      const response = await axios.post(backendUrl, { ...inputValue }, { withCredentials: true });
+      const { status, data } = response;
+      console.log('data',data)
       if (response.status === 200)  {
         setMessage("Login successful!");
-        localStorage.setItem("userId", data.user._id);
-        localStorage.setItem("role", data.user.role);
+        localStorage.setItem("userId",response.data.user._id)
+        localStorage.setItem("role",response.data.user.role)
         
         const role = data.user.role.toLowerCase(); // Convert the role to lowercase for consistency
 
@@ -38,7 +37,7 @@ const Login = () => {
                 navigate(`/user`);
                 break;
             case 'admin':
-                navigate(`/admin`);
+                navigate(`/profile`);
                 break;
             case 'agent':
                 navigate(`/profile`);

@@ -34,7 +34,7 @@ export default function AppNavBar() {
                   <Link to="/profile" className="nav-link text-dark">Home</Link>
                   <Link to="/login" className="nav-link text-dark">Sign Out</Link>
                   <NavDropdown title="functionalties" id={`offcanvasNavbarDropdown-expand-${expand}`} className="text-dark">
-                    <Link to="/action3" className="dropdown-item text-dark">Action</Link>
+                    <Link to="/profile/chatRooms" className="dropdown-item text-dark">Chat Rooms</Link>
                     <Link to="/action4" className="dropdown-item text-dark">Another action</Link>
                     <NavDropdown.Divider />
                     <Link to="/action5" className="dropdown-item text-dark">Something else here</Link>

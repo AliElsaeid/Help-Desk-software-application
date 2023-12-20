@@ -41,7 +41,6 @@ const UserProfile = () => {
         toast.error('Error fetching user details.');
       });
 
-      
     axios.get(`${ticketbackend}/getTickets/${uid}`, {
       withCredentials: true,
       headers: {
