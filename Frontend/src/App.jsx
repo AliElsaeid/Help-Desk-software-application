@@ -11,6 +11,8 @@ import Login from "./pages/Login";
 import AgentChatRooms from "./pages/AgentChatRooms";
 import Register from "./pages/Register";
 import UserProfile from "./pages/ProfileUser";
+import AdminProfile from "./pages/AdminProfile";
+
 
 function App() {
   return (
@@ -23,7 +25,8 @@ function App() {
 
         <Route path="/profile" element={<AgentProfile />} />
         <Route path="/profile/chatRooms" element={<AgentChatRooms />} />
-      
+        <Route path="/admin" element={<AdminProfile />} />
+
 
 
 

@@ -1,7 +1,8 @@
+
 .user-inf-container {
   position: fixed; /* Fixed positioning relative to the viewport */
   top: 100px; /* Aligns to the top of the viewport */
-  left: 0; /* Aligns to the left of the viewport */
+  right: 0; /* Aligns to the left of the viewport */
   padding: 10px; /* Add some padding inside the container */
   background: hsl(0, 0%, 97%); /* A light gray background color for visibility */
   z-index: 1001; /* Higher than the ticket list to be on top */
@@ -10,7 +11,7 @@
   /* Specific styles for the ticket list container to be placed under the user info */
   .ticket-lis-container {
     position: fixed;
-    top: 200px; /* Start below the user info container - adjust based on actual height of user info */
+    top: 150px; /* Start below the user info container - adjust based on actual height of user info */
     left: 0;
     width: 320px; /* adjust as needed */
     padding: 15px;
@@ -18,7 +19,7 @@
     max-height: calc(90vh - 60px); /* adjust height based on user info size */
     font-family: Arial, sans-serif; /* default font */
     z-index: 1000; /* Ensure it is under the user-info-container */
-    background: #f9f9f9; /* Optional: Background for ticket list if needed */
+    background: #d19b14; /* Optional: Background for ticket list if needed */
   }
   
   /* Ticket list styling */
@@ -30,7 +31,7 @@
   
   /* Each ticket's list item styling in ticket list container */
   .ticket-lis-container li {
-    background: #fff; /* white background for each ticket */
+    background: #2ff7b4; /* white background for each ticket */
     margin-bottom: 10px; /* space between tickets */
     padding: 10px;
     font-size: 0.8rem; /* smaller text */
@@ -51,7 +52,7 @@
     max-width: 640px; /* Maximum width for the card */
     box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Soft shadow for depth */
     border-radius: 8px; /* Rounded corners for the card */
-    background-color: white; /* White background for the card */
+    background: #d19b14; /* Optional: Background for ticket list if needed */
     padding: 20px; /* Padding inside the card */
     box-sizing: border-box; /* To include padding and border in the element's total width and height */
   }
@@ -69,7 +70,7 @@
   
   /* Style for the update button to make it more button-like */
   .update-ticket-card button {
-    background-color: #007bff; /* Bootstrap primary button color */
+    background: #2ff7b4; /* white background for each ticket */
     color: white; /* Text color for visibility */
     border: none; /* Remove the default border */
     cursor: pointer; /* Indicate the button is clickable */

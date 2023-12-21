@@ -13,10 +13,13 @@ const ticketbackend = "http://localhost:3000/api/v1/ticket";
 
 
 
-function TicketDetails({ ticketId }) {
+
+function TicketDetails({ ticket ,onClose }) {
+
   const [status, setStatus] = useState('');
   const [resolution, setResolution] = useState('');
   const [cookies] = useCookies(['token']);
+  const [emailSending, setEmailSending] = useState(false);
 
   // Since we're not getting a single ticket detail, we no longer need an effect hook here
   // Remove the previous useEffect that fetched ticket details
@@ -26,26 +29,55 @@ function TicketDetails({ ticketId }) {
       status: status,
       resolution: resolution
     };
-
+console.log(ticket);
     const config = {
       headers: { 'Authorization': `Bearer ${cookies.token}` }
     };
 
-    axios.put(`${ticketbackend}/${ticketId}`, dataToSend, config)
+    axios.put(`${ticketbackend}/${ticket._id}`, dataToSend, config)
     .then(response => {
       toast.success("Ticket updated successfully");
       // Use 'window.location.reload()' to reload the page after the update.
-      window.location.reload();
+      // window.location.reload();
     })
     .catch(error => {
       console.error('Error updating ticket:', error);
       toast.error("Failed to update ticket.");
     });
+
   };
+  const sendResolutionEmail = () => {
+    setEmailSending(true); // Set state to represent email-sending progress
+    const emailData = {
+      userId: ticket.user,
+      subject: 'Your Ticket Resolution',
+      message: resolution
+    };
+
+    // Set up your headers and tokens correctly.
+    const config = {
+      headers: { 'Authorization': `Bearer ${cookies.token}` }
+    };
+
+    axios.post('http://localhost:3000/api/v1/communication/sendEmail', emailData, config)
+      .then(response => {
+        toast.success("Email sent successfully!");
+        setEmailSending(false); 
+        window.location.reload();
+
+      })
+      .catch(error => {
+        console.error('Error sending resolution email:', error);
+        toast.error("Failed to send email.");
+        setEmailSending(false);
+      });
+  };
+
+  
 
   return (
     <div className="update-ticket-card">
-      <h2>Update Ticket ID: {ticketId}</h2>
+      <h2>Update Ticket ID: {ticket._id}</h2>
       <div>
         <label>Status:</label>
         <select value={status} onChange={(e) => setStatus(e.target.value)}>
@@ -61,7 +93,10 @@ function TicketDetails({ ticketId }) {
           onChange={(e) => setResolution(e.target.value)}>
         </textarea>
       </div>
-      <button onClick={updateTicket}>Update Ticket</button>
+      <button onClick={() => updateTicket()}>Update Ticket</button>
+      <button onClick={sendResolutionEmail} disabled={emailSending}>Send Resolution Email</button>
+
+   
     </div>
   );
 }
@@ -123,7 +158,7 @@ const Profile = () => {
   <h1>Ticket List</h1>
   <ul>
     {tickets.map((ticket) => (
-         <li key={ticket._id} onClick={() => setSelectedTicketId(ticket._id)}>
+         <li key={ticket._id} onClick={() => setSelectedTicketId(ticket)}>
         <span>Category: {ticket.category}</span>
         <span>SubCategory: {ticket.subCategory}</span>
         <span>Description: {ticket.description}</span>
@@ -137,7 +172,7 @@ const Profile = () => {
   </ul>
 </div>
 <div className="ticket-detail-view">
-        {selectedTicketId && <TicketDetails ticketId={selectedTicketId} />}
+        {selectedTicketId && <TicketDetails ticket={selectedTicketId} />}
       </div>
     </div>
   );

@@ -90,6 +90,7 @@ const AgentChatRooms = () => {
       <div className="navbar-top-right">
         <AgentNavbar />
       </div>
+      <div className="ssss">
       <div className="container-fluid mt-4">
        
           {/* Room List Column */}
@@ -151,6 +152,7 @@ const AgentChatRooms = () => {
           )}
         
       </div>
+    </div>
     </div>
   );
 };

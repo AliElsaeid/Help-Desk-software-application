@@ -32,13 +32,9 @@ export default function AppNavBar() {
               <Offcanvas.Body>
                 <Nav className="justify-content-end flex-grow-1 pe-3">
                   <Link to="/profile" className="nav-link text-dark">Home</Link>
+                  <Link to="/profile/chatRooms" className="nav-link text-dark">ChatRooms</Link>
                   <Link to="/login" className="nav-link text-dark">Sign Out</Link>
-                  <NavDropdown title="functionalties" id={`offcanvasNavbarDropdown-expand-${expand}`} className="text-dark">
-                    <Link to="/profile/chatRooms" className="dropdown-item text-dark">Chat Rooms</Link>
-                    <Link to="/action4" className="dropdown-item text-dark">Another action</Link>
-                    <NavDropdown.Divider />
-                    <Link to="/action5" className="dropdown-item text-dark">Something else here</Link>
-                  </NavDropdown>
+                
                 </Nav>
                
               </Offcanvas.Body>

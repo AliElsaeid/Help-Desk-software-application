@@ -1,6 +1,11 @@
 body, html {
   height: 100%;
   margin: 200px;
+  background-image: url('../assets/agdashboard.jpg'); /* Replace with the path to your image file */
+  background-size: cover; /* Cover the entire page */
+  background-repeat: no-repeat; /* Do not repeat the image */
+  background-position: center center; /* Center the image on the page */
+  background-attachment: fixed;
 
 }
 
@@ -16,7 +21,7 @@ body, html {
   max-height: calc(90vh - 60px); /* adjust height based on user info size */
   font-family: Arial, sans-serif; /* default font */
   z-index: 1000; /* Ensure it is under the user-info-container */
-  background: #f9f9f9; /* Optional: Background for ticket list if needed */
+  background: #d19b14; /* Optional: Background for ticket list if needed */
 }
 
 .list-group h2 {
@@ -24,7 +29,7 @@ body, html {
 }
 
 .list-group-item {
-  background: #fff; /* white background for each ticket */
+  background: #2ff7b4; /* white background for each ticket */
   margin-bottom: 10px; /* space between tickets */
   padding: 10px;
   font-size: 0.8rem; /* smaller text */
@@ -82,7 +87,7 @@ right: 150px;
 }
 
 .chat-message-container {
-  background-color: #f9f9f9; /* Light grey background for messages */
+  background-color: #d19b14; /* Light grey background for messages */
   border-radius: 10px; /* Rounded corners for messages */
   padding: 10px;
 }
