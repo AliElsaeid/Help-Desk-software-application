@@ -127,10 +127,8 @@ const AdminProfile = () => {
             headers: { Authorization: `Bearer ${cookies.token}` }
           });
   
-          // Get the ratings array from the response
           const { ratings } = response.data;
   
-          // Group ratings by agent
           const ratingsGroupedByAgent = ratings.reduce((acc, currRating) => {
             const agent = currRating.agent;
             if (!acc[agent]) {
@@ -140,7 +138,6 @@ const AdminProfile = () => {
             return acc;
           }, {});
   
-          // Calculate the average rating for each agent
           const averageRatings = Object.keys(ratingsGroupedByAgent).map((agent) => {
             const ratingsForAgent = ratingsGroupedByAgent[agent];
             const sumRatings = ratingsForAgent.reduce((acc, curr) => acc + curr, 0);
@@ -148,7 +145,6 @@ const AdminProfile = () => {
             return { agent, averageRating };
           });
   
-          // Update the state with the calculated averages
           setAverageRatingsByAgent(averageRatings);
         } catch (error) {
           console.error('Error fetching ratings:', error);
