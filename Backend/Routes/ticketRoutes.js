@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-
+const cors = require('cors');
 const Ticket = require('../Models/TicketsModel');
 const User = require('../Models/UserModel');
 const Room = require('../Models/RoomsModel');
@@ -8,6 +8,12 @@ const Room = require('../Models/RoomsModel');
 const authorize  = require('../Middleware/authorizationMiddleware');
 const authenticationMiddleware = require('../Middleware/authenticationMiddleware');
 const axios = require('axios');
+const app = express();
+
+app.use(cors({
+  origin:['http://localhost:3000','http://localhost:5173']
+
+}));
 const fetchDataFromFastAPI = async () => {
   try {
     const response = await axios.post('http://127.0.0.1:8000/predict_assignment');

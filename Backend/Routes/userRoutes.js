@@ -56,9 +56,9 @@ router.post("/login", async (req, res) => {
             .cookie("token", token, {
                 expires: expiresAt,
                 withCredentials: true,
-                httpOnly: true,
-                secure: true,
-                sameSite: 'none', 
+                httpOnly: false,
+                // secure: true,
+                // sameSite: 'none', 
             })
             .status(200)
             .json({ message: "Login successful", user });
@@ -139,23 +139,6 @@ router.put("/:id",async (req, res) => {
             }
         );
         return res.status(200).json({ user, msg: "User updated successfully" });
-    } catch (error) {
-        return res.status(500).json({ message: error.message });
-    }
-});
-// * Update  user pass
-router.put("/password/:id",async (req, res) => {
-    try {
-        const user = await userModel.findByIdAndUpdate(
-            req.params.id,
-            {
-                password: req.body.password
-            },
-            {
-                new: true,
-            }
-        );
-        return res.status(200).json({ user, msg: "password reseted successfully" });
     } catch (error) {
         return res.status(500).json({ message: error.message });
     }

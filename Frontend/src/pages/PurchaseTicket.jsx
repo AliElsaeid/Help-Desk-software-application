@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Form, Button, Col, Row } from "react-bootstrap";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "../stylesheets/purchaseTicket.css";
 
 const backendUrl = "http://localhost:3000/api/v1/tickets/create";
+const articleApiUrl = "http://localhost:3000/api/v1/articles"; // Replace with your actual article API endpoint
 
 const PurchaseTicket = () => {
   const navigate = useNavigate();
@@ -16,6 +15,7 @@ const PurchaseTicket = () => {
     description: "",
   });
   const [message, setMessage] = useState("");
+  const [workflow, setWorkflow] = useState(""); // State to store the workflow
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
@@ -24,6 +24,32 @@ const PurchaseTicket = () => {
       [name]: value,
     }));
   };
+
+  useEffect(() => {
+    // Fetch workflow when the category changes
+    const fetchWorkflow = async () => {
+      try {
+        const response = await axios.get(`${articleApiUrl}/articles`, {
+          params: {
+            category: ticketDetails.category,
+            type: "Workflow",
+          },
+        });
+
+        const { data } = response;
+        // Assume data is an array and concatenate the content of articles
+        const workflowContent = data.map((article) => article.content).join("\n");
+        setWorkflow(workflowContent);
+      } catch (error) {
+        console.error("Error fetching workflow:", error);
+        setWorkflow(""); // Clear workflow in case of an error
+      }
+    };
+
+    if (ticketDetails.category) {
+      fetchWorkflow();
+    }
+  }, [ticketDetails.category]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -48,6 +74,16 @@ const PurchaseTicket = () => {
     } catch (error) {
       setMessage(`Ticket creation failed: ${error.response?.data?.message}`);
     }
+  };
+
+  // Render additional information based on selected category and subcategory
+  const renderAdditionalInfo = () => {
+    return (
+      <div>
+        <p>{workflow}</p>
+        {/* Add more information or components as needed */}
+      </div>
+    );
   };
 
   return (
@@ -142,6 +178,9 @@ const PurchaseTicket = () => {
             />
           </Form.Group>
         </Row>
+
+        {/* Additional information based on selected category and subcategory */}
+        {renderAdditionalInfo()}
 
         <Button variant="primary" type="submit">
           Create Ticket

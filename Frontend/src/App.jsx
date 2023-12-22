@@ -12,6 +12,8 @@ import AgentChatRooms from "./pages/AgentChatRooms";
 import Register from "./pages/Register";
 import UserProfile from "./pages/ProfileUser";
 import PurchaseTicket from "./pages/PurchaseTicket"; 
+import Article from "./pages/Article";
+
 
 function App() {
   return (
@@ -29,7 +31,7 @@ function App() {
       
         <Route path="/purchase-ticket" element={<PurchaseTicket />} />
 
-
+        <Route path="/article/:id" element={<Article />} />
 
         </Routes>
     </>
