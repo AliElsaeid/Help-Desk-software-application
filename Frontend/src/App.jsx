@@ -12,6 +12,8 @@ import AgentChatRooms from "./pages/AgentChatRooms";
 import Register from "./pages/Register";
 import UserProfile from "./pages/ProfileUser";
 import AdminProfile from "./pages/AdminProfile";
+import PurchaseTicket from "./pages/PurchaseTicket"; 
+
 
 
 function App() {
@@ -26,6 +28,9 @@ function App() {
         <Route path="/profile" element={<AgentProfile />} />
         <Route path="/profile/chatRooms" element={<AgentChatRooms />} />
         <Route path="/admin" element={<AdminProfile />} />
+
+        <Route path="/purchase-ticket" element={<PurchaseTicket />} />
+
 
 
 

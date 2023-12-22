@@ -28,6 +28,8 @@ const ticketsRoutes = require('./Routes/ticketRoutes');
 const communicationRoutes = require('./Routes/communicationRoutes');
 const appearance = require('./Routes/AppearanceRoutes');
 const report = require('./Routes/reportRoutes');
+const articles =require('./Routes/articleRoutes')
+
 
 // Use routers
 app.use("/api/v1/user", user);
@@ -37,6 +39,7 @@ app.use("/api/v1/ticket",ticketsRoutes);
 app.use("/api/v1/communication", communicationRoutes);
 app.use("/api/v1/appearance", appearance);
 app.use("/api/v1/report", report);
+app.use("/api/v1/article",articles);
 
 // DB connection
 const db_url = process.env.ATLAS_URI; // Make sure to add ATLAS_URI to your .env file
