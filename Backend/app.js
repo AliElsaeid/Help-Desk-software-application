@@ -39,20 +39,20 @@ app.use("/api/v1/appearance", appearance);
 app.use("/api/v1/report", report);
 
 // DB connection
-const db_name = "Help_Desk";
-const db_url = `mongodb://127.0.0.1:27017/${db_name}`;
+const db_url = process.env.ATLAS_URI; // Make sure to add ATLAS_URI to your .env file
+
+// Updated dbOptions for Atlas connection
 const dbOptions = {
   useNewUrlParser: true,
-  useUnifiedTopology: true,
+  useUnifiedTopology: true
 };
 
 mongoose
   .connect(db_url, dbOptions)
-  .then(() => console.log("MongoDB connected"))
+  .then(() => console.log("Connected to MongoDB Atlas"))
   .catch((e) => {
-    console.error("MongoDB connection error:", e.message);
+    console.error("MongoDB Atlas connection error:", e.message);
   });
-
 // Handle 404
 app.use(function (req, res, next) {
   return res.status(404).send("404 - Not Found");

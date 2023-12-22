@@ -12,8 +12,16 @@ const fetchDataFromFastAPI = async () => {
   try {
     const response = await axios.post('http://127.0.0.1:8000/predict_assignment');
 
-    const predictionResult = response.data;
-    console.log('Prediction Result:', predictionResult);
+    if (response.status === 200) {
+      const assignmentResult = response.data;
+      console.log('Assignment Result:', assignmentResult);
+
+      // Handle the assignment result as needed
+      // For example, update the ticket status or do something else
+
+    } else {
+      console.error('Error predicting assignment. Status:', response.status);
+    }
   } catch (error) {
     console.error('Error fetching data from FastAPI:', error.message);
   }
@@ -24,7 +32,7 @@ const fetchDataFromFastAPI = async () => {
 
 
 
-router.post('/create', async (req, res) => {
+router.post('/create',authorize('user'), async (req, res) => {
   try {
 
     const userId  = req.user.userId;
@@ -92,6 +100,7 @@ router.get('/getTickets',async (req, res) => {
     } else if (userRole === 'agent') {
    
       result = await Ticket.find({ 'agent': userId });
+
     } else {
       result = await Ticket.find({ user: userId });
     }
@@ -104,7 +113,7 @@ router.get('/getTickets',async (req, res) => {
   }
 });
 
-router.put('/:id',async (req, res) => {
+router.put('/:id',authorize(['admin', 'agent']),async (req, res) => {
   try {
     const { status, resolution } = req.body;
 

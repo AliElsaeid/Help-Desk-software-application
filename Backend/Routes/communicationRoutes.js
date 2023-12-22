@@ -21,6 +21,7 @@ const authenticationMiddleware = require('../Middleware/authenticationMiddleware
 
 router.post('/createRoom', authenticationMiddleware,authorize('user'),async (req, res) => {
   try {
+
     const { ticket_id } = req.body;
 
     
@@ -56,13 +57,14 @@ router.post('/createRoom', authenticationMiddleware,authorize('user'),async (req
 
 
 
-  router.get('/getChatRooms/:id',async (req, res) => {
+  router.get('/getChatRooms',async (req, res) => {
     try {
      
     
   
-     
-      const user = await User.findById(req.params.id);
+      const userId  = req.user.userId;
+
+      const user = await User.findById(userId);
       if (!user) {
         return res.status(404).json({ error: 'User not found' });
       }
@@ -76,15 +78,14 @@ router.post('/createRoom', authenticationMiddleware,authorize('user'),async (req
         
         chatRooms = await Room.find();
       } else if (userRole === 'agent') {
+        console.log("hi");
         const existingTicket = await Tickets.find({'agent': userId})
-       const ticket_id=existingTicket._id
-        chatRooms = await Room.find({ 'ticket': ticket_id });
+        
+        chatRooms = await Room.find({ 'ticket': existingTicket});
       } else {
         const existingTicket = await Tickets.find({'user': userId})
         console.log({existingTicket});
        
-       
-    
         chatRooms = await Room.find({ 'ticket': existingTicket});
         
       }
@@ -103,13 +104,15 @@ router.post('/createRoom', authenticationMiddleware,authorize('user'),async (req
   router.post('/sendMessage',async (req, res) => {
     try {
      
+      const userId  = req.user.userId;
+
       const key = 'password';
   function encrypt(text, key) {
     const cipher = crypto.createCipher('aes256', key);
     let encrypted = cipher.update(text, 'utf8', 'hex') + cipher.final('hex');
     return encrypted;
   }
-      const { roomID,userId, content } = req.body;
+      const { roomID,content } = req.body;
       
       
       
@@ -184,7 +187,10 @@ router.post('/createRoom', authenticationMiddleware,authorize('user'),async (req
   
   router.post('/sendEmail',authenticationMiddleware,authorize(['admin', 'agent']),async (req, res) => {
     try {
-      const { userId, subject, message } = req.body;
+      const userId  = req.user.userId;
+
+      
+      const {subject, message } = req.body;
   
       
       const user = await User.findById(userId);

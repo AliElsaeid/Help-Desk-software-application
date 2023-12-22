@@ -26,7 +26,7 @@ const AgentChatRooms = () => {
 
   const getChatRooms = async () => {
     try {
-      const response = await axios.get(`${chatbackend}/getChatRooms/${uid}`, {
+      const response = await axios.get(`${chatbackend}/getChatRooms`, {
         withCredentials: true,
         headers: {
           'Authorization': `Bearer ${cookies.token}`
@@ -70,7 +70,6 @@ const AgentChatRooms = () => {
     try {
       await axios.post(`${chatbackend}/sendMessage`, {
         roomID: selectedRoomId,
-        userId: uid,
         content: newMessage,
       }, {
         withCredentials: true,
