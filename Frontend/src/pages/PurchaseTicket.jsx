@@ -6,6 +6,7 @@ import { useCookies } from "react-cookie";
 
 const backendUrl = "http://localhost:3000/api/v1/ticket/create";
 const articleApiUrl = "http://localhost:3000/api/v1/article"; // Replace with your actual article API endpoint
+const createRoomApiUrl = "http://localhost:3000/api/v1/communication/createRoom"; // Replace with your actual endpoint
 
 const PurchaseTicket = () => {
   const navigate = useNavigate();
@@ -18,6 +19,12 @@ const PurchaseTicket = () => {
   const [message, setMessage] = useState("");
   const [workflow, setWorkflow] = useState(""); // State to store the workflow
   const [cookies] = useCookies(['token']);
+  const [selectedFixOption, setSelectedFixOption] = useState(""); // New state for selected fix option
+
+
+  const handleFixOptionChange = (e) => {
+    setSelectedFixOption(e.target.value);
+  };
 
 
   const handleOnChange = (e) => {
@@ -70,6 +77,12 @@ const PurchaseTicket = () => {
       const { status, data } = response;
 
       if (status === 201) {
+
+        if (selectedFixOption === "integratedMails") {
+          await axios.post(createRoomApiUrl, {
+            ticket_id: data._id,
+          });
+        }
         setMessage("Ticket created successfully!");
         navigate(`/success`);
       }
@@ -180,6 +193,25 @@ const PurchaseTicket = () => {
             />
           </Form.Group>
         </Row>
+        <Form.Group as={Col} controlId="fixOption">
+        <Form.Label>Fix Option</Form.Label>
+        <Form.Check
+          type="radio"
+          label="Fix with Integrated Mails"
+          name="fixOption"
+          value="integratedMails"
+          checked={selectedFixOption === "integratedMails"}
+          onChange={handleFixOptionChange}
+        />
+        <Form.Check
+          type="radio"
+          label="Chat Rooms"
+          name="fixOption"
+          value="chatRooms"
+          checked={selectedFixOption === "chatRooms"}
+          onChange={handleFixOptionChange}
+        />
+      </Form.Group>
 
         {/* Additional information based on selected category and subcategory */}
         {renderAdditionalInfo()}
