@@ -32,7 +32,7 @@ const Login = () => {
 
         switch (role) {
             case 'user':
-                navigate(`/user`);
+                navigate(`/purchase-ticket`);
                 break;
             case 'admin':
                 navigate(`/admin`);

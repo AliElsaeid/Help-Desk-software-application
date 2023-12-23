@@ -10,7 +10,6 @@ import AgentProfile from "./pages/AgentProfile";
 import Login from "./pages/Login";
 import AgentChatRooms from "./pages/AgentChatRooms";
 import Register from "./pages/Register";
-import UserProfile from "./pages/ProfileUser";
 import AdminProfile from "./pages/AdminProfile";
 import PurchaseTicket from "./pages/PurchaseTicket"; 
 
@@ -21,7 +20,7 @@ function App() {
     <>
         <Routes>
         
-        <Route path="/user" element={<UserProfile />} />
+
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
 

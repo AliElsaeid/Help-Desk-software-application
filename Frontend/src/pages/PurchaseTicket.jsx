@@ -78,13 +78,17 @@ const PurchaseTicket = () => {
 
       if (status === 201) {
 
-        if (selectedFixOption === "integratedMails") {
-          await axios.post(createRoomApiUrl, {
+        if (selectedFixOption === "chatRooms") {
+          const response = await axios.post(createRoomApiUrl, {
             ticket_id: data._id,
+            withCredentials: true,
+            headers: {
+              'Authorization': `Bearer ${cookies.token}`
+            }
           });
         }
         setMessage("Ticket created successfully!");
-        navigate(`/success`);
+        
       }
     } catch (error) {
       setMessage(`Ticket creation failed: ${error.response?.data?.message}`);
