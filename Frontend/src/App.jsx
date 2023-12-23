@@ -12,6 +12,7 @@ import AgentChatRooms from "./pages/AgentChatRooms";
 import Register from "./pages/Register";
 import AdminProfile from "./pages/AdminProfile";
 import PurchaseTicket from "./pages/PurchaseTicket"; 
+import AssignAgent from "./pages/AssignAgent"; 
 
 
 
@@ -29,6 +30,7 @@ function App() {
         <Route path="/admin" element={<AdminProfile />} />
 
         <Route path="/purchase-ticket" element={<PurchaseTicket />} />
+        <Route path="/assignagent" element={<AssignAgent />} />
 
 
 

@@ -144,7 +144,7 @@ router.put("/:id",async (req, res) => {
     }
 });
 //update user role
-router.put("/role/:id", authorize(['admin']), async (req, res) => {
+router.put("/role/:id", async (req, res) => {
     try {
         const user = await userModel.findByIdAndUpdate(
             req.params.id,
