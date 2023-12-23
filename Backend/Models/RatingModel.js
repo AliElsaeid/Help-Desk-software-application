@@ -1,14 +1,18 @@
 const mongoose = require('mongoose');
 const Ticket = require('./TicketsModel');
-const User = require('./UserModel');
+
 
 const ratingsSchema = new mongoose.Schema({
+  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+
+
   ticket: {
-    type: Ticket.schema,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Ticket',
   },
-  user: {
-    type: User.schema,
-  },
+  agent:String,
+
+ 
   rating: {
     type: Number,
     required: true,

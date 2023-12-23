@@ -7,15 +7,28 @@ from sklearn.preprocessing import OneHotEncoder
 from sklearn.ensemble import RandomForestClassifier
 from queue import Queue
 import traceback  
+import os  # Import the os module
+from dotenv import load_dotenv
+
+
+
+
 
 
 app = FastAPI()
+load_dotenv()  # Take environment variables from .env.
 
-mongo_uri = "mongodb://localhost:27017"
+mongo_uri = os.getenv("ATLAS_URI")
+
+# Check if the MONGODB_ATLAS_URI is set in the environment variables
+if not mongo_uri:
+    raise Exception("MONGODB_ATLAS_URI environment variable is not set")
+
 client = MongoClient(mongo_uri)
-db = client["Help_Desk"]
+db = client["test"]
 tickets_collection = db["tickets"]
-users_collection=db["users"]
+users_collection = db["users"]
+
 
 
 class TicketData(BaseModel):
@@ -23,6 +36,8 @@ class TicketData(BaseModel):
 
 class UserData(BaseModel):
     user_id: str   
+
+
 
 
 def train_classifier(df):
@@ -76,9 +91,11 @@ classifier, encoder = train_classifier(df)
 import traceback  # Import the traceback module
 
 @app.post("/predict_assignment")
-async def predict_assignment(ticket_data: TicketData):
+async def predict_assignment():
     try:
-        ticket_data_mongo = get_ticket_data(ticket_id=ticket_data.ticket_id)
+        
+       
+         
 
         agents = ["Agent 1", "Agent 2", "Agent 3"]
 
@@ -89,7 +106,8 @@ async def predict_assignment(ticket_data: TicketData):
         for open_ticket in open_tickets:
             big_queue.put(open_ticket.get("_id"))
 
-        big_queue.put(ticket_data_mongo["_id"])
+
+      
 
         pending_tickets = tickets_collection.find({"status": "pending"})
 

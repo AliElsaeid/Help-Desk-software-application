@@ -4,16 +4,17 @@ const secretKey = process.env.SECRET_KEY;
 module.exports = function authenticationMiddleware(req, res, next) {
   const cookie = req.cookies;
     
-console.log(req.cookies);
 
   if (!cookie) {
     return res.status(401).json({ message: "No Cookie provided" });
   }
-  const token = cookie.token;
-  if (!token) {
+   const token = req.cookies.token;
+console.log(token);
+   if (!token) {
     return res.status(401).json({ message: "No token provided" });
-  }
+   }
 
+  
   jwt.verify(token, secretKey, (error, decoded) => {
     if (error) {
       return res.status(403).json({ message: "Invalid token" });
@@ -24,5 +25,6 @@ console.log(req.cookies);
     
     req.user = decoded.user;
     next();
-  });
-};
+  }
+
+)};

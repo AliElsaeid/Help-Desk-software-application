@@ -21,6 +21,7 @@ const authenticationMiddleware = require('../Middleware/authenticationMiddleware
 
 router.post('/createRoom', authenticationMiddleware,authorize('user'),async (req, res) => {
   try {
+
     const { ticket_id } = req.body;
 
     
@@ -56,12 +57,13 @@ router.post('/createRoom', authenticationMiddleware,authorize('user'),async (req
 
 
 
-  router.get('/getChatRooms', authenticationMiddleware,async (req, res) => {
+  router.get('/getChatRooms',async (req, res) => {
     try {
-      const { userId } = req;
+     
     
   
-     
+      const userId  = req.user.userId;
+
       const user = await User.findById(userId);
       if (!user) {
         return res.status(404).json({ error: 'User not found' });
@@ -76,15 +78,14 @@ router.post('/createRoom', authenticationMiddleware,authorize('user'),async (req
         
         chatRooms = await Room.find();
       } else if (userRole === 'agent') {
+        console.log("hi");
         const existingTicket = await Tickets.find({'agent': userId})
-       const ticket_id=existingTicket._id
-        chatRooms = await Room.find({ 'ticket': ticket_id });
+        
+        chatRooms = await Room.find({ 'ticket': existingTicket});
       } else {
         const existingTicket = await Tickets.find({'user': userId})
         console.log({existingTicket});
        
-       
-    
         chatRooms = await Room.find({ 'ticket': existingTicket});
         
       }
@@ -98,28 +99,21 @@ router.post('/createRoom', authenticationMiddleware,authorize('user'),async (req
 
 
  
+  
 
+  router.post('/sendMessage',async (req, res) => {
+    try {
+     
+      const userId  = req.user.userId;
 
-  const key = 'password';
+      const key = 'password';
   function encrypt(text, key) {
     const cipher = crypto.createCipher('aes256', key);
     let encrypted = cipher.update(text, 'utf8', 'hex') + cipher.final('hex');
     return encrypted;
   }
-  
-  // Decryption function
-  function decrypt(text, key) {
-    const decipher = crypto.createDecipher('aes256', key);
-    let decrypted = decipher.update(text, 'hex', 'utf8') + decipher.final('utf8');
-    return decrypted;
-  }
-  
-
-  router.post('/sendMessage', authenticationMiddleware,async (req, res) => {
-    try {
-     
-      const { roomID, content } = req.body;
-       const {userId } = req;
+      const { roomID,content } = req.body;
+      
       
       
 
@@ -151,12 +145,17 @@ router.post('/createRoom', authenticationMiddleware,authorize('user'),async (req
   });
   
   
-  router.get('/getChatMessages', authenticationMiddleware,async (req, res) => {
+  router.get('/getChatMessages/:id',async (req, res) => {
     try {
-      const { roomID } = req.body;
 
+      const key = 'password';
+      function decrypt(text, key) {
+        const decipher = crypto.createDecipher('aes256', key);
+        let decrypted = decipher.update(text, 'hex', 'utf8') + decipher.final('utf8');
+        return decrypted;
+      }
 
-      const chatMessages = await ChatMessage.find({ 'room': roomID });
+      const chatMessages = await ChatMessage.find({ 'room': req.params.id });
       
       const decryptedMessages = chatMessages.map(message => ({
         ...message._doc,
@@ -188,7 +187,10 @@ router.post('/createRoom', authenticationMiddleware,authorize('user'),async (req
   
   router.post('/sendEmail',authenticationMiddleware,authorize(['admin', 'agent']),async (req, res) => {
     try {
-      const { userId, subject, message } = req.body;
+      const userId  = req.user.userId;
+
+      
+      const {subject, message } = req.body;
   
       
       const user = await User.findById(userId);

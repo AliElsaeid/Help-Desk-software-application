@@ -8,14 +8,20 @@ const Room = require('../Models/RoomsModel');
 const authorize  = require('../Middleware/authorizationMiddleware');
 const authenticationMiddleware = require('../Middleware/authenticationMiddleware');
 const axios = require('axios');
-const fetchDataFromFastAPI = async (ticketId) => {
+const fetchDataFromFastAPI = async () => {
   try {
-    const response = await axios.post('http://127.0.0.1:8000/predict_assignment', {
-      ticket_id: ticketId,
-    });
+    const response = await axios.post('http://127.0.0.1:8000/predict_assignment');
 
-    const predictionResult = response.data;
-    console.log('Prediction Result:', predictionResult);
+    if (response.status === 200) {
+      const assignmentResult = response.data;
+      console.log('Assignment Result:', assignmentResult);
+
+      // Handle the assignment result as needed
+      // For example, update the ticket status or do something else
+
+    } else {
+      console.error('Error predicting assignment. Status:', response.status);
+    }
   } catch (error) {
     console.error('Error fetching data from FastAPI:', error.message);
   }
@@ -26,35 +32,19 @@ const fetchDataFromFastAPI = async (ticketId) => {
 
 
 
-router.post('/create', async (req, res) => {
+router.post('/create',authorize('user'), async (req, res) => {
   try {
 
-   const{userId}=req;
+    const userId  = req.user.userId;
+    console.log(userId);
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
 
     const {category,priority, subCategory ,description} = req.body;
 
-    const opened_tickets = await Ticket.find({ user: userId, status: 'open' });
-
-
-    if(opened_tickets){
-
-      return res.status(400).json({ error: 'cannot open ticket' });
-
-    }
-
-
-
-
-   
-
- 
-
-
-
     
-
-
-
 
 
     const validCategories = ['hardware', 'software', 'network'];
@@ -64,15 +54,8 @@ router.post('/create', async (req, res) => {
       Network: ['Email issues', 'Internet connection problems', 'Website errors'],
     };
 
-
-
-   
-
-   
-
-    
     const newTicket = new Ticket({
-      user: userId,
+      user: user._id,
       category,
       subCategory,
       priority:priority,
@@ -88,7 +71,7 @@ router.post('/create', async (req, res) => {
     await User.findByIdAndUpdate(userId, { $push: { tickets: newTicket._id } });
     await newTicket.save();
 
-   fetchDataFromFastAPI(newTicket._id);
+   fetchDataFromFastAPI();
 
 
     return res.status(201).json({ message: 'Ticket created successfully', ticket: newTicket });
@@ -98,10 +81,10 @@ router.post('/create', async (req, res) => {
   }
 });
 
-router.get('/getTickets/:id',async (req, res) => {
+router.get('/getTickets',async (req, res) => {
   try {
-    //  const userId  = req.user.userId;
-     const userId=req.params.id;
+    const userId  = req.user.userId;
+    console.log(userId);
     const user = await User.findById(userId);
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
@@ -113,19 +96,15 @@ router.get('/getTickets/:id',async (req, res) => {
     let result;
 
     if (userRole === 'admin') {
-      // Admin has access to all tickets
-      result = await Ticket.find(); // Corrected from Issues.find() to Ticket.find()
+      result = await Ticket.find();
     } else if (userRole === 'agent') {
-      // Agent has access to tickets assigned to them
+   
       result = await Ticket.find({ 'agent': userId });
+
     } else {
-      // Customer has access to their own tickets
       result = await Ticket.find({ user: userId });
     }
 
-    if (!result || result.length === 0) {
-      return res.status(403).json({ error: 'Unauthorized. You do not have access to any tickets.' });
-    }
 
     return res.status(200).json(result);
   } catch (error) {
@@ -134,29 +113,23 @@ router.get('/getTickets/:id',async (req, res) => {
   }
 });
 
-router.put('/:id', authorize(['agent','admin']),async (req, res) => {
+router.put('/:id',authorize(['admin', 'agent']),async (req, res) => {
   try {
     const { status, resolution } = req.body;
 
-    // Check if status is valid
-    const validStatuses = ['Pending', 'InProgress', 'Closed'];
+    const validStatuses = ['open', 'pending', 'closed'];
     if (!validStatuses.includes(status)) {
       return res.status(400).json({ message: 'Invalid status' });
     }
 
-    // Find the ticket by ID
+ 
     const ticket = await Ticket.findById(req.params.id);
 
     if (!ticket) {
       return res.status(404).json({ message: 'Ticket not found' });
     }
 
-    // Check if the user making the request is a support agent
-    const user = await User.findById(ticket.user); // Assuming userId is included in the request, adjust it based on your actual setup
-
-    if (user.role === 'user') {
-      return res.status(403).json({ message: 'Unauthorized. Only support agents can update tickets.' });
-    }
+   
 
     ticket.status = status;
     ticket.resolution = resolution;
@@ -167,6 +140,8 @@ router.put('/:id', authorize(['agent','admin']),async (req, res) => {
     }
 
     await ticket.save();
+    await axios.post('http://127.0.0.1:8000/predict_assignment', {});
+
 
     return res.status(200).json({ ticket, message: 'Ticket updated successfully' });
   } catch (error) {
