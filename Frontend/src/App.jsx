@@ -13,6 +13,8 @@ import Register from "./pages/Register";
 import AdminProfile from "./pages/AdminProfile";
 import PurchaseTicket from "./pages/PurchaseTicket"; 
 import AssignAgent from "./pages/AssignAgent"; 
+import UserProfile from "./pages/ProfileUser";
+
 
 
 
@@ -21,7 +23,7 @@ function App() {
     <>
         <Routes>
         
-
+        <Route path="/user" element={<UserProfile />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
 
