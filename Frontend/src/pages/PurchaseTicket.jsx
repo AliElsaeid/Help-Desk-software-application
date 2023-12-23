@@ -66,10 +66,17 @@ const PurchaseTicket = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      let updatedDescription = ticketDetails.description; // Initialize with the original description
+
+      if (selectedFixOption === "integratedMails") {
+        // If fix option is "integratedMails," update the description
+        updatedDescription = "Solve with integrated mails. " + updatedDescription;
+      }
       const response = await axios.post(
         backendUrl,
         {
-             ...ticketDetails,
+          ...ticketDetails,
+          description: updatedDescription,
         },
         { withCredentials: true }
       );
@@ -79,16 +86,23 @@ const PurchaseTicket = () => {
       if (status === 201) {
 
         if (selectedFixOption === "chatRooms") {
-          const response = await axios.post(createRoomApiUrl, {
-            ticket_id: data._id,
-            withCredentials: true,
-            headers: {
-              'Authorization': `Bearer ${cookies.token}`
+          console.log(data.ticket._id);
+          const createRoomResponse = await axios.post(
+            createRoomApiUrl,
+            {
+              ticket_id: data.ticket._id,
+            },
+            {
+              withCredentials: true,
+              headers: {
+                'Authorization': `Bearer ${cookies.token}`
+              }
             }
-          });
+          );
         }
+
         setMessage("Ticket created successfully!");
-        
+        navigate(`/success`);
       }
     } catch (error) {
       setMessage(`Ticket creation failed: ${error.response?.data?.message}`);
@@ -138,7 +152,7 @@ const PurchaseTicket = () => {
               <option value="" disabled>
                 Select Subcategory
               </option>
-              {ticketDetails.category === "Hardware" && (
+              {ticketDetails.category === "hardware" && (
                 <>
                   <option value="Desktops">Desktops</option>
                   <option value="Laptops">Laptops</option>
@@ -147,7 +161,7 @@ const PurchaseTicket = () => {
                   <option value="Networking equipment">Networking equipment</option>
                 </>
               )}
-              {ticketDetails.category === "Software" && (
+              {ticketDetails.category === "software" && (
                 <>
                   <option value="Operating system">Operating system</option>
                   <option value="Application software">Application software</option>
@@ -155,7 +169,7 @@ const PurchaseTicket = () => {
                   <option value="Integration issues">Integration issues</option>
                 </>
               )}
-              {ticketDetails.category === "Network" && (
+              {ticketDetails.category === "network" && (
                 <>
                   <option value="Email issues">Email issues</option>
                   <option value="Internet connection problems">Internet connection problems</option>

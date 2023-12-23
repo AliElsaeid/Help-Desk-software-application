@@ -19,29 +19,24 @@ const authenticationMiddleware = require('../Middleware/authenticationMiddleware
 
 
 
-router.post('/createRoom', authenticationMiddleware,authorize('user'),async (req, res) => {
+router.post('/createRoom', authorize('user'), async (req, res) => {
   try {
-
     const { ticket_id } = req.body;
 
-    
+    let existingTicket = null;
 
-    if (!ticket_id) {
-      return res.status(400).json({ error: 'Missing ticket_id in the request body' });
-    }
+    if (ticket_id) {
+      existingTicket = await Tickets.findById(ticket_id);
 
-
-    const existingTicket = await Tickets.findById(ticket_id);
-
-    if (!existingTicket) {
-      return res.status(400).json({ error: 'Invalid ticket_id' });
+      if (!existingTicket) {
+        return res.status(400).json({ error: 'Invalid ticket_id' });
+      }
     }
 
     const newRoom = new Room({
-    
       roomName: 'Real-Time Chat',
-      description: existingTicket.description,
-      ticket: ticket_id,
+      description: existingTicket ? existingTicket.description : '',
+      ticket: existingTicket,
     });
 
     const savedRoom = await newRoom.save();
