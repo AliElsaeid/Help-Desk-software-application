@@ -8,6 +8,8 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import UserProfile from "./pages/ProfileUser";
 import ResetPassword from './pages/ResetPassword';
+import AdminAssign from './pages/AdminAssign';
+
 function App() {
   return (
     <>
@@ -18,6 +20,8 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/" element={<Login />} />
         <Route path="/profile" element={<AgentProfile />} />
+        <Route path="/adminAssign" element={<AdminAssign />} />
+
         </Routes>
     </>
   );

@@ -221,7 +221,7 @@ router.post('/resetPassword', async (req, res) => {
     
 //update user role
 router.put("/role/:id", authorize(['admin']), async (req, res) => {
-    try {
+    try {   
         const user = await userModel.findByIdAndUpdate(
             req.params.id,
             {

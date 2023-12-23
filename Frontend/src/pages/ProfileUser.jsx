@@ -193,7 +193,7 @@ const UserProfile = () => {
         <h1>Ticket List</h1>
         <ul>
           {tickets.map((ticket) => (
-            <li key={ticket._id} onClick={() => setSelectedTicketId(ticket._id)}>
+            <li key={ticket._id} >
               <span>Category: {ticket.category}</span>
               <span>SubCategory: {ticket.subCategory}</span>
               <span>Description: {ticket.description}</span>

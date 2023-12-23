@@ -19,9 +19,10 @@ const AgentChatRooms = () => {
     getChatRooms();
   }, []); // Make sure this effect runs only once
 
+  
   const getChatRooms = async () => {
     try {
-      const response = await axios.get(`${chatBackend}/getChatRooms/${uid}`, {
+      const response = await axios.get(`${chatBackend}/getChatRooms`, {
         withCredentials: true,
         headers: {
           'Authorization': `Bearer ${cookies.token}`
