@@ -165,6 +165,8 @@ const AddWork = () => {
       </div>
       
       {/* Articles Listing */}
+      <div className="content-layout">
+
       <div className="articles-section">
         <div className="articles-list">
           {articles.map((articleItem) => (
@@ -249,6 +251,7 @@ const AddWork = () => {
           )}
         </form>
       </div>
+    </div>
     </div>
   );
 };

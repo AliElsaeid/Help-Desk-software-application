@@ -18,6 +18,12 @@ h1 {
   margin: 0 auto 20px;
 }
 
+.content-layout {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 20px;
+}
+
 .search-form {
   display: flex;
   gap: 10px;
@@ -46,6 +52,7 @@ h1 {
 
 /* Articles List Styles */
 .articles-section {
+  flex: 2;
   overflow-y: auto; /* enables scrolling */
   max-height: 600px;
   margin-bottom: 20px;
@@ -61,14 +68,19 @@ h1 {
   margin-bottom: 10px;
   position: relative;
   padding: 20px;
+  display: flex; /* Make the article a flex container */
+  justify-content: space-between; /* Space out the content and actions */
+  align-items: center;
 }
 
 .article-content h3 {
   margin-top: 0;
+  flex: 1; /* Allows the text content to fill available space */
+  padding-right: 10px;
 }
 
 .article-actions {
-  position: absolute;
+  position: static;
   top: 20px;
   right: 20px;
   text-align: right;
@@ -97,6 +109,7 @@ h1 {
 
 /* Add Article Form Styles */
 .article-form-section {
+  flex:1;
   max-width: 500px;
   margin: 0 auto;
 }
@@ -134,12 +147,21 @@ h1 {
 }
 
 /* Media queries for responsiveness */
-@media (max-width: 768px) {
-  .filter-search-section {
-    max-width: 100%;
+
+@media (max-width: 1024px) {
+  .content-layout {
+    flex-direction: column;
   }
 
+  .articles-section,
   .article-form-section {
     max-width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .filter-search-section {
+    flex-direction: column;
+    align-items: stretch; 
   }
 }
