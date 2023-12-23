@@ -37,7 +37,7 @@ app.use("/api/v1/appearance", appearance);
 
 // DB connection
 const db_name = "Help_Desk";
-const db_url = `mongodb://127.0.0.1:27017/${db_name}`;
+const db_url = process.env.ATLAS_URI;
 const dbOptions = {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -45,7 +45,7 @@ const dbOptions = {
 
 mongoose
   .connect(db_url, dbOptions)
-  .then(() => console.log("MongoDB connected"))
+  .then(() => console.log("MongoDB Atlas connected"))
   .catch((e) => {
     console.error("MongoDB connection error:", e.message);
   });
