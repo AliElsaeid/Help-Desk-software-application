@@ -15,6 +15,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 const chatbackend = "http://localhost:3000/api/v1/communication";
 const ticketbackend = "http://localhost:3000/api/v1/ticket";
 const userbackend = 'http://localhost:3000/api/v1/user';
+const reportbackend = 'http://localhost:3000/api/v1/report';
 
 const UserProfile = () => {
   const { id } = useParams();
@@ -33,6 +34,8 @@ const UserProfile = () => {
   const [showRatePopup, setShowRatePopup] = useState(false);
   const [selectedRating, setSelectedRating] = useState(1);
   const [comment, setComment] = useState('');
+  const [ratedTicketIds, setRatedTicketIds] = useState([]); // New state to store rated ticket IDs
+
   
   const uid = localStorage.getItem("userId");
   useEffect(() => {
@@ -60,6 +63,22 @@ const UserProfile = () => {
     .catch(error => {
       console.error('Error fetching tickets:', error);
       toast.error("Error fetching tickets.");
+    });
+
+
+    axios.get(`${reportbackend}/getRatedTickets`, {
+      withCredentials: true,
+      headers: {
+        'Authorization': `Bearer ${cookies.token}`
+      }
+    })
+    .then(response => {
+      console.log('Rated Ticket IDs:', response.data.ratedTicketIds);
+      setRatedTicketIds(response.data.ratedTicketIds);
+    })
+    .catch(error => {
+      console.error('Error fetching rated tickets:', error);
+      toast.error("Error fetching rated tickets.");
     });
   }, [uid, cookies.token]);
 
@@ -119,7 +138,6 @@ const UserProfile = () => {
       });
       console.log('Ticket rated successfully!');
       setShowRatePopup(false);
-      // You can refresh the ticket list or perform other actions after rating
     } catch (error) {
       console.error('Error rating ticket:', error);
       // Handle error
@@ -245,14 +263,20 @@ const UserProfile = () => {
               <br/>
               <br/>
               <br/>
+              <br/>
+              <br/>
 
               <div className="ticket-buttons">
-              {ticket.status === 'closed' && (
-              <>
-                <button onClick={() => handleRateTicket(ticket._id)}>Rate the Ticket</button>
-                <button onClick={() => handleAskForChatroom()}>Ask for Chatroom</button>
-              </>
-            )}
+              {ticket.status === 'closed' && !ratedTicketIds.includes(ticket._id) ? (
+    <div className="ticket-buttons">
+    <button onClick={() => handleRateTicket(ticket._id)}>Rate the Ticket</button>
+    <button onClick={() => handleAskForChatroom()}>Ask for Chatroom</button>
+    </div>
+    ) : (
+    <div>
+    <button onClick={() => handleAskForChatroom()}>Ask for Chatroom</button>
+  </div>
+)}
             </div>
             </li>
           ))}

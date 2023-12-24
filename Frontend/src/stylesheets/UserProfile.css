@@ -1,50 +1,52 @@
 /* Styles for the black-themed navigation bar */
 .navbar {
-    background-color: #ffffff; /* Black background color */
-  }
+  background-color: #676363; /* Black background color */
+}
 
-  .nav-link {
-    color: #ffffff !important; /* Set text color to white */
-  }
-  
-  .nav-link:hover {
-    background-color:rgba(0, 0, 0, 0.4); /* Darken the background on hover */
-  }
-  
-  /* Styles for offcanvas header and title */
-  .offcanvas-header {
-    background-color: #000;
-    border-bottom: 1px solid #ffffff58; /* Darker border for the header */
-  }
-  
-  .offcanvas-title {
-    color: #ffffff !important; /* Set title text color to white */
-  }
-  
-  /* Styles for close button in offcanvas header */
-  .offcanvas-header button.close {
-    color: #fff; /* Set close button color to white */
-  }
-  
-  /* Styles for offcanvas body */
-  .offcanvas-body {
-    background-color: #111; /* Dark background color for offcanvas body */
-  }
-  
-  /* Additional styles for the Navbar.Toggle button */
+.nav-link {
+  color: #ffffff !important; /* Set text color to white */
+}
 
-  
-  /* Additional styles for the Wisdom section */
+.nav-link:hover {
+ border-radius:10px;
+  background-color:rgba(0, 0, 0, 0.152); /* Darken the background on hover */
+}
+
+/* Styles for offcanvas header and title */
+.offcanvas-header {
+  background-color: #000;
+  border-bottom: 1px solid #000000; /* Darker border for the header */
+}
+
+.offcanvas-title {
+  color: #ffffff !important; /* Set title text color to white */
+}
+
+/* Styles for close button in offcanvas header */
+.offcanvas-header button.close {
+  color: #fff; /* Set close button color to white */
+}
+
+/* Styles for offcanvas body */
+.offcanvas-body {
+  background-color: #00000083; /* Dark background color for offcanvas body */
+}
+
+/* Additional styles for the Navbar.Toggle button */
+
+
+/* Additional styles for the Wisdom section */
 .wisdom-section {
-    margin-top: 0px; /* Adjust the top margin for spacing */
-    padding: 10px;
-  }
- 
-  .wisdom-section p {
-    margin: 5px 0;
-    font-size: 20px;
-    font-style: bolder;
-    font-family: "lato";
-    color: #fff;
-  }
-  
+  margin-top: 0px; /* Adjust the top margin for spacing */
+  padding: 10px;
+}
+
+.wisdom-section p {
+  margin: 5px 0;
+  font-size: 20px;
+  font-style: bolder;
+  font-family: "lato-";
+  font-weight:bolder;
+  color: #0b29ae;
+}
+
