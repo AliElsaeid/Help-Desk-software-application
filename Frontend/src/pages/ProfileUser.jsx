@@ -231,6 +231,7 @@ const UserProfile = () => {
         <ul>
           {tickets.map((ticket) => (
             <li key={ticket._id} >
+               <div className="ticket-details">
               <span>Category: {ticket.category}</span>
               <span>SubCategory: {ticket.subCategory}</span>
               <span>Description: {ticket.description}</span>
@@ -239,12 +240,15 @@ const UserProfile = () => {
               <span>Updated At: {ticket.updatedAt}</span>
               <span>Closed At: {ticket.closedAt}</span>
               <span>Status: {ticket.status}</span>
+              </div>
+              <div className="ticket-buttons">
               {ticket.status === 'closed' && (
               <>
                 <button onClick={() => handleRateTicket(ticket._id)}>Rate the Ticket</button>
                 <button onClick={() => handleAskForChatroom()}>Ask for Chatroom</button>
               </>
             )}
+            </div>
             </li>
           ))}
         </ul>

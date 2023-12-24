@@ -102,6 +102,9 @@
     box-shadow: rgb(37, 12, 200,1);
     transform: scale(0.6);
     transform-origin: top;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
   
   @media (max-width: 1500px) {
@@ -111,6 +114,7 @@
     height: 400px;
     transform: scale(0.4);
     left: 20%;
+    
     }
   }
   
@@ -148,6 +152,21 @@
   .ticket-list-container span {
     display: block;
     margin-bottom: 8px;
+  }
+ 
+  
+  .ticket-buttons {
+    transform: translateY(-150%);
+   
+    
+    display: flex;
+    flex-direction: column; /* Stack buttons vertically */
+    align-items: flex-end;
+  }
+  
+  .ticket-buttons button {
+    margin-left: 10px;
+    /* Add additional styling as needed */
   }
   
   /* Additional styles as needed for your design */
