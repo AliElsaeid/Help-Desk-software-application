@@ -35,7 +35,7 @@ router.post('/createRoom', authorize('user'), async (req, res) => {
 
     const newRoom = new Room({
       roomName: 'Real-Time Chat',
-      description: existingTicket ? existingTicket.description : '',
+      description: existingTicket ? existingTicket.description : 'Complain',
       ticket: existingTicket,
     });
 

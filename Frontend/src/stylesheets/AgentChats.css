@@ -1,13 +1,11 @@
-body, html {
-  height: 100%;
-  margin: 200px;
-  background-image: url('../assets/agdashboard.jpg'); /* Replace with the path to your image file */
-  background-size: cover; /* Cover the entire page */
-  background-repeat: no-repeat; /* Do not repeat the image */
-  background-position: center center; /* Center the image on the page */
-  background-attachment: fixed;
-
+body {
+  margin: 0;
+  padding: 0;
+  position: relative;
+  background: linear-gradient(to left, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 1)), url("../assets/wallpaper.jpg") fixed  center;
+  background-size: cover;
 }
+
 
 
 

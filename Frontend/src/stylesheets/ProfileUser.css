@@ -85,41 +85,43 @@
     color: white !important; /* Set the h1 color to white */
   }
   
-.ticket-list-container {
+  .ticket-list-container {
     background: linear-gradient(to right, #000000, #1b0696);
     color: rgb(0, 0, 0);
     border-radius: 10px;
     text-align: center;
-    padding: 20px;
-    width: 1500px;
-    height: 500px;
-    margin: auto; /* Center horizontally */
+    padding: 5%;
+    width: 70%; /* Change width to percentage */
+    max-width: 1500px;
+    height: 50vh; /* Change height to percentage */
+    margin: auto;
     position: absolute;
     top: 15%;
     left: 17%;
-    transform: translate(-50%, -50%); /* Center vertically and horizontally */
+    transform: translate(-50%, -50%);
     border: none;
-    box-shadow: rgb(37, 12, 200,1);
+    box-shadow: rgb(37, 12, 200, 1);
     transform: scale(0.6);
     transform-origin: top;
     display: flex;
     flex-direction: column;
     align-items: center;
-  }
+    overflow:scroll; 
+}
+
   
   @media (max-width: 1500px) {
     .ticket-list-container {
-      width: 80%;
-    top: 400px;
-    height: 400px;
-    transform: scale(0.4);
-    left: 20%;
-    
-    }
+      width: 110%;
+      top: 25%;
+      height: 100%; /* Change height to percentage */
+      transform: scale(0.4);
+      left: 20%;
+  }
   }
   
   .ticket-list-container h1 {
-    font-size: 24px;
+    font-size: 30px;
     margin-bottom: 20px;
     color: #000000;
   }
@@ -127,12 +129,13 @@
   .ticket-list-container ul {
     list-style: none;
     padding: 0;
+   
   }
   
   .ticket-list-container li {
     width: 1500px;
-    height: 300px;
-    font-size: 1rem;
+    height: 500px;
+    font-size: 1.5rem;
     cursor: pointer;
     color: #fff;
     padding: 15px;
@@ -165,9 +168,19 @@
   }
   
   .ticket-buttons button {
-    margin-left: 10px;
-    /* Add additional styling as needed */
-  }
+    margin-top: 10px;
+    padding: 8px 12px;
+    background-color: #4caf50; /* Green background color */
+    color: #fff; /* White text color */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.ticket-buttons button:hover {
+    background-color: #45a049; /* Darker green on hover */
+}
   
   /* Additional styles as needed for your design */
   .rate-popup{

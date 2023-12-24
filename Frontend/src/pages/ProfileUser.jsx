@@ -128,7 +128,7 @@ const UserProfile = () => {
   const handleAskForChatroom = async () => {
     try {
       // Make API request to ask for a chatroom
-      await axios.post('/api/createRoom');
+      await axios.post('http://localhost:3000/api/v1/communication/createRoom');
       console.log('Chatroom requested successfully!');
     } catch (error) {
       console.error('Error requesting chatroom:', error);

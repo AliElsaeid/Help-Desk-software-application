@@ -5,8 +5,11 @@ require('dotenv').config();
 const cors = require("cors");
 const cookieParser = require('cookie-parser');
 const authenticationMiddleware = require('./Middleware/authenticationMiddleware');
+const socketio = require('socket.io');
 
 
+const server = http.createServer(app);
+const io = socketIO(server);
 
 console.log(process.env.ORIGIN);
 app.use(express.json());
@@ -59,6 +62,13 @@ mongoose
 // Handle 404
 app.use(function (req, res, next) {
   return res.status(404).send("404 - Not Found");
+});
+io.on("connection", (socket) => {
+  console.log("a user connected");
+
+  socket.on("disconnect", () => {
+    console.log("user disconnected");
+  });
 });
 
 // Start server

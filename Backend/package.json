@@ -24,6 +24,7 @@
     "mongodb": "^6.3.0",
     "mongoose": "^7.5.3",
     "nodemailer": "^6.9.7",
+    "socket.io-client": "^4.7.2",
     "uuid": "^9.0.1"
   },
   "devDependencies": {
