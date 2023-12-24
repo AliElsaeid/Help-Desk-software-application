@@ -9,7 +9,6 @@ module.exports = function authenticationMiddleware(req, res, next) {
     return res.status(401).json({ message: "No Cookie provided" });
   }
    const token = req.cookies.token;
-console.log(token);
    if (!token) {
     return res.status(401).json({ message: "No token provided" });
    }
