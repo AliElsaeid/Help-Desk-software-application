@@ -6,7 +6,6 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import UserNavbBar from '../components/UserNavbBar';
 import "../stylesheets/ProfileUser.css";
-import "../stylesheets/UserProfile.css";
 import img from '../assets/avatara1.jpg';
 import edit from '../assets/edit.png';
 import AgentChatRooms from "../components/UserChatRooms";
@@ -31,6 +30,10 @@ const UserProfile = () => {
   const [cookies] = useCookies([]);
   const [tickets, setTickets] = useState([]);
   const [selectedTicketId, setSelectedTicketId] = useState(null);
+  const [showRatePopup, setShowRatePopup] = useState(false);
+  const [selectedRating, setSelectedRating] = useState(1);
+  const [comment, setComment] = useState('');
+  
   const uid = localStorage.getItem("userId");
   useEffect(() => {
     axios.defaults.withCredentials = true;
@@ -96,6 +99,41 @@ const UserProfile = () => {
         console.error('Error updating user:', error);
         toast.error("Failed to update user details.");
       });
+      
+  };
+  const handleRateTicket = (ticketId) => {
+    setSelectedTicketId(ticketId);
+    setShowRatePopup(true);
+  };
+
+  const handleCloseRatePopup = () => {
+    setShowRatePopup(false);
+  };
+
+  const handleRateSubmit = async () => {
+    try {
+      await axios.post('http://localhost:3000/api/v1/report/createRating', {
+        ticket_id: selectedTicketId,
+        rating: selectedRating,
+        comment: comment
+      });
+      console.log('Ticket rated successfully!');
+      setShowRatePopup(false);
+      // You can refresh the ticket list or perform other actions after rating
+    } catch (error) {
+      console.error('Error rating ticket:', error);
+      // Handle error
+    }
+  };
+
+  const handleAskForChatroom = async () => {
+    try {
+      // Make API request to ask for a chatroom
+      await axios.post('http://localhost:3000/api/v1/communication/createRoom');
+      console.log('Chatroom requested successfully!');
+    } catch (error) {
+      console.error('Error requesting chatroom:', error);
+    }
   };
 
   return (
@@ -194,6 +232,7 @@ const UserProfile = () => {
         <ul>
           {tickets.map((ticket) => (
             <li key={ticket._id} >
+               <div className="ticket-details">
               <span>Category: {ticket.category}</span>
               <span>SubCategory: {ticket.subCategory}</span>
               <span>Description: {ticket.description}</span>
@@ -202,14 +241,50 @@ const UserProfile = () => {
               <span>Updated At: {ticket.updatedAt}</span>
               <span>Closed At: {ticket.closedAt}</span>
               <span>Status: {ticket.status}</span>
+              </div>
+              <br/>
+              <br/>
+              <br/>
+
+              <div className="ticket-buttons">
+              {ticket.status === 'closed' && (
+              <>
+                <button onClick={() => handleRateTicket(ticket._id)}>Rate the Ticket</button>
+                <button onClick={() => handleAskForChatroom()}>Ask for Chatroom</button>
+              </>
+            )}
+            </div>
             </li>
           ))}
         </ul>
       </div> 
 
-      <div className="ticket-detail-view">
-        {selectedTicketId && <TicketDetails ticketId={selectedTicketId} />}
-      </div>
+      
+      {showRatePopup && (
+        <div className="rate-popup">
+          <h2>Rate the Ticket</h2>
+          <label htmlFor="rating">Rating:</label>
+          <select
+            id="rating"
+            value={selectedRating}
+            onChange={(e) => setSelectedRating(parseInt(e.target.value, 10))}
+          >
+            {[1, 2, 3, 4, 5].map((value) => (
+              <option key={value} value={value}>
+                {value}
+              </option>
+            ))}
+          </select>
+          <label htmlFor="comment">Comment:</label>
+          <textarea
+            id="comment"
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+          ></textarea>
+          <button onClick={handleRateSubmit}>Submit</button>
+          <button onClick={handleCloseRatePopup}>Cancel</button>
+        </div>
+      )}
       
     </div>
   );

@@ -1,24 +1,30 @@
 /* AgentChats.css */
 
-.random-list-group {
-  background: linear-gradient(to right, #000000, #1b0696);
+.random-list-group,
+.random-messages-column {
+  background: rgba(255, 255, 255, 0.5);
   border-radius: 10px;
   padding: 20px;
-  width: 1500px;
+  width: 59rem;
+  max-width: 58rem;
+  height: 46vh;
   margin: auto;
-  height: 500px;
+  overflow-y: auto;
   position: absolute;
-  top: 55%;
-  left: 17%;
+  top: 17%;
+  left: 20%;
   transform: translate(-50%, -50%);
   border: none;
   box-shadow: rgb(37, 12, 200, 1);
   transform: scale(0.6);
   transform-origin: top;
+  font-size: 25px;
+  color: #070101; /* Default text color for the container */
 }
 
 @media (max-width: 1500px) {
-  .random-list-group {
+  .random-list-group,
+  .random-messages-column {
     width: 80%; /* Adjust width for smaller screens */
     top: 490px;
     height: 300px;
@@ -27,42 +33,47 @@
   }
 }
 
-.random-list-group h2 {
-  font-size: 24px;
+.random-list-group h2,
+.random-messages-column h2 {
+  font-size: 60px;
   margin-bottom: 20px;
-  color: #ffffff;
+  color: #000; /* Black font color for the title "Rooms" */
 }
 
-.random-list-group .random-item {
+.random-list-group .random-item,
+.random-messages-column .random-item {
   cursor: pointer;
-  color: #ffffff;
-  font-size: 1.5rem;
   padding: 15px;
-  border: none;
   margin-bottom: 10px;
   border-radius: 5px;
+  background-color: rgba(255, 255, 255, 0.4); /* Grey background color for each box */
   transition: background-color 0.3s ease;
 }
 
-.random-list-group .random-item:hover {
-  background: linear-gradient(to right, #000000, #1b0696);
-  color: #fff;
-  box-shadow: 4px 1px 8px rgba(0, 0, 0, 1);}
+.random-list-group .random-item:hover,
+.random-messages-column .random-item:hover {
+  background: #007bff; /* Blue background color on hover */
+}
 
-.random-list-group strong {
+.random-list-group strong,
+.random-messages-column strong {
   display: block;
   margin-bottom: 8px;
+  color: #333; /* Dark grey text color for the content */
 }
 
 .random-messages-column {
-  background-color: rgba(255, 255, 255, 1);
+  background-color: rgba(255, 255, 255, 0);
   border-radius: 10px;
   padding: 20px;
-  width: 1000px;
+  width: 58rem;
+  max-width: 58rem;
+  height: 85%;
+  font-size: 19px;
   margin: auto;
   position: absolute;
-  top: 50%;
-  left: 37%;
+  top: 45%;
+  left: 20%;
   transform: translate(-50%, -50%);
   border: none;
   box-shadow: rgb(37, 12, 200, 1);
@@ -70,18 +81,10 @@
   transform-origin: top;
 }
 
-@media (max-width: 1500px) {
-  .random-list-group {
-    width: 80%;
-    top: 580px;
-    height: 400px;
-    transform: scale(0.4);
-    left: 20%;
-  }
-}
+/* Rest of your CSS remains unchanged */
 
 #random-messages-container {
-  background-color: #fff;
+  background-color: rgba(255, 255 ,255 , 0.6);
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   height: 100%;
@@ -98,12 +101,15 @@
 
 .random-chat-message {
   margin-bottom: 10px;
+  background-color: rgba(255, 255 ,255 , 0.4);
 }
 
 .random-chat-message-container {
   border: 1px solid #ddd;
   padding: 10px;
+  
   border-radius: 5px;
+  left: -9%;
 }
 
 .random-message-header {
@@ -125,6 +131,9 @@
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 5px;
+  background-color: rgba(255, 255, 255);
+  color: #000;
+
 }
 
 .random-btn {
