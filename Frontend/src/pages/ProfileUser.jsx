@@ -34,8 +34,6 @@ const UserProfile = () => {
   const [showRatePopup, setShowRatePopup] = useState(false);
   const [selectedRating, setSelectedRating] = useState(1);
   const [comment, setComment] = useState('');
-  const [showRateMessage, setShowRateMessage] = useState(false);
-
 
   const uid = localStorage.getItem("userId");
 
@@ -120,14 +118,13 @@ const UserProfile = () => {
     axios.get(`${reportbackend}/checkTicketRating/${ticketId}`, { withCredentials: true })
       .then(response => {
         if (response.data.rated) {
-        
           console.log('You have already rated this ticket');
         } else {
           setSelectedRating(1); 
           setComment(''); 
           setShowRatePopup(true);
-         }
-
+          setshowratemessage(true);
+        }
       })
       .catch(error => {
         console.error('Error checking ticket rating:', error);
@@ -148,8 +145,6 @@ const UserProfile = () => {
       });
       console.log('Ticket rated successfully!');
       setShowRatePopup(false);
-      window.location.reload();
-
       // You can refresh the ticket list or perform other actions after rating
     } catch (error) {
       console.error('Error rating ticket:', error);
@@ -288,11 +283,6 @@ const UserProfile = () => {
                     <button onClick={() => handleAskForChatroom()}>Ask for Chatroom</button>
                   </div>
                 )}
-                 {showRateMessage && (
-                  <div className="rate-message">
-                    <p>This ticket has already been rated.</p>
-                  </div>
-                 )}
               </div>
             </li>
           ))}

@@ -60,7 +60,7 @@ router.get('/ratings', async (req, res) => {
       }
   
  // 2-Make sure that the the user's role is admin
-      if (user.role === 'admin') {
+      if (user.role === 'user'||user.role === 'admin') {
 
         const ratings = await Ratings.find();
   
