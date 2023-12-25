@@ -74,26 +74,26 @@ router.get('/ratings', async (req, res) => {
       return res.status(500).json({ message: 'Internal server error' });
     }
     });
-    
-    
-    router.get('/:id', async (req, res) => {
+    router.get('/checkTicketRating/:ticketId', async (req, res) => {
       try {
-      
+        const ticketId = req.params.ticketId;
     
-        let result;
+        const existingTicket = await Tickets.findById(ticketId);
     
-    
-        result = await Ratings.find({ _id: req.params.id});
-      
-    
-        if (!result || result.length === 0) {
-          return res.status(403).json({ error: 'Unauthorized. You can\'t rate this ticket.' });
+        if (!existingTicket) {
+          return res.status(404).json({ message: 'Ticket not found' });
         }
     
-        return res.status(200).json(result);
+        const userRating = await Ratings.findOne(ticketId);
+    
+        if (userRating) {
+          return res.status(200).json({ rated: true });
+        } else {
+          return res.status(200).json({ rated: false });
+        }
       } catch (error) {
-        console.error('Error getting ticket:', error);
-        res.status(500).json({ error: 'Server error', details: error.message });
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
       }
     });
   module.exports = router;
