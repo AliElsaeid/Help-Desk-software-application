@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useCookies } from 'react-cookie';
+import "../stylesheets/AdminAssign.css";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
+// Define the user backend URL
 const userbackend = 'http://localhost:3000/api/v1/user';
 
+// Main component
 const AssignAgent = () => {
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
   const [cookies] = useCookies([]);
-  const [role, setRole] = useState('user'); // Initialize role state with a default value
+  const [role, setRole] = useState('user');
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -22,7 +26,46 @@ const AssignAgent = () => {
     };
 
     fetchUsers();
-  }, [cookies.token]); // Include cookies.token in the dependency array to fetch users on token changes
+  }, [cookies.token]);
+
+  const UsersList = () => (
+    <div className="users-list">
+      <h2>Users List</h2>
+      <ul>
+        {users.map((user) => (
+          <li key={user._id}>
+            <div className="user-info">
+              <p className="bold-label username">Username: {user.username}</p>
+              <p>Role: {user.role}</p>
+            </div>
+            <button onClick={() => handleUpdateClick(user)}>Update</button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+
+  const UpdateRole = () => (
+    <div className="update-role-container">
+      <h2>Update Role</h2>
+      {selectedUser && (
+        <p>
+          <span className="selected-user-text">Selected User:</span> {selectedUser.username}
+        </p>
+      )}
+      <div className="role-options">
+        <div className="role-circle">
+          <input type="radio" id="user" name="role" value="user" onChange={() => setRole('user')} />
+          <label htmlFor="user">User</label>
+        </div>
+        <div className="role-circle">
+          <input type="radio" id="agent" name="role" value="agent" onChange={() => setRole('agent')} />
+          <label htmlFor="agent">Agent</label>
+        </div>
+      </div>
+      <button onClick={handleRoleUpdate}>Submit</button>
+    </div>
+  );
 
   const handleUpdateClick = (user) => {
     setSelectedUser(user);
@@ -34,11 +77,10 @@ const AssignAgent = () => {
         console.error('No user selected for role update');
         return;
       }
-  console.log(role);
-      // Send a request to update the role of the selected user
+
       await axios.put(
         `${userbackend}/role/${selectedUser._id}`,
-        { role },  // Ensure role is a string
+        { role },
         {
           headers: {
             'Content-Type': 'application/json',
@@ -46,48 +88,20 @@ const AssignAgent = () => {
           },
         }
       );
-  
-      // Refresh the list of users after the role is updated
+
       const response = await axios.get(`${userbackend}`);
       setUsers(response.data);
-  
-      // Clear the selected user
+
       setSelectedUser(null);
     } catch (error) {
       console.error('Error updating user role:', error);
     }
   };
-  
+
   return (
     <div className="assign-agent-container">
-      <div className="users-list">
-        <h2>All Users</h2>
-        <ul>
-          {users.map((user) => (
-            <li key={user._id}>
-              {user.username} - {user.role}
-              <button onClick={() => handleUpdateClick(user)}>Update</button>
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      {selectedUser && (
-        <div className="update-role-container">
-          <h2>Update Role</h2>
-          <p>Selected User: {selectedUser.username}</p>
-          <select onChange={(e) => setRole(e.target.value)}>
-            <option value="user">User</option>
-            <option value="agent">Agent</option>
-          </select>
-          <button onClick={handleRoleUpdate}>Submit</button>
-        </div>
-      )}
-
-      {/* Notification Popup */}
-      <div className="notification" id="notification">
-        Role updated successfully!
-      </div>
+      <UsersList />
+      {selectedUser && <UpdateRole />}
     </div>
   );
 };
