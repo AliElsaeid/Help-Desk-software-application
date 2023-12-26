@@ -1,167 +1,68 @@
-/* Add import at the top of your CSS file for google fonts or include in your HTML */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+/* Adminaddar.css */
 
-/* Base Styles */
-.article-management-container {
-  font-family: 'Poppins', sans-serif;
-  padding: 20px;
+/* Search Container */
+.search-container-container {
+  position: fixed;
+  top: 100px; /* Start below the user info container - adjust based on actual height of user info */
+  left: 0;
+  width:60%; /* adjust as needed */
+  padding: 15px;
+  overflow-y: auto; /* scroll for overflowing content */
+  max-height: calc(90vh - 60px); /* adjust height based on user info size */
+  font-family: Arial, sans-serif; /* default font */
+  z-index: 1000; /* Ensure it is under the user-info-container */
+  background: #f9f9f9; 
+  border-radius: 8px;
 }
-
-h1 {
-  text-align: center;
-  font-weight: 600;
-}
-
-/* Search and Filter Styles */
-.filter-search-section {
-  max-width: 500px;
-  margin: 0 auto 20px;
-}
-
-.content-layout {
-  display: flex;
-  flex-wrap: nowrap;
-  gap: 20px;
+.search-container-container h2{
+  font-weight: bolder;
 }
 
 .search-form {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  justify-content: center;
-}
-
-.search-input,
-.filter-select {
-  padding: 10px;
-  border-radius: 20px;
-  border: 1px solid #dddddd;
-}
-
-.search-button {
-  background-color: #5469d4;
-  color: white;
-  padding: 10px 20px;
-  border-radius: 20px;
-  border: none;
-}
-
-.search-button:hover {
-  background-color: #4254a3;
-}
-
-/* Articles List Styles */
-.articles-section {
-  flex: 2;
-  overflow-y: auto; /* enables scrolling */
-  max-height: 600px;
-  margin-bottom: 20px;
-}
-
-.articles-list {
-  padding: 10px;
-}
-
-.article-item {
-  background: #ffffff;
-  border-radius: 10px;
-  margin-bottom: 10px;
-  position: relative;
-  padding: 20px;
-  display: flex; /* Make the article a flex container */
-  justify-content: space-between; /* Space out the content and actions */
-  align-items: center;
-}
-
-.article-content h3 {
-  margin-top: 0;
-  flex: 1; /* Allows the text content to fill available space */
-  padding-right: 10px;
-}
-
-.article-actions {
-  position: static;
-  top: 20px;
-  right: 20px;
-  text-align: right;
-}
-
-.article-update-button,
-.article-delete-button {
-  display: block;
-  background-color: #5469d4;
-  color: white;
-  padding: 10px 20px;
-  margin-bottom: 10px;
-  border-radius: 20px;
-  border: none;
-}
-
-.article-delete-button {
-  background-color: #dc3545;
-}
-
-.article-separator {
-  background: linear-gradient(to right, #cccccc, #333333, #cccccc);
-  height: 3px;
   margin-top: 20px;
 }
 
-/* Add Article Form Styles */
-.article-form-section {
-  flex:1;
-  max-width: 500px;
-  margin: 0 auto;
+/* Articles Listing */
+.articles-section {
+  width: 100%; /* Set the width of the articles section to 70% of the page */
+  float: left; /* Float the articles section to the left */
+  background-color: #f0f0f0; /* Invisible bright grey background */
+  padding: 20px;
+  margin-top: 20px;
+  border-radius: 8px; /* Add margin to separate it from the search container */
+}
+
+.article-item {
+  width: 100%; /* Set the width of each article item to 80% of the articles section */
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  padding: 10px;
+}
+
+/* Add Article Form Section */
+.add-article-container {
+  position: fixed;
+  top:100px;
+  right:0;
+  width: 30%; /* Set the width of the add article form section to 30% of the page */
+  margin-left: 70%; /* Add margin to move the add article form to the right */
+  background-color: #f0f0f0; /* Invisible bright grey background */
+  padding: 20px;
+  border-radius: 8px;
 }
 
 .article-form {
   display: flex;
   flex-direction: column;
 }
+.search-buttons,
+.article-delete-button,
+.article-update-button,
+.cancel-button,
+.submit-button{
+  background-color: black;
+  color:white
 
-.select-category,
-.submit-button,
-.cancel-button {
-  padding: 10px;
-  margin-top: 10px;
-  border-radius: 20px;
 }
-
-.submit-button {
-  background-color: #28a745;
-  color: white;
-  margin-top: 20px;
-}
-
-.submit-button:hover {
-  background-color: #218838;
-}
-
-.cancel-button {
-  background-color: #777;
-  color: white;
-}
-
-.cancel-button:hover {
-  background-color: #555;
-}
-
-/* Media queries for responsiveness */
-
-@media (max-width: 1024px) {
-  .content-layout {
-    flex-direction: column;
-  }
-
-  .articles-section,
-  .article-form-section {
-    max-width: 100%;
-  }
-}
-
-@media (max-width: 768px) {
-  .filter-search-section {
-    flex-direction: column;
-    align-items: stretch; 
-  }
-}
+/* Other styles remain the same */

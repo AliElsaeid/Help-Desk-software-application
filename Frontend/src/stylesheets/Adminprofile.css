@@ -3,7 +3,7 @@
     position: fixed; /* Fixed positioning relative to the viewport */
     top: 0; /* Aligns to the top of the viewport */
     left: 0; /* Aligns to the left of the viewport */
-    padding: 10px; /* Add some padding inside the container */
+    padding: 0.52%; /* Add some padding inside the container */
     background: hsl(0, 0%, 97%); /* A light gray background color for visibility */
     z-index: 1001; /* Higher than the ticket list to be on top */
   }
@@ -29,14 +29,14 @@
   /* Specific styles for the ticket list container to be placed under the user info */
   .ticket-list-container {
     position: fixed;
-    top: 120px; /* Start below the user info container - adjust based on actual height of user info */
+    top: 6.25%; /* Assuming 1920px viewport width and 120px height of user info container */
     left: 0;
-    width: 320px; /* adjust as needed */
-    padding: 15px;
-    overflow-y: auto; /* scroll for overflowing content */
-    max-height: calc(90vh - 60px); /* adjust height based on user info size */
-    font-family: Arial, sans-serif; /* default font */
-    z-index: 1000; /* Ensure it is under the user-info-container */
+    width: 16.67%; /* Assuming 1920px viewport width: 320px is approx 16.67% of 1920px */
+    padding: 0.78%; /* Assuming 1920px viewport width: 15px is approx 0.78% of 1920px */
+    overflow-y: auto;
+    max-height: 90vh; /* Depending on user info height, you might adjust */
+    font-family: Arial, sans-serif;
+    z-index: 1000;
     background: #f9f9f9; /* Optional: Background for ticket list if needed */
   }
   
@@ -50,10 +50,10 @@
   /* Each ticket's list item styling in ticket list container */
   .ticket-list-container li {
     background: #fff; /* white background for each ticket */
-    margin-bottom: 10px; /* space between tickets */
-    padding: 10px;
+    margin-bottom: 0.52%; /* space between tickets */
+    padding: 0.52%;
     font-size: 0.8rem; /* smaller text */
-    border-radius: 4px; /* slightly rounded corners for the card-like feel */
+    border-radius: 0.21%; /* slightly rounded corners for the card-like feel */
     display: flex; /* Flexible box layout model */
     flex-direction: column; /* Arrange children in a column */
   }

@@ -85,7 +85,6 @@ const AddWork = () => {
       toast.error('No article is selected for updating.');
       return;
     }
-
     try {
       await axios.put(`${arbackend}/articles/${currentArticleId}`, article, {
         withCredentials: true,
@@ -134,63 +133,58 @@ const AddWork = () => {
     fetchArticles();
   };
 
- 
+  // Removed the formTitleClass since we does not seem to need different class names for add/update
+  const formTitleText = isUpdateMode ? "Update Article" : "Add Article";
+
   return (
-    <div className="article-management-container">
-      <ToastContainer />
+    <div>
+    <ToastContainer />
+    
+    {/* Search Section */}
+    <div className="search-container-container">
+      <h2>Search for Article</h2>
+      <form onSubmit={handleSearch} className="search-form">
+        <input
+          type="text"
+          value={search}
+          onChange={handleSearchChange}
+          placeholder="Search articles..."
+        />
+        <select
+          value={filterType}
+          onChange={handleFilterChange}
+        >
+          <option value="type">Type</option>
+          <option value="category">Category</option>
+        </select>
+        <button type="submit" className="search-buttons"> Search</button>
+      </form>
+    
 
-      {/* Header */}
-      <h1>{isUpdateMode ? 'Update' : 'Add'} an Article</h1>
-      
-      {/* Search and Filter */}
-      <div className="filter-search-section">
-        <form onSubmit={handleSearch} className="search-form">
-          <input
-            type="text"
-            value={search}
-            onChange={handleSearchChange}
-            placeholder="Search articles..."
-            className="search-input"
-          />
-          <select
-            value={filterType}
-            onChange={handleFilterChange}
-            className="filter-select"
-          >
-            <option value="type">Type</option>
-            <option value="category">Category</option>
-          </select>
-          <button type="submit" className="search-button">Search</button>
-        </form>
-      </div>
-      
-      {/* Articles Listing */}
-      <div className="content-layout">
-
-      <div className="articles-section">
-        <div className="articles-list">
-          {articles.map((articleItem) => (
-            <div key={articleItem._id} className="article-item">
-              <div className="article-content">
-                <h3>{articleItem.title}</h3>
-                <p>{articleItem.content}</p>
-                <p>Type: {articleItem.type}</p>
-                <p>Category: {articleItem.category}</p>
-              </div>
-              <div className="article-actions">
-                <button onClick={() => startUpdate(articleItem)} className="article-update-button">Update</button>
-                <button onClick={() => deleteArticle(articleItem._id)} className="article-delete-button">Delete</button>
-              </div>
-              <div className="article-separator"></div>
+    {/* Articles Listing */}
+    <div className="articles-section">
+        {articles.map((articleItem) => (
+          <div key={articleItem._id} className="article-item">
+            <div className="article-content">
+              <h3>{articleItem.title}</h3>
+              <p>{articleItem.content}</p>
+              <p>Type: {articleItem.type}</p>
+              <p>Category: {articleItem.category}</p>
             </div>
-          ))}
-        </div>
+            <div className="article-actions">
+              <button onClick={() => startUpdate(articleItem)} className="article-update-button">Update</button>
+              <button onClick={() => deleteArticle(articleItem._id)} className="article-delete-button">Delete</button>
+            </div>
+          </div>
+        ))}
+      </div>
       </div>
 
-      {/* Article Form */}
-      <div className="article-form-section">
-        <form onSubmit={handleSubmit} className="article-form">
-          {/* Title */}
+
+    {/* Add Article Form Section */}
+    <div className="add-article-container container">
+      <h2>{formTitleText}</h2>
+      <form onSubmit={handleSubmit} className="article-form">
           <label>Title:</label>
           <input
             type="text"
@@ -200,7 +194,6 @@ const AddWork = () => {
             required
           />
           
-          {/* Content */}
           <label>Content:</label>
           <textarea
             name="content"
@@ -209,33 +202,25 @@ const AddWork = () => {
             required
           />
           
-          {/* Type */}
           <label>Type:</label>
           <select name="type" value={article.type} onChange={handleChange}>
             <option value="Workflow">Workflow</option>
             <option value="KnowledgeBase">KnowledgeBase</option>
           </select>
           
-          {/* Category */}
           <label>Category:</label>
-          <select
-            name="category"
-            className="select-category"
-            value={article.category}
-            onChange={handleChange}
-          >
+          <select name="category" value={article.category} onChange={handleChange}>
             <option value="">Select Category</option>
             <option value="Software">Software</option>
             <option value="Hardware">Hardware</option>
             <option value="Network">Network</option>
           </select>
           
-          {/* Submit Button */}
-          <button type="submit" className="submit-button">
-            {isUpdateMode ? 'Update' : 'Add'} Article
+          <button type="button" className="submit-button">
+          
+            {formTitleText}
           </button>
           
-          {/* Cancel Button */}
           {isUpdateMode && (
             <button
               type="button"
@@ -249,11 +234,10 @@ const AddWork = () => {
               Cancel
             </button>
           )}
-        </form>
-      </div>
+      </form>
     </div>
-    </div>
-  );
+  </div>
+);
 };
 
 export default AddWork;
