@@ -1,26 +1,38 @@
-// ArticlesList.jsx
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Container, Row, Col, Card, Button, Form, Spinner } from 'react-bootstrap';
 import '../stylesheets/knowledgebasestyle.css';
 import UserNavbBar from '../components/UserNavbBar';
 import AppFooter from '../components/footer';
+import { useParams } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
 
 const ArticlesList = () => {
+  const { id } = useParams();
+  const [user, setUser] = useState(null);
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [displayedArticles, setDisplayedArticles] = useState(5);
+  const [cookies] = useCookies([]);
+  const uid = localStorage.getItem("userId");
 
-  useEffect(() => {
-    fetchArticles();
-  }, []);
-
-  const fetchArticles = async () => {
-    setLoading(true);
+  const fetchData = async () => {
     try {
-      const response = await axios.post('http://localhost:3000/api/v1/users/articlesss', { searchTerm });
+      setLoading(true);
+
+      const response = await axios.post(
+        'http://localhost:3000/api/v1/users/articlesss',
+        { searchTerm },  // Correctly include searchTerm in the request body
+        {
+          withCredentials: true,
+          headers: {
+            'Authorization': `Bearer ${cookies.token}`
+          }
+        }
+      );
+
       setArticles(response.data);
       setLoading(false);
     } catch (err) {
@@ -29,8 +41,12 @@ const ArticlesList = () => {
     }
   };
 
+  useEffect(() => {
+    fetchData();
+  }, [uid, cookies.token, searchTerm]);  // Include searchTerm in the dependency array
+
   const handleSearch = () => {
-    fetchArticles();
+    fetchData();
   };
 
   const handleViewMore = () => {
@@ -57,13 +73,7 @@ const ArticlesList = () => {
             />
           </Col>
           <Col md={4}>
-            <Button 
-              variant="primary" 
-              className="search-button"
-              onClick={handleSearch}
-            >
-              Search
-            </Button>
+           
           </Col>
         </Row>
 
@@ -81,7 +91,7 @@ const ArticlesList = () => {
 
         <Row className="justify-content-center">
           {articles.slice(0, displayedArticles).map((article, index) => (
-            <Col key={index} md={12} className="mb-4"> {/* Use full width for the card */}
+            <Col key={index} md={12} className="mb-4">
               <Card className="article-card">
                 <Card.Body>
                   <Card.Title>{article.title}</Card.Title>
@@ -106,7 +116,6 @@ const ArticlesList = () => {
             </Col>
           </Row>
         )}
-
       </Container>
       <AppFooter />
     </div>

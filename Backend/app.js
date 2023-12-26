@@ -44,7 +44,7 @@ const articleRoutes= require('./Routes/articleRoutes');
 
 // Use routers
 app.use("/api/v1/user", user);
-// app.use(authenticationMiddleware);
+ app.use(authenticationMiddleware);
 app.use("/api/v1/ticket",ticketsRoutes);
 app.use("/api/v1/communication", communicationRoutes);
 app.use("/api/v1/appearance", appearance);

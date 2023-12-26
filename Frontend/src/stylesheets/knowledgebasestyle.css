@@ -1,13 +1,4 @@
-/* General Body Style */
-body {
-  font-family: 'Arial', sans-serif;
-  margin: 0;
-  padding: 0;
-  background: linear-gradient(to left, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 1)),
-    url("../assets/wallpaper.jpg") fixed center;
-  background-size: cover;
-  color: white; /* Common text color */
-}
+
 
 .title-container {
   text-align: center;
@@ -20,6 +11,10 @@ body {
   font-weight: bold;
   color: #ffffff;
   text-shadow: 0.05333rem 0.05333rem 0.10667rem rgba(0, 0, 0, 0.5);
+}
+input[type="search"]:focus {
+  background-color: rgba(255, 255, 255, 0); /* Adjust the alpha value as needed */
+  color:floralwhite ;
 }
 
 /* Common Input Style */
@@ -34,13 +29,13 @@ input[type="search"] {
   margin-bottom: 2.67%;
   margin-left: 13%;
   font-size: 1.2em;
-  color: white;
+  color: rgba(255, 255, 255, 0);
   outline: none;
 }
 
 /* Placeholder Style */
 input[type="search"]::placeholder {
-  color: #ffffff !important;
+  color: #ffffff;
   font-size: 100%;
 }
 
@@ -52,20 +47,7 @@ input[type="search"]::placeholder {
 }
 
 /* Common Button Style */
-button {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 0.02667rem;
-  padding: 2.67% 5.33%;
-  cursor: pointer;
-  font-size: 1.2em;
-  font-family: 'Arial', sans-serif;
-}
 
-button:hover {
-  background-color: #0056b3;
-}
 
 /* Error Message Style */
 .error-message {

@@ -2,6 +2,8 @@
 const express = require("express");
 const router = express.Router();
 const ArticleModel = require('../Models/ArticlesModel');
+const authorize  = require('../Middleware/authorizationMiddleware');
+
 
 // Get all articles
 router.get('/articles', async (req, res) => {
@@ -13,6 +15,15 @@ router.get('/articles', async (req, res) => {
   }
 });
 
+router.get('/workflows', async (req, res) => {
+    try {
+      const { category } = req.body;
+      const articles = await ArticleModel.find({ type: 'Workflow', category });
+      res.json(articles);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  });
 // routes.js
 router.post('/articlesss', async (req, res) => {
   try {
@@ -31,7 +42,7 @@ router.post('/articlesss', async (req, res) => {
   }
 });
 // Create a new article
-router.post('/articles', async (req, res) => {
+router.post('/articles', authorize('admin'),async (req, res) => {
   const article = new ArticleModel({
     title: req.body.title,
     content: req.body.content,
@@ -48,7 +59,7 @@ router.post('/articles', async (req, res) => {
 });
 
 // Update an article using PUT
-router.put('/articles/:id', async (req, res) => {
+router.put('/articles/:id',authorize('admin'), async (req, res) => {
     try {
       const article = await ArticleModel.findById(req.params.id);
       if (!article) {
@@ -68,7 +79,7 @@ router.put('/articles/:id', async (req, res) => {
   });
 
 // Delete an article
-router.delete('/articles/:id', async (req, res) => {
+router.delete('/articles/:id',authorize('admin'), async (req, res) => {
   try {
     await ArticleModel.findByIdAndDelete(req.params.id);
     res.json({ message: 'Article deleted successfully' });
