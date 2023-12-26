@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const cors = require('cors');
+
 const Ticket = require('../Models/TicketsModel');
 const User = require('../Models/UserModel');
 const Room = require('../Models/RoomsModel');
@@ -8,18 +8,20 @@ const Room = require('../Models/RoomsModel');
 const authorize  = require('../Middleware/authorizationMiddleware');
 const authenticationMiddleware = require('../Middleware/authenticationMiddleware');
 const axios = require('axios');
-const app = express();
-
-app.use(cors({
-  origin:['http://localhost:3000','http://localhost:5173']
-
-}));
 const fetchDataFromFastAPI = async () => {
   try {
     const response = await axios.post('http://127.0.0.1:8000/predict_assignment');
 
-    const predictionResult = response.data;
-    console.log('Prediction Result:', predictionResult);
+    if (response.status === 200) {
+      const assignmentResult = response.data;
+      console.log('Assignment Result:', assignmentResult);
+
+      // Handle the assignment result as needed
+      // For example, update the ticket status or do something else
+
+    } else {
+      console.error('Error predicting assignment. Status:', response.status);
+    }
   } catch (error) {
     console.error('Error fetching data from FastAPI:', error.message);
   }
@@ -30,7 +32,7 @@ const fetchDataFromFastAPI = async () => {
 
 
 
-router.post('/create', async (req, res) => {
+router.post('/create',authorize('user'), async (req, res) => {
   try {
 
     const userId  = req.user.userId;
@@ -79,10 +81,10 @@ router.post('/create', async (req, res) => {
   }
 });
 
-router.get('/getTickets/:id',async (req, res) => {
+router.get('/getTickets',async (req, res) => {
   try {
-    //  const userId  = req.user.userId;
-     const userId=req.params.id;
+    const userId  = req.user.userId;
+    console.log(userId);
     const user = await User.findById(userId);
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
@@ -98,13 +100,11 @@ router.get('/getTickets/:id',async (req, res) => {
     } else if (userRole === 'agent') {
    
       result = await Ticket.find({ 'agent': userId });
+
     } else {
       result = await Ticket.find({ user: userId });
     }
 
-    if (!result || result.length === 0) {
-      return res.status(403).json({ error: 'Unauthorized. You do not have access to any tickets.' });
-    }
 
     return res.status(200).json(result);
   } catch (error) {
@@ -113,7 +113,7 @@ router.get('/getTickets/:id',async (req, res) => {
   }
 });
 
-router.put('/:id',async (req, res) => {
+router.put('/:id',authorize(['admin', 'agent']),async (req, res) => {
   try {
     const { status, resolution } = req.body;
 
@@ -140,6 +140,8 @@ router.put('/:id',async (req, res) => {
     }
 
     await ticket.save();
+    await axios.post('http://127.0.0.1:8000/predict_assignment', {});
+
 
     return res.status(200).json({ ticket, message: 'Ticket updated successfully' });
   } catch (error) {

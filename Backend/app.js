@@ -27,6 +27,7 @@ const user = require('./Routes/userRoutes');
 const ticketsRoutes = require('./Routes/ticketRoutes');
 const communicationRoutes = require('./Routes/communicationRoutes');
 const appearance = require('./Routes/AppearanceRoutes');
+const articleRoutes= require('./Routes/articleRoutes');
 
 // Use routers
 app.use("/api/v1/user", user);
@@ -34,6 +35,7 @@ app.use(authenticationMiddleware);
 app.use("/api/v1/ticket",ticketsRoutes);
 app.use("/api/v1/communication", communicationRoutes);
 app.use("/api/v1/appearance", appearance);
+app.use("/api/v1/article",articleRoutes);
 
 
 
