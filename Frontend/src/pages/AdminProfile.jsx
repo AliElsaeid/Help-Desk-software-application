@@ -7,15 +7,20 @@ import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css'; // Don't forget to import css
 import { Bar } from 'react-chartjs-2';
 import Chart from 'chart.js/auto';
+import Avatar from '@mui/material/Avatar';
+import Adminnavbar from '../components/Adminnavbar';
+
 
 const userbackend = "http://localhost:3000/api/v1/user";
 const ticketbackend = "http://localhost:3000/api/v1/ticket";
 const appbackend="http://localhost:3000/api/v1/appearance";
 
-function TicketDetails({ ticketId, onClose }){
+function TicketDetails({ ticket ,onClose }) {
+
   const [status, setStatus] = useState('');
   const [resolution, setResolution] = useState('');
-  const [cookies] = useCookies([]);
+  const [cookies] = useCookies(['token']);
+  const [emailSending, setEmailSending] = useState(false);
 
   // Since we're not getting a single ticket detail, we no longer need an effect hook here
   // Remove the previous useEffect that fetched ticket details
@@ -25,44 +30,91 @@ function TicketDetails({ ticketId, onClose }){
       status: status,
       resolution: resolution
     };
-
+console.log(ticket);
     const config = {
       headers: { 'Authorization': `Bearer ${cookies.token}` }
     };
 
-    axios.put(`${ticketbackend}/${ticketId}`, dataToSend, config)
+    axios.put(`${ticketbackend}/${ticket._id}`, dataToSend, config)
     .then(response => {
       toast.success("Ticket updated successfully");
       // Use 'window.location.reload()' to reload the page after the update.
-      window.location.reload();
+      // window.location.reload();
     })
     .catch(error => {
       console.error('Error updating ticket:', error);
       toast.error("Failed to update ticket.");
     });
+
   };
+  const sendResolutionEmail = () => {
+    setEmailSending(true); // Set state to represent email-sending progress
+    const emailData = {
+      userId: ticket.user,
+      subject: 'Your Ticket Resolution',
+      message: resolution
+    };
+
+    // Set up your headers and tokens correctly.
+    const config = {
+      headers: { 'Authorization': `Bearer ${cookies.token}` }
+    };
+
+    axios.post('http://localhost:3000/api/v1/communication/sendEmail', emailData, config)
+      .then(response => {
+        toast.success("Email sent successfully!");
+        setEmailSending(false); 
+
+      })
+      .catch(error => {
+        console.error('Error sending resolution email:', error);
+        toast.error("Failed to send email.");
+        setEmailSending(false);
+      });
+  };
+
+  
 
   return (
     <div className="update-ticket-card">
-       <button onClick={onClose}>Close</button>
-      <h2>Update Ticket ID: {ticketId}</h2>
-      <div>
-        <label>Status:</label>
-        <select value={status} onChange={(e) => setStatus(e.target.value)}>
-          <option value="open">Open</option>
-          <option value="pending">Pending</option>
-          <option value="closed">Closed</option>
-        </select>
-      </div>
-      <div>
-        <label>Resolution:</label>
-        <textarea 
-          value={resolution} 
-          onChange={(e) => setResolution(e.target.value)}>
-        </textarea>
-      </div>
-      <button onClick={updateTicket}>Update Ticket</button>
-    </div>
+ <button className="btn btn-sm btn-danger close-btn" onClick={onClose}>
+  Close
+</button>
+<h2>Update Ticket: {ticket.description}</h2>
+<div>
+  <label>Status:</label>
+  <select value={status} onChange={(e) => setStatus(e.target.value)}>
+    <option value="open">Open</option>
+    <option value="pending">Pending</option>
+    <option value="closed">Closed</option>
+  </select>
+</div>
+<div>
+  <label>Resolution:</label>
+  <textarea
+    className="resolution-textarea"
+    value={resolution}
+    onChange={(e) => setResolution(e.target.value)}
+    rows="8" /* Set the number of visible rows */
+  ></textarea>
+</div>
+<div>
+  <button className="btn btn-primary update-btn" onClick={() => updateTicket()}>
+    Update Ticket
+  </button>
+  <button
+    className="btn btn-secondary email-btn"
+    onClick={sendResolutionEmail}
+    disabled={emailSending}
+  >
+    Send Resolution Email
+  </button>
+</div>
+
+</div>
+
+   
+    
   );
 }
 const AdminProfile = () => {
@@ -71,11 +123,22 @@ const AdminProfile = () => {
   const [tickets, setTickets] = useState([]);
   const [cookies] = useCookies([]);
   const [selectedTicketId, setSelectedTicketId] = useState(null);
-  const closeTicketDetails = () => setSelectedTicketId(null);
-  const [backgroundColor, setBackgroundColor] = useState('#FFFFFF');
+ 
   const [textColor, setTextColor] = useState('#000000');
-  const [averageRatingsByAgent, setAverageRatingsByAgent] = useState([]);
+  const [textStyle, setTextStyle] = useState('normal');
 
+  const [averageRatingsByAgent, setAverageRatingsByAgent] = useState([]);
+  const [isTicketDetailsVisible, setTicketDetailsVisible] = useState(false);
+
+  const openTicketDetails = (ticket) => {
+    setSelectedTicketId(ticket);
+    setTicketDetailsVisible(true);
+  };
+
+  const closeTicketDetails = () => {
+    setTicketDetailsVisible(false);
+    setSelectedTicketId(null);
+  };
 
 
 
@@ -88,15 +151,17 @@ const AdminProfile = () => {
     const uid = localStorage.getItem("userId");
     axios.get(`${appbackend}/appearance`)
     .then((response) => {
-      const settings = response.data;
-      setBackgroundColor(settings.backgroundColor);
-      setTextColor(settings.textColor);
-      // Apply the current appearance settings to the document body
-      document.body.style.background = settings.backgroundColor;
-      document.body.style.color = settings.textColor;
+        const settings = response.data;
+
+        setTextColor(settings.textColor);
+        setTextStyle(settings.textStyle);
+
+        // Apply the current appearance settings to the document body
+        document.body.style.color = settings.textColor;
+        document.body.style.fontStyle = settings.textStyle;
     })
     .catch((error) => {
-      console.error('Error fetching appearance settings:', error);
+        console.error('Error fetching appearance settings:', error);
     });
 
 
@@ -159,20 +224,22 @@ const AdminProfile = () => {
   const updateAppearance = async () => {
     try {
       const response = await axios.put(`${appbackend}/appearance`, {
-        backgroundColor,
-        textColor
-      }, {
+        textColor,
+        textStyle
+    }, {
         headers: { 'Authorization': `Bearer ${cookies.token}` }
-      });
-      toast.success('Appearance settings updated successfully');
-      // Apply the updated appearance settings to the document body
-      document.body.style.background = backgroundColor;
-      document.body.style.color = textColor;
-    } catch (error) {
-      console.error('Error updating appearance settings:', error);
-      toast.error('Failed to update appearance settings.');
-    }
-  };
+    });
+
+    // Apply the updated appearance settings to the document body
+    document.body.style.color = textColor;
+    document.body.style.fontStyle = textStyle;
+
+    toast.success('Appearance settings updated successfully');
+} catch (error) {
+    console.error('Error updating appearance settings:', error);
+    toast.error('Failed to update appearance settings.');
+}
+};
 
   const barChartData = {
     labels: averageRatingsByAgent.map(r => r.agent), // Agents' names/IDs as labels
@@ -193,15 +260,18 @@ const AdminProfile = () => {
 
   return (
     <div>
-      
-      
-     
-
+         <div className="navbar-top-right">
+      <Adminnavbar />
+     </div>
       <div className="user-inf-container">
   {user && (
-    <div>
-      <h1>{user.username}</h1>
-      <p>{user.email}</p>
+    <div className="user-etails">
+           <Avatar className="user-avatar" alt={user.username} src={user.avatarUrl} />
+
+      <div className="user-nfo">
+        <h1>{user.username}</h1>
+        <p>{user.email}</p>
+      </div>
     </div>
   )}
 </div>
@@ -210,8 +280,8 @@ const AdminProfile = () => {
   <h1>Ticket List</h1>
   <ul>
     {tickets.map((ticket) => (
-         <li key={ticket._id} onClick={() => setSelectedTicketId(ticket._id)}>
-        <span>Category: {ticket.category}</span>
+            <li key={ticket._id} onClick={() => openTicketDetails(ticket)}>
+            <span>Category: {ticket.category}</span>
         <span>SubCategory: {ticket.subCategory}</span>
         <span>Description: {ticket.description}</span>
         <span>Resolution: {ticket.resolution}</span>
@@ -224,41 +294,40 @@ const AdminProfile = () => {
   </ul>
 </div>
 <div className="ticket-detail-view">
-{selectedTicketId && <TicketDetails ticketId={selectedTicketId} onClose={closeTicketDetails} />}
+{isTicketDetailsVisible && (
+          <TicketDetails ticket={selectedTicketId} onClose={closeTicketDetails} />
+        )}
       </div>
-<div className="appearance-settings">
-      <h2>Appearance Settings</h2>
-      <div>
-        <label>Background Color:</label>
-        <select
-          value={backgroundColor}
-          onChange={(e) => setBackgroundColor(e.target.value)}
-        >
-          <option value="#FFFFFF">White</option>
-          <option value="#000000">Black</option>
-          <option value="#008000">Green</option>
-          <option value="#800080">Purple</option>
-          <option value="#fe016d">pink</option>
-
-          {/* Add more color options as needed */}
-        </select>
-      </div>
-      <div>
-        <label>Text Color:</label>
-        <select
-          value={textColor}
-          onChange={(e) => setTextColor(e.target.value)}
-        >
-          <option value="#FFFFFF">White</option>
-          <option value="#000000">Black</option>
-          <option value="#008000">Green</option>
-          <option value="#800080">Purple</option>
-          <option value="#fe016d">pink</option>
-          {/* Add more color options as needed */}
-        </select>
-      </div>
-      <button onClick={updateAppearance}>Update Appearance</button>
+      <div className="appearance-settings">
+        <h2>Appearance Settings</h2>
+        <div>
+            <label>Text Color:</label>
+            <select
+                value={textColor}
+                onChange={(e) => setTextColor(e.target.value)}
+            >
+                <option value="#FFFFFF">White</option>
+                <option value="#000000">Black</option>
+                <option value="#008000">Green</option>
+                <option value="#800080">Purple</option>
+                <option value="#fe016d">Pink</option>
+                {/* Add more color options as needed */}
+            </select>
+        </div>
+        <div>
+            <label>Text Style:</label>
+            <select
+                value={textStyle}
+                onChange={(e) => setTextStyle(e.target.value)}
+            >
+                <option value="normal">Normal</option>
+                <option value="italic">Italic</option>
+                {/* Add more text style options as needed */}
+            </select>
+        </div>
+        <button onClick={updateAppearance}>Update Appearance</button>
     </div>
+
     {averageRatingsByAgent.length > 0 ? (
   <div className="bar-chart-container">
     <h2>Average Agent Ratings</h2>

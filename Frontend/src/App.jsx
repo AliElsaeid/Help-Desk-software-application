@@ -14,6 +14,8 @@ import AdminProfile from "./pages/AdminProfile";
 import PurchaseTicket from "./pages/PurchaseTicket"; 
 import AssignAgent from "./pages/AssignAgent"; 
 import UserProfile from "./pages/ProfileUser";
+import MonitorChatRoom from "./pages/MonitorChatRoom";
+import AddWork from "./pages/Addwork";
 
 
 
@@ -30,9 +32,11 @@ function App() {
         <Route path="/profile" element={<AgentProfile />} />
         <Route path="/profile/chatRooms" element={<AgentChatRooms />} />
         <Route path="/admin" element={<AdminProfile />} />
+        <Route path="/admin/monitorchatroom" element={<MonitorChatRoom />} />
 
         <Route path="/purchase-ticket" element={<PurchaseTicket />} />
-        <Route path="/assignagent" element={<AssignAgent />} />
+        <Route path="/admin/assignagent" element={<AssignAgent />} />
+        <Route path="/admin/AddArticle" element={<AddWork />} />
 
 
 
