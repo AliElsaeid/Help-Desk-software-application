@@ -64,10 +64,11 @@
     position: fixed; /* Fixed positioning relative to the viewport */
     bottom: 0; /* Align to the top of the viewport */
     right: 0; /* Align to the left of the viewport */
-    background-color: #d19b14; /* Custom background color */
+    background-color: rgba(211, 211, 211, 0.7); /* Custom background color */
       width: 500px;
     padding: 10px; /* Optional padding */
     z-index: 1000; /* Should be below the user-info-container if they overlap */
+    border-radius: 8px;
 }
 
 /* Adjust the .appearance-settings class to ensure it's positioned below the .user-info-container */
@@ -76,6 +77,6 @@
     position: fixed; /* Fixed positioning relative to the viewport */
     top: 225px; /* Aligns to the top of the viewport */
     right: 550px;
-    background-color: #d19b14; /* Position relative to normal document flow */
+    background-color:rgba(211, 211, 211, 0.7); /* Position relative to normal document flow */
     /* rest of your appearance-settings styles... */
 }

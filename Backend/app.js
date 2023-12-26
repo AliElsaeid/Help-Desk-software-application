@@ -9,7 +9,7 @@ const authenticationMiddleware = require('./Middleware/authenticationMiddleware'
 
 
 
-console.log(process.env.ORIGIN);
+// console.log(process.env.ORIGIN);
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());

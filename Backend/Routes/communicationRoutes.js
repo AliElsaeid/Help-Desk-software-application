@@ -21,7 +21,11 @@ const authenticationMiddleware = require('../Middleware/authenticationMiddleware
 
 router.post('/createRoom', authorize('user'), async (req, res) => {
   try {
+
+    const userId  = req.user.userId;
     const { ticket_id } = req.body;
+    
+
 
     let existingTicket = null;
 
@@ -31,12 +35,23 @@ router.post('/createRoom', authorize('user'), async (req, res) => {
       if (!existingTicket) {
         return res.status(400).json({ error: 'Invalid ticket_id' });
       }
+
+    }else{
+      sss = await Room.findOne({ticket:null , user:userId });
+      if(sss){
+     
+      return res.status(400).json({ error: 'you have already have open complaining chat ' });
+
+         }
     }
+
+    
 
     const newRoom = new Room({
       roomName: 'Real-Time Chat',
-      description: existingTicket ? existingTicket.description : 'Complain',
+      description: existingTicket ? existingTicket.description : 'Complain To Admin',
       ticket: existingTicket,
+      user: userId
     });
 
     const savedRoom = await newRoom.save();
@@ -70,19 +85,15 @@ router.post('/createRoom', authorize('user'), async (req, res) => {
       console.log({userRole});
       let chatRooms;
       if (userRole === 'admin') {
-        
+
         chatRooms = await Room.find();
       } else if (userRole === 'agent') {
-        console.log("hi");
+
         const existingTicket = await Tickets.find({'agent': userId})
         
         chatRooms = await Room.find({ 'ticket': existingTicket});
-      } else {
-        const existingTicket = await Tickets.find({'user': userId})
-        console.log({existingTicket});
-       
-        chatRooms = await Room.find({ 'ticket': existingTicket});
-        
+      } else {        
+        chatRooms = await Room.find({ 'user': userId});
       }
   
       res.status(200).json(chatRooms);
