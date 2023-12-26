@@ -8,8 +8,6 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "../stylesheets/UserProfile.css";
-
-
 import logo from '../assets/dsasd.jpg'; // Make sure the path to your logo is correct
 
 export default function AppNavBar() {
@@ -39,9 +37,8 @@ export default function AppNavBar() {
               <Offcanvas.Body>
                 <Nav className="justify-content-end flex-grow-1 pe-3">
                   <Link to="/user" className="nav-link text-black">Profile</Link>
-                  <Link to="/purchase" className="nav-link text-black">purchase Ticket</Link>
-                  <Link to="/knowledge" className="nav-link text-black">Knowledge Base</Link>
-                  <Link to="/contact" className="nav-link text-black">Contact Us</Link>
+                  <Link to="/purchaseticket" className="nav-link text-black">purchase Ticket</Link>
+                  <Link to="/knowledgebase" className="nav-link text-black">Knowledge Base</Link>
                   <Link to="/login" className="nav-link text-black">Sign Out</Link>
 
                 </Nav>

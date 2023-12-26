@@ -1,14 +1,13 @@
-/* Styles for the user info container */
 .user-info-container {
   background-color: rgba(255, 255, 255, 0);
   border-radius: 10px;
-  padding: 20px;
-  width: 700px;
-  height: 400px;
+  padding: 5%; /* Use percentage for padding */
+  width: 50%; /* Use percentage for width */
+  height: 45%; /* Use percentage for height */
   margin: auto; /* Center horizontally */
   position: absolute;
-  top: 16%;
-  left: -9%;
+  top: 15%;
+  left: -10%;
   transform: translate(-50%, -50%); /* Center vertically and horizontally */
   border: none;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0);
@@ -18,19 +17,12 @@
 
 @media (max-width: 768px) {
   .user-info-container {
-    width: 80%; /* Adjust width for smaller screens */
-    top: 120px;
-    transform: scale(0.5);
+    width: 90%; /* Adjust width for smaller screens */
+    top: 22%;
+    left: -22%;
+    transform: scale(0.4);
   }
 
-  .ticket-list-container h1 {
-    font-size: 24px;
-    margin-bottom: 20px;
-    text-align: center !important;
-    margin: auto; /* Center horizontally */
-    padding: 0 20px; /* Fix typo in padding property */
-    color: white !important; /* Set the h1 color to white */
-  }
 }
 
 .user-info-container img {
@@ -94,9 +86,9 @@
   border-radius: 10px;
   text-align: center;
   padding: 5%;
-  width: 59rem; /* Change width to percentage */
-  max-width: 58rem;
-  height: 46vh; /* Change height to percentage */
+  width: 54%; /* Change width to percentage */
+  max-width: 58%;
+  height: 46%; /* Change height to percentage */
   margin: auto;
   position: absolute;
   top: 17%;
@@ -114,11 +106,13 @@
 
 @media (max-width: 1500px) {
   .ticket-list-container {
-    width: 110%;
-    top: 25%;
-    height: 100%; /* Change height to percentage */
+    width: 135%;
+    top: 24%;
+    height: 50%; /* Change height to percentage */
     transform: scale(0.4);
-    left: 20%;
+    left: 4%; /* Change height to percentage */
+    transform: scale(0.4);
+    
   }
 }
 
@@ -187,18 +181,30 @@
   position: fixed;
   left: 63%;
   bottom: 0;
-  width: 34rem; /* Change width to percentage */
-  max-width: 58rem;
+  width: 33%; /* Change width to percentage */
+  max-width: 32%;
+  height: 46%;
   margin: 50px;
   padding: 10px;
   padding-bottom: 15px;
   background-color: rgba(255, 255, 255, 0.5);/* Set your desired background color */
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Set your desired box shadow */
-  height: auto; /* Adjust the height as needed */
   max-height: 80vh; /* Set maximum height to 80% of the viewport height */
   overflow-y: auto; /* Add scroll if the content exceeds the height */
   color: #fff;
+}
+
+@media (max-width: 1500px) {
+  .rate-popup {
+    width: 135%;
+    top: 24%;
+    height: 50%; /* Change height to percentage */
+    transform: scale(0.4);
+    left: -6%;
+    background-color: rgba(255, 255, 255, 1);/* Set your desired background color */
+
+  }
 }
 
 .rate-popup h2 {
@@ -236,4 +242,172 @@
 
 .rate-popup button + button {
   margin-left: 10px;
+}
+/* AgentChats.css */
+
+.random-list-group,
+.random-messages-column {
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 10px;
+  padding: 20px;
+  width: 59%;
+  max-width: 54%;
+  height: 46%;
+  margin: auto;
+  overflow-y: auto;
+  position: absolute;
+  top: 17%;
+  left: 20%;
+  transform: translate(-50%, -50%);
+  border: none;
+  box-shadow: rgb(37, 12, 200, 1);
+  transform: scale(0.6);
+  transform-origin: top;
+  font-size: 25px;
+  color: #070101; /* Default text color for the container */
+}
+
+@media (max-width: 750px) {
+  .random-list-group,
+  .random-messages-column {
+    width: 100%; /* Adjust width for smaller screens */
+    top: 70%;
+    height:70vh;
+    left: -27%;
+    transform: scale(0.4);
+  }
+}
+
+.random-list-group h2,
+.random-messages-column h2 {
+  font-size: 60px;
+  margin-bottom: 20px;
+  color: #000; /* Black font color for the title "Rooms" */
+}
+
+.random-list-group .random-item,
+.random-messages-column .random-item {
+  cursor: pointer;
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  background-color: rgba(255, 255, 255, 0.4); /* Grey background color for each box */
+  transition: background-color 0.3s ease;
+}
+
+.random-list-group .random-item:hover,
+.random-messages-column .random-item:hover {
+  background: #007bff; /* Blue background color on hover */
+}
+
+.random-list-group strong,
+.random-messages-column strong {
+  display: block;
+  margin-bottom: 8px;
+  color: #333; /* Dark grey text color for the content */
+}
+
+.random-messages-column {
+  background-color: rgba(255, 255, 255, 0);
+  border-radius: 10px;
+  padding: 20px;
+  width: 56%;
+  max-width: 60%;
+  height: 85%;
+  font-size: 19px;
+  margin: auto;
+  position: absolute;
+  top: 45%;
+  left: 19%;
+  transform: translate(-50%, -50%);
+  border: none;
+  box-shadow: rgb(37, 12, 200, 1);
+  transform: scale(0.6);
+  transform-origin: top;
+}
+
+/* Rest of your CSS remains unchanged */
+
+#random-messages-container {
+  background-color: rgba(255, 255 ,255 , 0.6);
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  height: 100%;
+  overflow-y: auto;
+}
+@media (max-width: 1500px) {
+  #random-messages-container {
+    height: auto;
+  }
+  .random-messages-column {
+    width: 45%;
+    top: 70%;
+    height: 70%; /* Change height to percentage */
+    transform: scale(0.4);
+    left: 3%;
+    background-color: rgba(255, 255 ,255 , 0.5);  
+  }
+}
+.random-card-body {
+  padding: 15px;
+}
+
+.random-overflow-auto {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.random-chat-message {
+  margin-bottom: 10px;
+  background-color: rgba(0, 0, 0, 0.5);
+  
+}
+
+.random-chat-message-container {
+  border: 1px solid #ddd;
+  padding: 10px;
+  
+  border-radius: 5px;
+  left: -9%;
+}
+
+.random-message-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.random-message-header p {
+  margin: 0;
+}
+
+.random-form-group {
+  margin-bottom: 15px;
+}
+
+.random-form-control {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: rgba(255, 255, 255);
+  color: #000;
+
+}
+
+.random-btn {
+  cursor: pointer;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+}
+
+.random-btn-primary {
+  background-color: #007bff;
+}
+
+.random-btn:hover {
+  background-color: #0056b3;
 }

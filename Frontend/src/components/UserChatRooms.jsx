@@ -3,26 +3,32 @@ import axios from 'axios';
 import "../stylesheets/UserChatss.css";
 import 'bootstrap/dist/css/bootstrap.min.css'; 
 import { useCookies } from "react-cookie";
-
 const AgentChatRooms = () => {
   const [chatRooms, setChatRooms] = useState([]);
   const [selectedRoomId, setSelectedRoomId] = useState(null);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
-  const chatBackend = "http://localhost:3000/api/v1/communication";
-  const uid = localStorage.getItem("userId");
-  const userBackend = "http://localhost:3000/api/v1/user";
+  const [showMessages, setShowMessages] = useState(true); // Track whether to show messages
+  const [ticketStatus, setTicketStatus] = useState(""); // Track ticket status
+  const chatbackend = "http://localhost:3000/api/v1/communication";
+  const userbackend = "http://localhost:3000/api/v1/user";
+  const ticketbackend = "http://localhost:3000/api/v1/ticket"; // Add your actual ticket backend endpoint
   const [cookies] = useCookies(['token']);
+  const [intervalId, setIntervalId] = useState(null);
 
   useEffect(() => {
     // Fetch chat rooms when the component mounts
     getChatRooms();
-  }, []); // Make sure this effect runs only once
+    
+    // Clean up interval when the component unmounts or when a new room is selected
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [intervalId]);
 
-  
   const getChatRooms = async () => {
     try {
-      const response = await axios.get(`${chatBackend}/getChatRooms`, {
+      const response = await axios.get(`${chatbackend}/getChatRooms`, {
         withCredentials: true,
         headers: {
           'Authorization': `Bearer ${cookies.token}`
@@ -34,39 +40,62 @@ const AgentChatRooms = () => {
     }
   };
 
-  const loadMessages = useCallback(async (roomId) => {
+  const getTicketStatus = async (roomId) => {
     try {
-      const messagesResponse = await axios.get(`${chatBackend}/getChatMessages/${roomId}`, {
+      const response = await axios.get(`${ticketbackend}/${roomId}`, {
+        withCredentials: true,
+        headers: {
+          'Authorization': `Bearer ${cookies.token}`
+        }
+      });
+      setTicketStatus(response.data.status);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const loadMessages = async (roomId) => {
+    try {
+      await getTicketStatus(roomId); // Fetch ticket status when loading messages
+
+      const messagesResponse = await axios.get(`${chatbackend}/getChatMessages/${roomId}`, {
         withCredentials: true,
         headers: {
           'Authorization': `Bearer ${cookies.token}`
         }
       });
       const messagesWithUsernamesPromises = messagesResponse.data.map(async (message) => {
-        const userResponse = await axios.get(`${userBackend}/${message.sender}`);
+        const userResponse = await axios.get(`${userbackend}/${message.sender}`);
         return { ...message, username: userResponse.data.username };
       });
-      
+
       const messagesWithUsernames = await Promise.all(messagesWithUsernamesPromises);
       setMessages(messagesWithUsernames);
     } catch (error) {
       console.log(error);
     }
-  }, [cookies.token]);
+  };
 
   const handleRoomClick = (roomId) => {
     setSelectedRoomId(roomId);
-    loadMessages(roomId);
+    
+    clearInterval(intervalId); // Clear any existing interval
+    const id = setInterval(() => loadMessages(roomId), 1000);
+    setIntervalId(id);
+  };
+
+  const toggleMessages = () => {
+    setSelectedRoomId(null);
+    clearInterval(intervalId); // Clear interval when closing messages
   };
 
   const sendMessage = async (e) => {
     e.preventDefault();
-    if (!newMessage.trim()) return;
+    if (!newMessage.trim() || !selectedRoomId) return;
 
     try {
-      await axios.post(`${chatBackend}/sendMessage`, {
+      await axios.post(`${chatbackend}/sendMessage`, {
         roomID: selectedRoomId,
-        userId: uid,
         content: newMessage,
       }, {
         withCredentials: true,
@@ -107,6 +136,9 @@ const AgentChatRooms = () => {
             <div className="random-messages-column">
               
               <div id="random-messages-container" className="random-card">
+              <button className="btn btn-sm btn-danger" onClick={toggleMessages}>
+                  Close
+                </button>
                 <div className="random-card-body">
                   <div className="random-overflow-auto">
                     {messages.map((message) => (

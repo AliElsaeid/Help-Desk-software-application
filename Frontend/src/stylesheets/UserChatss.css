@@ -1,5 +1,9 @@
 /* AgentChats.css */
 
+body {
+  overflow: auto;
+}
+
 .random-list-group,
 .random-messages-column {
   background: rgba(255, 255, 255, 0.5);
@@ -15,20 +19,20 @@
   left: 20%;
   transform: translate(-50%, -50%);
   border: none;
-  box-shadow: rgb(37, 12, 200, 1);
+  box-shadow: 0 0 10px rgba(37, 12, 200, 0);
   transform: scale(0.6);
   transform-origin: top;
   font-size: 25px;
-  color: #070101; /* Default text color for the container */
+  color: #070101;
 }
 
 @media (max-width: 1500px) {
   .random-list-group,
   .random-messages-column {
-    width: 80%; /* Adjust width for smaller screens */
-    top: 490px;
+    width: 100%;
+    top: 65%;
     height: 300px;
-    left: 30%;
+    left: 26%;
     transform: scale(0.4);
   }
 }
@@ -37,7 +41,7 @@
 .random-messages-column h2 {
   font-size: 60px;
   margin-bottom: 20px;
-  color: #000; /* Black font color for the title "Rooms" */
+  color: #000;
 }
 
 .random-list-group .random-item,
@@ -46,27 +50,27 @@
   padding: 15px;
   margin-bottom: 10px;
   border-radius: 5px;
-  background-color: rgba(255, 255, 255, 0.4); /* Grey background color for each box */
+  background-color: rgba(255, 255, 255, 0.4);
   transition: background-color 0.3s ease;
 }
 
 .random-list-group .random-item:hover,
 .random-messages-column .random-item:hover {
-  background: #007bff; /* Blue background color on hover */
+  background: #007bff;
 }
 
 .random-list-group strong,
 .random-messages-column strong {
   display: block;
   margin-bottom: 8px;
-  color: #333; /* Dark grey text color for the content */
+  color: #333;
 }
 
 .random-messages-column {
   background-color: rgba(255, 255, 255, 0);
   border-radius: 10px;
   padding: 20px;
-  width: 58rem;
+  width: 59rem;
   max-width: 58rem;
   height: 85%;
   font-size: 19px;
@@ -76,38 +80,47 @@
   left: 20%;
   transform: translate(-50%, -50%);
   border: none;
-  box-shadow: rgb(37, 12, 200, 1);
+  box-shadow: 0 0 10px rgba(37, 12, 200, 0);
   transform: scale(0.6);
   transform-origin: top;
 }
 
-/* Rest of your CSS remains unchanged */
-
 #random-messages-container {
-  background-color: rgba(255, 255 ,255 , 0.6);
+  background-color: rgba(255, 255, 255, 0.4);
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   height: 100%;
 }
 
+@media (max-width: 1500px) {
+  .random-messages-column {
+    width: 100%;
+    top: 43%;
+    height: 50%;
+    transform: scale(0.4);
+    left: 25%;
+    background-color: rgba(255, 255, 255, 1);
+  }
+}
+
 .random-card-body {
   padding: 15px;
+  justify-content: space-between; /* Add this to position items at each end */
+
 }
 
 .random-overflow-auto {
-  max-height: 400px;
-  overflow-y: auto;
+  max-height: 45vh;
 }
 
 .random-chat-message {
   margin-bottom: 10px;
-  background-color: rgba(255, 255 ,255 , 0.4);
+  background-color: rgba(255, 255, 255, 0.4);
 }
 
 .random-chat-message-container {
   border: 1px solid #ddd;
   padding: 10px;
-  
   border-radius: 5px;
   left: -9%;
 }
@@ -133,7 +146,6 @@
   border-radius: 5px;
   background-color: rgba(255, 255, 255);
   color: #000;
-
 }
 
 .random-btn {

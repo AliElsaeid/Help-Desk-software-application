@@ -1,0 +1,20 @@
+/* Add or update these styles for the footer-bottom */
+.footer-bottom {
+    background-color: #343a40;
+    color: white;
+    padding: 1rem;
+    text-align: center;
+    border-top: 1px solid #555;
+  }
+  
+  .footer-bottom a {
+    color: white;
+    margin: 0 0.5rem;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  
+  .footer-bottom a:hover {
+    color: #007bff;
+  }
+  

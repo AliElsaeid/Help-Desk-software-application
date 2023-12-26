@@ -9,6 +9,7 @@ import "../stylesheets/ProfileUser.css";
 import img from '../assets/avatara1.jpg';
 import edit from '../assets/edit.png';
 import AgentChatRooms from "../components/UserChatRooms";
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const chatbackend = "http://localhost:3000/api/v1/communication";
@@ -145,7 +146,7 @@ const UserProfile = () => {
       });
       toast.success('Ticket rated successfully!');
       setShowRatePopup(false);
-      // You can refresh the ticket list or perform other actions after rating
+      window.location.reload();       // You can refresh the ticket list or perform other actions after rating
     } catch (error) {
       console.error('Error rating ticket:', error);
       // Handle error
@@ -164,6 +165,7 @@ const UserProfile = () => {
 
   return (
     <div>
+      
       <div className="randommm-top-right">
         <AgentChatRooms />
       </div>
@@ -171,8 +173,6 @@ const UserProfile = () => {
       <div className="navbar-top-right">
         <UserNavbBar />
       </div>
-      <ToastContainer />
-
       <div className="user-info-container">
         {user && (
           <div>
@@ -314,6 +314,7 @@ const UserProfile = () => {
           <button onClick={handleCloseRatePopup}>Cancel</button>
         </div>
       )}
+           
     </div>
   );
 };

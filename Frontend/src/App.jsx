@@ -3,12 +3,12 @@ import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import AgentProfile from "./pages/AgentProfile";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import UserProfile from "./pages/ProfileUser";
 import ResetPassword from './pages/ResetPassword';
-import AdminAssign from './pages/AdminAssign';
+import ArticlesList from './pages/knowledgebase';
+import PurchaseTicket from "./pages/PurchaseTicket"; 
 
 function App() {
   return (
@@ -19,8 +19,8 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/" element={<Login />} />
-        <Route path="/profile" element={<AgentProfile />} />
-        <Route path="/adminAssign" element={<AdminAssign />} />
+        <Route path="/purchaseticket" element={<PurchaseTicket />} />
+        <Route path="/knowledgebase" element={<ArticlesList />} />
 
         </Routes>
     </>
