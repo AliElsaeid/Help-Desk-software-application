@@ -118,7 +118,7 @@ const UserProfile = () => {
     axios.get(`${reportbackend}/checkTicketRating/${ticketId}`, { withCredentials: true })
       .then(response => {
         if (response.data.rated) {
-          console.log('You have already rated this ticket');
+          toast.success('You have already rated this ticket');
         } else {
           setSelectedRating(1); 
           setComment(''); 
@@ -143,7 +143,7 @@ const UserProfile = () => {
         rating: selectedRating,
         comment: comment
       });
-      console.log('Ticket rated successfully!');
+      toast.success('Ticket rated successfully!');
       setShowRatePopup(false);
       // You can refresh the ticket list or perform other actions after rating
     } catch (error) {
@@ -156,9 +156,9 @@ const UserProfile = () => {
     try {
       // Make API request to ask for a chatroom
       await axios.post(`${chatbackend}/createRoom`);
-      console.log('Chatroom requested successfully!');
+      toast.success('Chatroom requested successfully!');
     } catch (error) {
-      console.error('Error requesting chatroom:', error);
+      toast.error('Error requesting chatroom:', error);
     }
   };
 
