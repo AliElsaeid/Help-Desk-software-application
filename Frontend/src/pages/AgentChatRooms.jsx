@@ -4,6 +4,7 @@ import Adminnavbar from '../components/Adminnavbar';
 import "../stylesheets/AgentChats.css";
 import 'bootstrap/dist/css/bootstrap.min.css'; 
 import { useCookies } from "react-cookie";
+import AgentNavbar from '../components/AgentNavbar';
 
 const AgentChatRooms = () => {
   const [chatRooms, setChatRooms] = useState([]);
@@ -114,8 +115,8 @@ const AgentChatRooms = () => {
 
   return (
     <div>
-      <div className="navbar-top-right">
-        <Adminnavbar />
+     <div className="navbar-top-right">
+        <AgentNavbar />
       </div>
       <div className="ssss">
         <div className="container-fluid mt-4">

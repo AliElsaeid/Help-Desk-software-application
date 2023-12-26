@@ -15,6 +15,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 const chatbackend = "http://localhost:3000/api/v1/communication";
 const ticketbackend = "http://localhost:3000/api/v1/ticket";
 const userbackend = 'http://localhost:3000/api/v1/user';
+const reportbackend = 'http://localhost:3000/api/v1/report';
 
 const UserProfile = () => {
   const { id } = useParams();
@@ -29,16 +30,16 @@ const UserProfile = () => {
   
   const [cookies] = useCookies([]);
   const [tickets, setTickets] = useState([]);
+  const [ratedTicketIds, setRatedTicketIds] = useState([]);
   const [selectedTicketId, setSelectedTicketId] = useState(null);
   const [showRatePopup, setShowRatePopup] = useState(false);
   const [selectedRating, setSelectedRating] = useState(1);
   const [comment, setComment] = useState('');
+
   const uid = localStorage.getItem("userId");
+
   useEffect(() => {
     axios.defaults.withCredentials = true;
-    
-    
-
 
     axios
       .get(`${userbackend}/${uid}`, { withCredentials: true })
@@ -48,14 +49,24 @@ const UserProfile = () => {
         toast.error('Error fetching user details.');
       });
 
-      
     axios.get(`${ticketbackend}/getTickets`, {
       withCredentials: true,
       headers: {
         'Authorization': `Bearer ${cookies.token}`
       }
     })
-    .then(response => setTickets(response.data))
+    .then(response => {
+      setTickets(response.data);
+      // Fetch rated tickets for the current user
+      axios.get(`${reportbackend}/ratings`, { withCredentials: true })
+        .then(response => {
+          const ratedTickets = response.data.ratings.map(rating => rating.ticket.toString());
+          setRatedTicketIds(ratedTickets);
+        })
+        .catch(error => {
+          console.error('Error fetching rated tickets:', error);
+        });
+    })
     .catch(error => {
       console.error('Error fetching tickets:', error);
       toast.error("Error fetching tickets.");
@@ -98,11 +109,28 @@ const UserProfile = () => {
         console.error('Error updating user:', error);
         toast.error("Failed to update user details.");
       });
-      
   };
-  const handleRateTicket = (ticketId) => {
-    setSelectedTicketId(ticketId);
+
+  const handleRateTicket = (ticket) => {
+    // Check if the ticket is rated
+    setSelectedTicketId(ticket._id);
     setShowRatePopup(true);
+
+    axios.get(`${reportbackend}/checkTicketRating/${selectedTicketId}`, { withCredentials: true })
+      .then(response => {
+        if (response.data.rated) {
+          toast.success('You have already rated this ticket');
+        } else {
+          setSelectedRating(1); 
+          setComment(''); 
+          setShowRatePopup(true);
+          setshowratemessage(true);
+        }
+      })
+      .catch(error => {
+        console.error('Error checking ticket rating:', error);
+        // Handle error
+      });
   };
 
   const handleCloseRatePopup = () => {
@@ -116,9 +144,13 @@ const UserProfile = () => {
         rating: selectedRating,
         comment: comment
       });
-      console.log('Ticket rated successfully!');
+     
+      
+      toast.success('Ticket rated successfully!');      // You can refresh the ticket list or perform other actions after rating
       setShowRatePopup(false);
-      // You can refresh the ticket list or perform other actions after rating
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
     } catch (error) {
       console.error('Error rating ticket:', error);
       // Handle error
@@ -128,15 +160,16 @@ const UserProfile = () => {
   const handleAskForChatroom = async () => {
     try {
       // Make API request to ask for a chatroom
-      await axios.post('http://localhost:3000/api/v1/communication/createRoom');
-      console.log('Chatroom requested successfully!');
+      await axios.post(`${chatbackend}/createRoom`);
+      toast.success('Chatroom requested successfully!');
     } catch (error) {
-      console.error('Error requesting chatroom:', error);
+      toast.error('Error requesting chatroom:', error);
     }
   };
 
   return (
     <div>
+      
       <div className="randommm-top-right">
         <AgentChatRooms />
       </div>
@@ -144,72 +177,69 @@ const UserProfile = () => {
       <div className="navbar-top-right">
         <UserNavbBar />
       </div>
-      <ToastContainer />
-
       <div className="user-info-container">
         {user && (
           <div>
-              <div className="user-image-container">
-        <img src={img} alt="img" />
-      </div>
+            <div className="user-image-container">
+              <img src={img} alt="img" />
+            </div>
            
-      {editing ? (
+            {editing ? (
               <>
-               <div className="h4 pb-2 mb-4 text-white border-bottom border-white">
-  <label htmlFor="username">Username</label>
-  <input
-    type="text"
-    id="username"
-    value={editedUser.username}
-    onChange={(e) => setEditedUser({ ...editedUser, username: e.target.value })}
-    className="form-control"
-  />
-</div>
+                <div className="h4 pb-2 mb-4 text-white border-bottom border-white">
+                  <label htmlFor="username">Username</label>
+                  <input
+                    type="text"
+                    id="username"
+                    value={editedUser.username}
+                    onChange={(e) => setEditedUser({ ...editedUser, username: e.target.value })}
+                    className="form-control"
+                  />
+                </div>
 
-<div className="h4 pb-2 mb-4 text-white border-bottom border-white">
-  <label htmlFor="email">Email</label>
-  <input
-    type="text"
-    id="email"
-    value={editedUser.email}
-    onChange={(e) => setEditedUser({ ...editedUser, email: e.target.value })}
-    className="form-control"
-  />
-</div>
+                <div className="h4 pb-2 mb-4 text-white border-bottom border-white">
+                  <label htmlFor="email">Email</label>
+                  <input
+                    type="text"
+                    id="email"
+                    value={editedUser.email}
+                    onChange={(e) => setEditedUser({ ...editedUser, email: e.target.value })}
+                    className="form-control"
+                  />
+                </div>
 
-<div className="h4 pb-2 mb-4 text-white border-bottom border-white">
-  <label htmlFor="firstName">First Name</label>
-  <input
-    type="text"
-    id="firstName"
-    value={editedUser.firstName}
-    onChange={(e) => setEditedUser({ ...editedUser, firstName: e.target.value })}
-    className="form-control"
-  />
-</div>
+                <div className="h4 pb-2 mb-4 text-white border-bottom border-white">
+                  <label htmlFor="firstName">First Name</label>
+                  <input
+                    type="text"
+                    id="firstName"
+                    value={editedUser.firstName}
+                    onChange={(e) => setEditedUser({ ...editedUser, firstName: e.target.value })}
+                    className="form-control"
+                  />
+                </div>
 
-<div className="h4 pb-2 mb-4 text-white border-bottom border-white">
-  <label htmlFor="lastName">Last Name</label>
-  <input
-    type="text"
-    id="lastName"
-    value={editedUser.lastName}
-    onChange={(e) => setEditedUser({ ...editedUser, lastName: e.target.value })}
-    className="form-control"
-  />
-</div>
+                <div className="h4 pb-2 mb-4 text-white border-bottom border-white">
+                  <label htmlFor="lastName">Last Name</label>
+                  <input
+                    type="text"
+                    id="lastName"
+                    value={editedUser.lastName}
+                    onChange={(e) => setEditedUser({ ...editedUser, lastName: e.target.value })}
+                    className="form-control"
+                  />
+                </div>
 
-     <div className="button-container">
-     <button type="button" className="btn btn-secondary" onClick={handleCancelEdit}>
+                <div className="button-container">
+                  <button type="button" className="btn btn-secondary" onClick={handleCancelEdit}>
                     Cancel
                   </button>
                   <button type="button" className="btn btn-success" onClick={updateUser}>
                     Save
                   </button>
-             
-    </div>
-  </>
-) : (
+                </div>
+              </>
+            ) : (
               <>
                 <h1>{user.username}</h1>
                 <p>{user.email}</p>
@@ -230,31 +260,39 @@ const UserProfile = () => {
         <h1>Ticket List</h1>
         <ul>
           {tickets.map((ticket) => (
-            <li key={ticket._id} >
+            <li key={ticket._id}>
                <div className="ticket-details">
-              <span>Category: {ticket.category}</span>
-              <span>SubCategory: {ticket.subCategory}</span>
-              <span>Description: {ticket.description}</span>
-              <span>Resolution: {ticket.resolution}</span>
-              <span>Created At: {ticket.createdAt}</span>
-              <span>Updated At: {ticket.updatedAt}</span>
-              <span>Closed At: {ticket.closedAt}</span>
-              <span>Status: {ticket.status}</span>
+                <span>Category: {ticket.category}</span>
+                <span>SubCategory: {ticket.subCategory}</span>
+                <span>Description: {ticket.description}</span>
+                <span>Resolution: {ticket.resolution}</span>
+                <span>Created At: {ticket.createdAt}</span>
+                <span>Updated At: {ticket.updatedAt}</span>
+                <span>Closed At: {ticket.closedAt}</span>
+                <span>Status: {ticket.status}</span>
               </div>
+              <br/>
+             
+              <br/>
+              <br/>
+           
               <div className="ticket-buttons">
-              {ticket.status === 'closed' && (
-              <>
-                <button onClick={() => handleRateTicket(ticket._id)}>Rate the Ticket</button>
-                <button onClick={() => handleAskForChatroom()}>Ask for Chatroom</button>
-              </>
-            )}
-            </div>
+                {ticket.status === 'closed' && !ratedTicketIds.includes(ticket._id) ? (
+                  <div className="ticket-buttons">
+                    <button onClick={() => handleRateTicket(ticket)}>Rate the Ticket</button>
+                    <button onClick={() => handleAskForChatroom()}>Ask for Chatroom</button>
+                  </div>
+                ) : (
+                  <div>
+                    <button onClick={() => handleAskForChatroom()}>Ask for Chatroom</button>
+                  </div>
+                )}
+              </div>
             </li>
           ))}
         </ul>
-      </div> 
+      </div>
 
-      
       {showRatePopup && (
         <div className="rate-popup">
           <h2>Rate the Ticket</h2>
@@ -280,7 +318,7 @@ const UserProfile = () => {
           <button onClick={handleCloseRatePopup}>Cancel</button>
         </div>
       )}
-      
+           
     </div>
   );
 };

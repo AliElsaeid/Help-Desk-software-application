@@ -16,14 +16,17 @@ router.get('/articles', async (req, res) => {
 });
 
 router.get('/workflows', async (req, res) => {
-    try {
-      const { category } = req.body;
-      const articles = await ArticleModel.find({ type: 'Workflow', category });
-      res.json(articles);
-    } catch (error) {
-      res.status(500).json({ message: error.message });
+  try {
+    const { category } = req.query; // Use req.query
+    if (!category) {
+      return res.status(404).json({ message: 'Article not found' });
     }
-  });
+    const articles = await ArticleModel.find({ type: 'Workflow', category });
+    res.json(articles);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
 // routes.js
 router.post('/articlesss', async (req, res) => {
   try {

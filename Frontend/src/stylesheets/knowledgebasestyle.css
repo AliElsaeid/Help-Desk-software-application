@@ -1,0 +1,118 @@
+.title-container {
+  text-align: center;
+  margin-bottom: 2.67%; /* Adjust bottom margin as needed */
+  width: 1200px; /* Make the title container full-width */
+}
+
+.title-container h1 {
+  font-size: 3em;
+  font-family: 'Segoe Print', sans-serif;
+  font-weight: bold;
+  color: #ffffff;
+  text-shadow: 0.05333rem 0.05333rem 0.10667rem rgba(0, 0, 0, 0.5);
+}
+
+input[type="search"]:focus {
+  background-color: rgba(255, 255, 255, 0); /* Adjust the alpha value as needed */
+  color: floralwhite;
+}
+
+/* Common Input Style */
+input[type="search"] {
+  background-color: transparent;
+  border: none;
+  border-radius: 0;
+  border-bottom: 0.02667rem solid #ffffff;
+  padding: 2.5%;
+  width: calc(95% - 1rem);
+  margin-top: 1.33%;
+  margin-bottom: 2.67%;
+  margin-left: 2%; /* Adjust the left margin as needed */
+  font-size: 1.2em;
+  color: rgba(255, 255, 255, 0);
+  outline: none;
+}
+
+/* Placeholder Style */
+input[type="search"]::placeholder {
+  color: #ffffff;
+  font-size: 100%;
+}
+
+/* Remove the border from the button */
+.search-button {
+  border: none;
+  margin-top: 2.67%;
+  margin-left: -70%;
+}
+
+/* Common Button Style */
+
+
+/* Error Message Style */
+.error-message {
+  color: #d9534f;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 2.67%;
+}
+
+/* Loading Spinner Style */
+.loading-spinner {
+  margin-top: 2.67%;
+  text-align: center;
+}
+
+/* Article Card Specific Style */
+.article-card {
+  background-color: #4855816c;
+  color: rgb(255, 255, 255);
+  margin: 2.67% 0;
+  padding: 2.67%;
+  border-radius: 0.02667rem;
+  box-shadow: 0 0 0.2667rem rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  transform: scale(0.9);
+  animation: fadeIn 3s forwards, scaleUp 1s forwards;
+  transition: all 0.3s ease;
+}
+
+.article-card:hover {
+  background-color: #485581;
+  box-shadow: 0 0.02667rem 0.8rem rgba(0, 0, 0, 0.3);
+  transform: scale(1.05);
+}
+
+/* Center Button */
+.center-button {
+  display: flex;
+  justify-content: center;
+  margin-top: 0.53%; /* Adjust the top margin as needed */
+  margin-left: 45%; /* Adjust the left margin as needed */
+}
+
+/* Keyframes */
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scaleUp {
+  to {
+    transform: scale(1);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .card-container,
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="search"] {
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}

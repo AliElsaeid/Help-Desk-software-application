@@ -1,0 +1,128 @@
+body {
+    margin: 0;
+    padding: 0;
+    position: center;
+    background: linear-gradient(to left, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 1)), url("../assets/wallpaper.jpg") fixed  center;
+    background-size: cover;
+    overflow-y: scroll;
+  }
+  
+.form_container {
+    
+    background-color: rgba(255, 255, 255, 0);
+    border-radius: 10px;
+    padding: 10px;
+    width: 700px; /* Set width to 500px */
+    height: 400px; /* Set height to 500px */
+    margin: 0 auto;
+    border: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0);
+    transform: scale(0.8); /* Adjust the scale factor as needed */
+        transform-origin: top;
+  }
+  
+  .form_container h2 {
+    border: none;
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.5em; /* Smaller text size */
+    font-family: 'Arial', sans-serif; /* Representable font */
+  }
+  
+  .form_container input[type="email"],
+  .form_container input[type="password"] {
+    background-color: rgba(255, 255, 255, 0);
+    border: none;
+    border-radius: 50px ;
+    padding: 10px;
+    width: calc(100% - 22px);
+    margin-top: 8px;
+    margin-bottom: 16px;
+    font-size: 0.9em; /* Smaller text size */
+    font-family: 'Arial', sans-serif; /* Representable font */
+  }
+  
+  .form_container input[type="email"]::placeholder,
+  .form_container input[type="password"]::placeholder {
+    color: #ffffff;
+    border: none;
+    font-size: 0.9em; /* Smaller placeholder text size */
+  }
+  
+  .form_container button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    width: 100%;
+    cursor: pointer;
+    font-size: 1em; /* Adjusted button text size */
+    font-family: 'Arial', sans-serif; /* Representable font */
+  }
+  
+  .form_container button:hover {
+    background-color: #0056b3;
+  }
+  
+  .form_container p {
+    text-align: center;
+    font-size: 0.9em; /* Smaller text size */
+    font-family: 'Arial', sans-serif; /* Representable font */
+  }
+  
+  .form_container p a {
+    color: #007bff;
+    text-decoration: none;
+  }
+  .form_container h2 {
+    border: none;
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.5em;
+    font-family: 'Arial', sans-serif;
+    color: white; /* Set text color to white */
+    font:bolder;
+  }
+  
+  .form_container p a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Message style */
+  .form_container p {
+    color: #d9534f;
+  }
+  /* Add this to your existing CSS styles */
+.form_container p.text-white {
+    text-align: left;
+    font-size: 1.2em;
+    color: white;
+    margin-top: 20px;
+    font-family: 'Arial', sans-serif;
+  }
+  .about {
+   
+    font-size: 14px; /* Adjust the font size as needed */
+    color: #ffffff53; /* Set the text color */
+    font-family: 'Arial', sans-serif; /* Choose a font family */
+    line-height: 1.5; /* Adjust the line height for readability */
+    text-align: left; /* Align text to the left */
+    margin-bottom: 20px; /* Add some bottom margin for spacing */
+  }
+  .welcome-container {
+    
+    text-align: center;
+    margin-bottom: 40px;
+    margin-top: 0px;
+  }
+  
+  .welcome-back {
+    font-size: 2em;
+    font-family: 'Segoe Print', sans-serif;
+    color:  rgb(255, 255, 255);
+    font: bolder;
+    transform: scale(1.5); /* Adjust the scale factor as needed */
+    transform-origin: top;
+  }
+  
