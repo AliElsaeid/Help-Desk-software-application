@@ -1,81 +1,26 @@
-/* Style to position the user div in the top left corner of the page */
 
-.user-info-container {
-    position: fixed; /* Fixed positioning relative to the viewport */
-    top: 0; /* Aligns to the top of the viewport */
-    left: 0; /* Aligns to the left of the viewport */
-    padding: 10px; /* Add some padding inside the container */
-    background: hsl(0, 0%, 97%); /* A light gray background color for visibility */
-    z-index: 1001; /* Higher than the ticket list to be on top */
-  }
-  
-  /* Heading and paragraph styling for user info */
-  .user-info h1, 
-  .user-info p {
-    margin: 0; /* Removes default margin */
-    color: #333; /* A darker color for text for better legibility */
-  }
-  
-  /* Specifically for the username heading in user info section */
-  .user-info h1 {
-    font-size: 1.2rem; /* Slightly larger font for the username */
-    font-weight: bold; /* Make the username bold */
-  }
-  
-  /* For the user email paragraph in user info section */
-  .user-info p {
-    font-size: 1rem; /* Regular font size for the email */
-  }
-  
-  /* Specific styles for the ticket list container to be placed under the user info */
-  .ticket-list-container {
-    position: fixed;
-    top: 120px; /* Start below the user info container - adjust based on actual height of user info */
-    left: 0;
-    width: 320px; /* adjust as needed */
-    padding: 15px;
-    overflow-y: auto; /* scroll for overflowing content */
-    max-height: calc(90vh - 60px); /* adjust height based on user info size */
-    font-family: Arial, sans-serif; /* default font */
-    z-index: 1000; /* Ensure it is under the user-info-container */
-    background: #f9f9f9; /* Optional: Background for ticket list if needed */
-  }
-  
-  /* Ticket list styling */
-  .ticket-list-container ul {
-    list-style-type: none; /* removes bullets */
-    padding: 0;
-    margin: 0;
-  }
-  
-  /* Each ticket's list item styling in ticket list container */
-  .ticket-list-container li {
-    background: #fff; /* white background for each ticket */
-    margin-bottom: 10px; /* space between tickets */
-    padding: 10px;
-    font-size: 0.8rem; /* smaller text */
-    border-radius: 4px; /* slightly rounded corners for the card-like feel */
-    display: flex; /* Flexible box layout model */
-    flex-direction: column; /* Arrange children in a column */
-  }
 
   /* Bar chart container custom styling */
 .bar-chart-container {
     position: fixed; /* Fixed positioning relative to the viewport */
     bottom: 0; /* Align to the top of the viewport */
     right: 0; /* Align to the left of the viewport */
-    background-color: #d19b14; /* Custom background color */
-      width: 500px;
+    background-color: rgba(211, 211, 211, 0.7); /* Custom background color */
+      width: 350px;
     padding: 10px; /* Optional padding */
     z-index: 1000; /* Should be below the user-info-container if they overlap */
+    border-radius: 8px;
 }
 
 /* Adjust the .appearance-settings class to ensure it's positioned below the .user-info-container */
 .appearance-settings {
   
     position: fixed; /* Fixed positioning relative to the viewport */
-    top: 225px; /* Aligns to the top of the viewport */
-    right: 550px;
-    background-color: #d19b14; /* Position relative to normal document flow */
+    top: 222px; /* Aligns to the top of the viewport */
+    right: 0px;
+    background-color:rgba(211, 211, 211, 0.7); /* Position relative to normal document flow */
+    border-radius:8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
     /* rest of your appearance-settings styles... */
 }

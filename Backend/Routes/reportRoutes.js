@@ -47,9 +47,7 @@ router.post('/createRating' ,async (req, res) => {
     }
   });
   
-
-//Create get request to retrieve ratings for the admin
-router.get('/ratings', async (req, res) => {
+  router.get('/ratings', async (req, res) => {
     try {
         const userId  = req.user.userId;
   
@@ -60,7 +58,8 @@ router.get('/ratings', async (req, res) => {
       }
   
  // 2-Make sure that the the user's role is admin
-      if (user.role === 'admin') {
+      if (user.role === 'user'||user.role === 'admin') {
+
         const ratings = await Ratings.find();
   
  // 4-Send the ratings as a response
@@ -72,7 +71,27 @@ router.get('/ratings', async (req, res) => {
       console.error(error);
       return res.status(500).json({ message: 'Internal server error' });
     }
-  });
-
-
+    });
+    router.get('/checkTicketRating/:ticketId', async (req, res) => {
+      try {
+        const ticketId = req.params.ticketId;
+    
+        const existingTicket = await Tickets.findById(ticketId);
+    
+        if (!existingTicket) {
+          return res.status(404).json({ message: 'Ticket not found' });
+        }
+    
+        const userRating = await Ratings.findOne(ticketId);
+    
+        if (userRating) {
+          return res.status(200).json({ rated: true });
+        } else {
+          return res.status(200).json({ rated: false });
+        }
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+      }
+    });
   module.exports = router;

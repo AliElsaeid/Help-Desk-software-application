@@ -4,20 +4,19 @@ const AppearanceSetting = require('../Models/AppearanceSetting'); // Adjust the 
 const authorize  = require('../Middleware/authorizationMiddleware');
 
 // API endpoint for updating appearance settings
-router.put('/appearance', authorize('admin'),async (req, res) => {
+// Inside the /api/v1/appearance route
+router.put('/appearance', authorize('admin'), async (req, res) => {
     try {
-        // Check if the appearance settings record exists, if not, create a new one
         let appearanceSettings = await AppearanceSetting.findOne();
         if (!appearanceSettings) {
             appearanceSettings = new AppearanceSetting();
         }
 
-        // Update appearance settings based on the request body
-        appearanceSettings.backgroundColor = req.body.backgroundColor || appearanceSettings.backgroundColor;
         appearanceSettings.textColor = req.body.textColor || appearanceSettings.textColor;
+        appearanceSettings.textStyle = req.body.textStyle || appearanceSettings.textStyle;
 
-        // Save the updated appearance settings to the database
         await appearanceSettings.save();
+
 
         res.status(200).json({ message: 'Appearance settings updated successfully' });
     } catch (error) {
@@ -25,6 +24,7 @@ router.put('/appearance', authorize('admin'),async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 });
+
 
 // API endpoint for retrieving current appearance settings
 router.get('/appearance',authorize('admin'), async (req, res) => {

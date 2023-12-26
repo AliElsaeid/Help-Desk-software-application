@@ -1,0 +1,75 @@
+/* PurchaseTicket.css */
+
+.purchase-ticket-container {
+    padding: 3%; 
+    display: flex;
+    justify-content: flex-end;
+    max-width: 80%; /* Changed max-width to a percentage */
+    margin: auto;
+  }
+  
+  .purchase-ticket-form {
+    width: 40rem;
+    max-width: 39rem;
+    padding: 8%; /* Added padding for the purchase ticket form card */
+    background-color: #f7f7f76f; /* Light gray background for the purchase ticket form card */
+    border-radius: 2%; /* Added border-radius for the purchase ticket form card */
+    box-shadow: 0 0 2% rgba(0, 0, 0, 0.1);
+    margin-right: 5%; /* Added margin to the right for separation between cards */
+  }
+  
+  .workflow-card {
+    width: 40rem;
+    max-width: 39rem;
+    padding: 2%;
+    background-color: #f7f7f76f;
+    border-radius: 2%;
+    box-shadow: 0 0 2% rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+  }
+  
+  .workflow-card:hover {
+    background-color: #ecececde;
+  }
+  
+  .purchase-ticket-header {
+    text-align: center;
+    font-size: 1.5rem; /* Increased font size for the header */
+  }
+  
+  .form-button-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4%;
+  }
+  
+  .form-button-group button {
+    width: 100%;
+    padding: 2%;
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    border-radius: 4%;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .form-button-group button:hover {
+    background-color: #45a049;
+  }
+  
+  .workflow-card p {
+    font-size: 1.2rem; /* Increased font size for the text inside the workflow card */
+  }
+  
+
+  /* Additional styles for fix option buttons */
+.form-button-group label {
+  display: block;
+  padding: 2%;
+  color: #06111bc0; /* Blue color for links */
+  cursor: pointer;
+}
+
+
+  

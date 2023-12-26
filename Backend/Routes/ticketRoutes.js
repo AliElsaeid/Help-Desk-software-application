@@ -152,16 +152,17 @@ router.put('/:id',authorize(['admin', 'agent']),async (req, res) => {
 
 router.get('/:id', async (req, res) => {
   try {
-  
-
     let result;
+    // Since Room.find returns an array, we use findOne to get a single document instead.
+    const room = await Room.findOne({ _id: req.params.id });
 
-
-    result = await Ticket.find({ _id: req.params.id});
-  
-
-    if (!result || result.length === 0) {
-      return res.status(403).json({ error: 'Unauthorized. You do not have access to this ticket.' });
+    if(room){
+      
+      // Use the ticket property to find the Ticket document.
+      result = await Ticket.findOne({ _id: room.ticket });
+    } else {
+      // Handle the case where no room is found
+      return res.status(404).json({ error: 'No room found with the given ID' });
     }
 
     return res.status(200).json(result);
@@ -170,7 +171,6 @@ router.get('/:id', async (req, res) => {
     res.status(500).json({ error: 'Server error', details: error.message });
   }
 });
-
 
 
 

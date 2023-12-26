@@ -1,0 +1,29 @@
+/* Footer Container */
+.footer-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #343a40;
+    color: white;
+    padding: 1.67% 1%; /* Adjust top and bottom padding */
+    border-radius: 0.22667rem;
+  
+  }
+  
+  /* Footer Text */
+  .footer-text {
+    font-size: 1.067em; /* Adjust the font size */
+    text-align: center;
+  }
+  
+  /* Footer Links */
+  .footer-links {
+    margin-top: 0.5333%; /* Adjust the top margin for links */
+  }
+  
+  .footer-links a {
+    color: white;
+    margin: 0 1.067%; /* Adjust spacing between links */
+    text-decoration: none;
+  }

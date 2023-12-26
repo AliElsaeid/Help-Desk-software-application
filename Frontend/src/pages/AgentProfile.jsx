@@ -7,6 +7,8 @@ import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css'; 
 import "../stylesheets/Agentprofile.css";
 import AgentNavbar from '../components/AgentNavbar';
+import Avatar from '@mui/material/Avatar';
+
 
 const userbackend = "http://localhost:3000/api/v1/user";
 const ticketbackend = "http://localhost:3000/api/v1/ticket";
@@ -63,7 +65,6 @@ console.log(ticket);
       .then(response => {
         toast.success("Email sent successfully!");
         setEmailSending(false); 
-        window.location.reload();
 
       })
       .catch(error => {
@@ -77,27 +78,44 @@ console.log(ticket);
 
   return (
     <div className="update-ticket-card">
-      <h2>Update Ticket ID: {ticket._id}</h2>
-      <div>
-        <label>Status:</label>
-        <select value={status} onChange={(e) => setStatus(e.target.value)}>
-          <option value="open">Open</option>
-          <option value="pending">Pending</option>
-          <option value="closed">Closed</option>
-        </select>
-      </div>
-      <div>
-        <label>Resolution:</label>
-        <textarea 
-          value={resolution} 
-          onChange={(e) => setResolution(e.target.value)}>
-        </textarea>
-      </div>
-      <button onClick={() => updateTicket()}>Update Ticket</button>
-      <button onClick={sendResolutionEmail} disabled={emailSending}>Send Resolution Email</button>
+ <button className="btn btn-sm btn-danger close-btn" onClick={onClose}>
+  Close
+</button>
+<h2>Update Ticket: {ticket.description}</h2>
+<div>
+  <label>Status:</label>
+  <select value={status} onChange={(e) => setStatus(e.target.value)}>
+    <option value="open">Open</option>
+    <option value="pending">Pending</option>
+    <option value="closed">Closed</option>
+  </select>
+</div>
+<div>
+  <label>Resolution:</label>
+  <textarea
+    className="resolution-textarea"
+    value={resolution}
+    onChange={(e) => setResolution(e.target.value)}
+    rows="8" /* Set the number of visible rows */
+  ></textarea>
+</div>
+<div>
+  <button className="btn btn-primary update-btn" onClick={() => updateTicket()}>
+    Update Ticket
+  </button>
+  <button
+    className="btn btn-secondary email-btn"
+    onClick={sendResolutionEmail}
+    disabled={emailSending}
+  >
+    Send Resolution Email
+  </button>
+</div>
+
+</div>
 
    
-    </div>
+    
   );
 }
 const Profile = () => {
@@ -110,7 +128,17 @@ const Profile = () => {
 
   // If you need to use the value
 
+  const [isTicketDetailsVisible, setTicketDetailsVisible] = useState(false);
 
+  const openTicketDetails = (ticket) => {
+    setSelectedTicketId(ticket);
+    setTicketDetailsVisible(true);
+  };
+
+  const closeTicketDetails = () => {
+    setTicketDetailsVisible(false);
+    setSelectedTicketId(null);
+  };
  
   useEffect(() => {
     axios.defaults.withCredentials = true;
@@ -147,9 +175,13 @@ const Profile = () => {
 
       <div className="user-inf-container">
   {user && (
-    <div>
-      <h1>{user.username}</h1>
-      <p>{user.email}</p>
+    <div className="user-etails">
+           <Avatar className="user-avatar" alt={user.username} src={user.avatarUrl} />
+
+      <div className="user-nfo">
+        <h1>{user.username}</h1>
+        <p>{user.email}</p>
+      </div>
     </div>
   )}
 </div>
@@ -158,8 +190,8 @@ const Profile = () => {
   <h1>Ticket List</h1>
   <ul>
     {tickets.map((ticket) => (
-         <li key={ticket._id} onClick={() => setSelectedTicketId(ticket)}>
-        <span>Category: {ticket.category}</span>
+            <li key={ticket._id} onClick={() => openTicketDetails(ticket)}>
+            <span>Category: {ticket.category}</span>
         <span>SubCategory: {ticket.subCategory}</span>
         <span>Description: {ticket.description}</span>
         <span>Resolution: {ticket.resolution}</span>
@@ -172,7 +204,9 @@ const Profile = () => {
   </ul>
 </div>
 <div className="ticket-detail-view">
-        {selectedTicketId && <TicketDetails ticket={selectedTicketId} />}
+{isTicketDetailsVisible && (
+          <TicketDetails ticket={selectedTicketId} onClose={closeTicketDetails} />
+        )}
       </div>
     </div>
   );

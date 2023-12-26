@@ -1,131 +1,155 @@
-body, html {
-  height: 100%;
-  margin: 200px;
-  background-image: url('../assets/agdashboard.jpg'); /* Replace with the path to your image file */
-  background-size: cover; /* Cover the entire page */
-  background-repeat: no-repeat; /* Do not repeat the image */
-  background-position: center center; /* Center the image on the page */
-  background-attachment: fixed;
-
-}
-
 
 
 .list-group {
   position: fixed;
-  top: 200px; /* Start below the user info container - adjust based on actual height of user info */
+  top: 150px;
   left: 0;
-  width: 320px; /* adjust as needed */
+  width: 320px;
   padding: 15px;
-  overflow-y: auto; /* scroll for overflowing content */
-  max-height: calc(90vh - 60px); /* adjust height based on user info size */
-  font-family: Arial, sans-serif; /* default font */
-  z-index: 1000; /* Ensure it is under the user-info-container */
-  background: #d19b14; /* Optional: Background for ticket list if needed */
+  overflow-y: auto;
+  max-height: calc(90vh - 60px);
+  font-family: Arial, sans-serif;
+  z-index: 1000;
+  background: rgba(211, 211, 211, 0.7); /* Invisible bright grey background */
+  scrollbar-width: thin;
+  scrollbar-color: #666 #ddd;
+}
+
+.list-group::-webkit-scrollbar {
+  width: 10px;
+}
+
+.list-group::-webkit-scrollbar-thumb {
+  background-color: #666;
+}
+
+.list-group::-webkit-scrollbar-track {
+  background-color: #ddd;
 }
 
 .list-group h2 {
   margin-left: 15px;
+  font-style: italic;
+  font-weight: bolder;
 }
 
 .list-group-item {
-  background: #2ff7b4; /* white background for each ticket */
-  margin-bottom: 10px; /* space between tickets */
+  background: rgba(211, 211, 211, 0.7); /* Invisible bright grey background */
+  margin-bottom: 10px;
   padding: 10px;
-  font-size: 0.8rem; /* smaller text */
-  border-radius: 4px; /* slightly rounded corners for the card-like feel */
-  display: flex; /* Flexible box layout model */
-  flex-direction: column; /* Arrange children in a column */
-  cursor: pointer; /* Indicate that items are clickable */
-  transition: transform 0.2s ease, box-shadow 0.2s ease; 
+  font-size: 0.8rem;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
+
 .list-group-item:hover {
-  transform: translateY(-2px); /* Subtle lift effect */
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2); /* Shadow for depth perception */
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 .list-group-item.active {
-  background-color: #0275d8; /* Active item color */
+  background-color: #0275d8;
   color: white;
 }
 
 .list-group-item strong {
-  display: block; /* Makes room name have its own line */
+  display: block;
 }
 
 .list-group-item small {
-  display: block; /* Makes date have its own line */
-  color: #666; /* Color for date text */
-  font-size: 0.8em; /* Smaller font size for date */
-  margin-top: 5px; /* Space above the date */
+  display: block;
+  color: #666;
+  font-size: 0.8em;
+  margin-top: 5px;
 }
-
 .messages-column {
   height: 80%;
-  width: 800px; 
-  overflow-y: auto; /* Enables scrolling for the message board */
--webkit-overflow-scrolling: touch;
-position: fixed;
-top: 150px;
-right: 150px;
-  float: right; 
-  
+  width: 800px;
+  overflow-y: auto;
+  position: fixed;
+  top: 150px;
+  right: 150px;
+  float: right;
+
 }
+
+
+
 
 #messages-container {
-  height: 90%; /* Messages container takes most of the height */
-  margin: 0 50px; /* Add some margin on the sides */
+  height: 90%;
+  margin: 0 50px;
+  background: rgba(211, 211, 211, 0.7); 
+  /* Invisible bright grey background */
+}
+.card-body {
+  height: calc(100% - 70px);
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #666 #ddd;
 }
 
-.card-body {
-  height: calc(100% - 70px); /* Height minus input area */
-  overflow-y: auto; /* Make messages scrollable */
+.card-body::-webkit-scrollbar {
+  width: 10px;
 }
+
+.card-body::-webkit-scrollbar-thumb {
+  background-color: #666;
+}
+
+.card-body::-webkit-scrollbar-track {
+  background-color: #ddd;
+}
+
 
 .chat-message {
   margin: 10px 0;
 }
 
 .chat-message-container {
-  background-color: #d19b14; /* Light grey background for messages */
-  border-radius: 10px; /* Rounded corners for messages */
+  background-color: #d19b14;
+  border-radius: 10px;
   padding: 10px;
+  background: rgba(211, 211, 211, 0.7); /* Invisible bright grey background */
 }
 
 .message-header {
-  display: flex; /* Aligns username and timestamp in one line */
-  justify-content: space-between; /* Separates username and timestamp */
+  display: flex;
+  justify-content: space-between;
 }
 
 .message-header .username {
-  font-weight: bold; /* Makes username bold */
+  font-weight: bold;
 }
 
 .message-header .timestamp {
-  font-size: 0.8em; /* Small font size for timestamp */
+  font-weight: bold;
+  font-size: 0.8em;
 }
 
 .message-content {
-  margin-top: 5px; /* Space above the message text */
+  margin-top: 5px;
 }
 
-/* The form and button to send a new message */
 .border-top {
-  border-top: 1px solid #ccc; /* Line to separate the send message area */
+  border-top: 1px solid #ccc;
 }
 
 .form-group textarea {
-  width: calc(100% - 100px); /* Textarea width minus button width */
-  float: left; /* Align the textarea to the left */
+  width: calc(100% - 100px);
+  float: left;
+  resize: none;
 }
 
 .btn {
-  width: 90px; /* Set a fixed width for better alignment */
-  float: right; /* Align the button to the right */
+  width: 90px;
+  float: right;
 }
 
-/* Clears floats */
-clearfix::after {
+.clearfix::after {
   content: "";
   clear: both;
   display: table;
@@ -133,19 +157,19 @@ clearfix::after {
 
 @media (max-width: 768px) {
   .list-group, .messages-column {
-    width: 100%; /* Each component takes full width on small screens */
+    width: 100%;
     float: none;
   }
 
   .list-group {
-    height: auto; /* List takes the height it needs */
+    height: auto;
   }
 
   #messages-container {
-    height: 300px; /* Fixed height for the messages list */
+    height: 300px;
   }
 
   .form-group textarea {
-    width: 80%; /* Textarea takes most of the space, leaving room for the button */
+    width: 80%;
   }
 }

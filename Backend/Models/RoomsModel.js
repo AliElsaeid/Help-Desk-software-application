@@ -11,11 +11,13 @@ const roomSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Ticket',
   },
+  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   createdAt: {
     type: Date,
     default: Date.now,
   },
   description: String,
+
   messages: [{ type: mongoose.Schema.Types.ObjectId, ref: 'ChatMessage' }],
 });
 

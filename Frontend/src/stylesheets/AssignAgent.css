@@ -1,0 +1,139 @@
+.assign-agent-container {
+    display: flex;
+    height: calc(100vh - 4%);
+  
+  }
+  
+  .users-list {
+    width: 25%;
+    position: fixed;
+    left: 2%;
+    top: 15%;
+    padding: 2%;
+    background-color: rgba(249, 249, 249, 0.5);
+    border: 1px solid rgba(249, 249, 249, 0.5);
+    overflow-y: auto;
+    height: calc(100% - 20px);
+    bottom: 2%;
+    border-radius: 15px;
+    color: #000; /* Black font color */
+    margin-bottom: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .users-list h2 {
+    font-family: 'Times New Roman', serif;
+    font-size: 45px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #000;
+  }
+  
+  .user-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .user-info p {
+    margin: 5px 0;
+    font-weight: bold; /* Make all text bold */
+  }
+  
+  .user-info p.Username-text {
+    font-size: 20px;
+    margin-bottom: 5px;
+  }
+  
+  .user-info p.Role-text {
+    font-size: 20px;
+  }
+  
+  .users-list ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .users-list li {
+    margin-bottom: 10px;
+    padding: 15px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .users-list li:hover {
+    background-color: #1a0aff3d;
+  }
+  
+  .update-role-container {
+    flex: 1;
+    width: 300px;
+    padding: 20px;
+    background-color: rgba(249, 249, 249, 0.5);
+    border-left: 1px solid #ddd;
+    color: #fff;
+    margin: auto;
+    border-radius: 10px;
+  }
+  
+  .update-role-container h2 {
+    font-family: 'Times New Roman', serif;
+    font-size: 45px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #000;
+  }
+  
+  .update-role-container .selected-user-text {
+    font-weight: bold;
+    color: #fff;
+  }
+  
+  .notification {
+    position: fixed;
+    top: 2%;
+    left: 2%;
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 2%;
+    border-radius: 5px;
+    display: none;
+  }
+  
+ 
+  
+  .role-options {
+    display: flex;
+    gap: 2%;
+  }
+  
+  .role-circle {
+    width: 60%;
+    height: 70%;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    color: #fff;
+  }
+  
+  .role-circle input:checked + div {
+    background-color: #fff;
+    color: #000;
+  }
+  .users-list::-webkit-scrollbar {
+    width: 8px; /* Set the width of the scrollbar */
+  }
+  
+  .users-list::-webkit-scrollbar-thumb {
+    background-color: #555; /* Color of the scrollbar thumb */
+    border-radius: 4px; /* Round the corners of the thumb */
+  }
+  
+  .users-list::-webkit-scrollbar-track {
+    background-color: rgba(0, 0, 0, 0.1); /* Color of the scrollbar track */
+  }

@@ -1,0 +1,88 @@
+/* Adminaddar.css */
+
+/* Search Container */
+.search-container-container {
+    position: fixed;
+    top: 100px; /* Start below the user info container - adjust based on actual height of user info */
+    left: 0;
+    width:60%; /* adjust as needed */
+    padding: 15px;
+    overflow-y: auto; /* scroll for overflowing content */
+    max-height: calc(90vh - 60px); /* adjust height based on user info size */
+    font-family: Arial, sans-serif; /* default font */
+    z-index: 1000; /* Ensure it is under the user-info-container */
+    background:rgba(211, 211, 211, 0.7); 
+    border-radius: 8px;
+  }
+  .search-container-container::-webkit-scrollbar {
+    width: 10px; /* Width of the scrollbar */
+}
+
+/* Track */
+.search-container-container::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Color of the track */
+}
+
+/* Handle */
+.search-container-container::-webkit-scrollbar-thumb {
+    background: #888; /* Color of the scrollbar handle */
+}
+
+/* Handle on hover */
+.search-container-container::-webkit-scrollbar-thumb:hover {
+    background: #555; /* Color of the scrollbar handle on hover */
+}
+  .search-container-container h2{
+    font-weight: bolder;
+  }
+  
+  .search-form {
+    margin-top: 20px;
+  }
+  
+  /* Articles Listing */
+  .articles-section {
+    width: 100%; /* Set the width of the articles section to 70% of the page */
+    float: left; /* Float the articles section to the left */
+    background-color: rgba(211, 211, 211, 0.7);  /* Invisible bright grey background */
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 8px; /* Add margin to separate it from the search container */
+  }
+  
+  .article-item {
+    width: 100%; /* Set the width of each article item to 80% of the articles section */
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    padding: 10px;
+  }
+  
+  /* Add Article Form Section */
+  .add-article-container {
+    position: fixed;
+    top:100px;
+    right:0;
+    width: 30%; /* Set the width of the add article form section to 30% of the page */
+    margin-left: 70%; /* Add margin to move the add article form to the right */
+    background-color: rgba(211, 211, 211, 0.7); /* Invisible bright grey background */
+    padding: 20px;
+    border-radius: 8px;
+  }
+  
+  .article-form {
+    
+    display: flex;
+    flex-direction: column;
+  }
+  .search-buttons,
+  .article-delete-button,
+  .article-update-button,
+  .cancel-button,
+  .submit-button{
+    margin-top: 5px;
+    background-color: black;
+    color:white
+  
+  }
+  /* Other styles remain the same */
