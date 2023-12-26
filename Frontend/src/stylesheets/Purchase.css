@@ -62,22 +62,13 @@
   }
   
 
-  .form-button-group label {
-    display: block;
-    padding: 2%;
-    color: #007bff; /* Blue color for links */
-    text-decoration: underline;
-    cursor: pointer;
-    transition: color 0.3s ease; /* Added transition for color change */
+  /* Additional styles for fix option buttons */
+.form-button-group label {
+  display: block;
+  padding: 2%;
+  color: #06111bc0; /* Blue color for links */
+  cursor: pointer;
 }
 
-.form-button-group label:hover {
-    color: #0056b3; /* Darker blue on hover */
-}
-
-/* Selected state styles */
-.form-button-group label.selected {
-    color: #186409; /* Green color for selected state */
-}
 
   

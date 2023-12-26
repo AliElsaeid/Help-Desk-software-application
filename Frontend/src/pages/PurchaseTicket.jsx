@@ -198,24 +198,17 @@ const PurchaseTicket = () => {
               />
             </Form.Group>
           </Row>
-        {/* Replace the existing form button group */}
-{/* Update the form button group section */}
-<div className="form-button-group">
-  <p className="fix-options-title">Fix Options:</p>
-  <label
-    className={selectedFixOption === "integratedMails" ? "selected" : ""}
-    onClick={() => handleFixOptionChange({ target: { value: "integratedMails" } })}
-  >
+          <div className="form-button-group">
+          <p className="fix-options-title">Fix Options:</p>
+  <label>
+    <input type="radio" name="fixOption" value="integratedMails" checked={selectedFixOption === "integratedMails"} onChange={handleFixOptionChange} />
     Fix with Integrated Mails
   </label>
-  <label
-    className={selectedFixOption === "chatRooms" ? "selected" : ""}
-    onClick={() => handleFixOptionChange({ target: { value: "chatRooms" } })}
-  >
+  <label>
+    <input type="radio" name="fixOption" value="chatRooms" checked={selectedFixOption === "chatRooms"} onChange={handleFixOptionChange} />
     Chat Rooms
   </label>
 </div>
-
 
 
           <Button variant="primary" type="submit">
