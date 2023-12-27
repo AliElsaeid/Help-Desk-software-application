@@ -21,9 +21,12 @@ router.post("/login", async (req, res) => {
         console.log(user);
         if (!user) {
             return res.status(404).json({ message: "Email not found" });
+
+            
         }
 
         const passwordMatch = await bcrypt.compare(password, user.password);
+        console.log(password);
         if (!passwordMatch) {
             return res.status(401).json({ message: "Incorrect password" });
         }
@@ -156,7 +159,8 @@ const transporter = nodemailer.createTransport({
     },
   });
   let resetCode = Math.floor(1000 + Math.random() * 9000);
-
+  let newpassword = Math.floor(1000 + Math.random() * 900000)+"";
+console.log(newpassword);
 router.post('/resetPassword', async (req, res) => {
     try {
       const { email } = req.body;
@@ -174,7 +178,7 @@ router.post('/resetPassword', async (req, res) => {
       }, 
         to: user.email,
         subject :"Reseting Password Code",
-        text: `Your verification code is: ${resetCode}`,
+        text: `Your verification code is: ${resetCode} Your passsword: ${newpassword}`,
       };
       await transporter.sendMail(mailOptions);
         
@@ -188,9 +192,10 @@ router.post('/resetPassword', async (req, res) => {
   
   router.post('/verifyResetCode', async (req, res) => {
     try {
-        const { email, resetingCode, newpassword } = req.body;
+        const { email, resetingCode} = req.body;
     
         // Find the user by email
+        console.log(newpassword);
         const user = await userModel.findOne({ email });
     
         if (!user) {
@@ -200,10 +205,10 @@ router.post('/resetPassword', async (req, res) => {
         if (resetingCode !== resetCode) {
           return res.status(400).json({ error: 'Invalid reset code' });
         }
-    
+      
         // Hash the new password
         const hashedPassword = await bcrypt.hash(newpassword, 10);
-    
+        console.log(hashedPassword);
         // Set the new hashed password
         user.password = hashedPassword;
     

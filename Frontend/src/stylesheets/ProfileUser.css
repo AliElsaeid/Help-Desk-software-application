@@ -132,7 +132,7 @@
 
 .ticket-list-container li {
   width: 100%;
-  height: 40%;
+  height: auto;
   font-size: 1.5rem;
   cursor: pointer;
   color: #000000;

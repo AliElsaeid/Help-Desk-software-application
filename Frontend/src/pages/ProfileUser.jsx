@@ -273,8 +273,7 @@ const UserProfile = () => {
               </div>
               <br/>
              
-              <br/>
-              <br/>
+            
            
               <div className="ticket-buttons">
                 {ticket.status === 'closed' && !ratedTicketIds.includes(ticket._id) ? (

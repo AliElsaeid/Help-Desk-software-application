@@ -35,9 +35,11 @@ const ResetPassword = () => {
       const response = await axios.post('http://localhost:3000/api/v1/user/verifyResetCode', {
         email: email, 
         resetingCode: resetCode,
-        newpassword: newPassword,
+        
       });
        setMessage("verified");
+       navigate('/login');
+
       setStep(3);
     } catch (error) {
       console.error(error);
