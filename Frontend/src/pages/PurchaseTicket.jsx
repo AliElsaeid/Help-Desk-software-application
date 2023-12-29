@@ -127,9 +127,9 @@ const PurchaseTicket = () => {
                 <option value="" disabled>
                   Select Category
                 </option>
-                <option value="Hardware">Hardware</option>
-                <option value="Software">Software</option>
-                <option value="Network">Network</option>
+                <option value="hardware">Hardware</option>
+                <option value="software">Software</option>
+                <option value="network">Network</option>
               </Form.Control>
             </Form.Group>
 
@@ -144,7 +144,7 @@ const PurchaseTicket = () => {
                 <option value="" disabled>
                   Select Subcategory
                 </option>
-                {ticketDetails.category === "Hardware" && (
+                {ticketDetails.category === "hardware" && (
                   <>
                     <option value="Desktops">Desktops</option>
                     <option value="Laptops">Laptops</option>
@@ -153,7 +153,7 @@ const PurchaseTicket = () => {
                     <option value="Networking equipment">Networking equipment</option>
                   </>
                 )}
-                {ticketDetails.category === "Software" && (
+                {ticketDetails.category === "software" && (
                   <>
                     <option value="Operating system">Operating system</option>
                     <option value="Application software">Application software</option>
@@ -161,7 +161,7 @@ const PurchaseTicket = () => {
                     <option value="Integration issues">Integration issues</option>
                   </>
                 )}
-                {ticketDetails.category === "Network" && (
+                {ticketDetails.category === "network" && (
                   <>
                     <option value="Email issues">Email issues</option>
                     <option value="Internet connection problems">Internet connection problems</option>
